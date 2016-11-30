@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579e052caf9cbdc4ea020de0bebfa1f4, type: 3}
+  m_Name: Shot 0
+  m_EditorClassIdentifier: 
+  behaviour: 1
+  bulletInterval: 2
+  arcInterval: 0
+  initialTimeOffset: 0
+  finalTimeOffset: 0.64
+  bulletBehaviour: {fileID: 11400000, guid: a8e90d595f09df648be8405d0c908118, type: 2}
+  bulletQuantity: 34
+  bulletSpeed: 2.8
+  bulletVelocityDamp: 0
+  arcQuantity: 3
+  copiesQuantity: 5
+  copiesAngle: 360
+  radiusArc: 275
+  alternating: 1
+  arcWrap: 1
+  playerDirection: 1
+  sine: 1

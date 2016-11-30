@@ -1,58 +1,91 @@
-﻿using UnityEngine;
+﻿//using UnityEngine;
+//using System.Collections;
+
+//public class Bullet : MonoBehaviour {
+//    [Header("Variables")]
+
+//    //Rigidbody2D rb;
+//    SpriteRenderer sr;
+//    float minVelocity = 0f;
+//    public float linearDrag;
+//    public Vector2 velocity;
+
+//    void FixedUpdate() {
+//        //capVelocity();
+//        updateDrag();
+//        updatePosition();
+//    }
+
+//    void updatePosition() {
+//        this.transform.position += new Vector3(velocity.x, velocity.y);
+//    }
+
+//    void updateDrag() {
+//        if (velocity.SqrMagnitude() * 1000 <= minVelocity) return;
+
+//        velocity *= linearDrag;
+//    }
+
+//    public void setVelocity(Vector2 v, float speed, float minVelocity, float velocityDamp) {
+//        float vel_modifier = speed / 25f;
+//        velocity = new Vector2(v.x * vel_modifier, v.y * vel_modifier);
+//        linearDrag = 1f - velocityDamp/1000f;
+//        this.minVelocity = minVelocity;
+//    }
+
+//    public void destroy() {
+//        Destroy(this.gameObject);
+//    }
+
+//    void OnTriggerExit2D(Collider2D coll) {
+//        if (coll.gameObject.tag == "Arena")
+//            destroy();
+//    }
+//}
+
+using UnityEngine;
 using System.Collections;
 
 public class Bullet : MonoBehaviour {
     [Header("Variables")]
 
+    public BulletBehaviourData data;
     Rigidbody2D rb;
-    SpriteRenderer sr;
-    float minVelocity = 0f;
-    
+
     void Start() {
+        //rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void setData(BulletBehaviourData data) {
+        this.data = data;
+        this.GetComponent<SpriteRenderer>().sprite = data.sprite;
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
-        StartCoroutine(destroyOutOfBounds());
     }
 
-    void FixedUpdate() {
-        //capVelocity();
+    IEnumerator initialDelay(float delayInFrames) {
+        Vector2 velocity = rb.velocity;
+        rb.velocity = Vector2.zero;
+
+        for (int i = 0; i < delayInFrames; i++)
+            yield return new WaitForEndOfFrame();
+
+        rb.velocity = velocity;
     }
 
-    void capVelocity() {
-        float auxX = rb.velocity.x, auxY = rb.velocity.y;
-        if (Mathf.Abs(rb.velocity.x) < minVelocity) auxX = minVelocity * Mathf.Sign(rb.velocity.x);
-        if (Mathf.Abs(rb.velocity.y) < minVelocity) auxY = minVelocity * Mathf.Sign(rb.velocity.y);
-
-        rb.velocity = new Vector2(auxX, auxY);
-    }
-
-    public void setVelocity(Vector2 v, float speed, float minVelocity, float velocityDamp) {
+    public void setVelocity(Vector2 v, float speed, float velocityDamp) {
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(v.x * speed, v.y * speed);
-        rb.drag = velocityDamp;
-        this.minVelocity = minVelocity;
+        rb.drag = velocityDamp / 50f;
+
+        StartCoroutine(initialDelay(data.delayBeforeMoving));
     }
 
     public void destroy() {
         Destroy(this.gameObject);
     }
 
-    bool outOfScreen() {
-        Vector3 viewportPos = Camera.main.WorldToViewportPoint(this.transform.position);
-        if (viewportPos.x > 1f || viewportPos.y > 1f || viewportPos.x < 0f || viewportPos.y < 0f)
-            return true;
-
-        return false;
-    }
-
-    IEnumerator destroyOutOfBounds() {
-        while (true) {
-            if (outOfScreen()) {
-                yield return new WaitForSeconds(0.5f);
-                destroy();
-            } else {
-                yield return new WaitForSeconds(0.5f);
-            }
-        }
+    void OnTriggerExit2D(Collider2D coll) {
+        if (coll.gameObject.tag == "Arena")
+            destroy();
     }
 }

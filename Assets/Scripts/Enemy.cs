@@ -25,8 +25,9 @@ public class Enemy : MonoBehaviour {
         //}
     }
 
-    Bullet createBullet(Vector3 position) {
+    Bullet createBullet(BulletBehaviourData data, Vector3 position) {
         GameObject aux = (GameObject) Instantiate(bulletPrefab, position, Quaternion.identity);
+        aux.GetComponent<Bullet>().setData(data);
         return aux.GetComponent<Bullet>();
     }
 
@@ -46,9 +47,6 @@ public class Enemy : MonoBehaviour {
                 case ShootingBehaviour.STRAIGHT:
                     yield return straightShot(thisBehaviours[i]);
                     break;
-                case ShootingBehaviour.RADIUS:
-                    yield return radiusShot(thisBehaviours[i]);
-                    break;
                 case ShootingBehaviour.ARC:
                     yield return arcShot(thisBehaviours[i]);
                     break;
@@ -63,84 +61,78 @@ public class Enemy : MonoBehaviour {
     }
 
     IEnumerator straightShot(ShootingBehaviourData sbdata) {
-        for (int i = 0; i < sbdata.bulletQt; i++) {
-            for (int h = 0; h < sbdata.multiShotQt; h++) {
-                Bullet bullet = createBullet(bulletSpawn.position);
+        for (int i = 0; i < sbdata.bulletQuantity; i++) {
+            for (int h = 0; h < sbdata.copiesQuantity; h++) {
+                Bullet bullet = createBullet(sbdata.bulletBehaviour, bulletSpawn.position);
 
                 float angle = bulletSpawn.rotation.z * 180; //angle of bullet based on the way the enemy is facing
-                angle += (360 / sbdata.multiShotQt) * h; //angle of bullet based on its arc_number of the multiple arcs
+                angle += (360 / sbdata.copiesQuantity) * h; //angle of bullet based on its arc_number of the multiple arcs
 
                 bulletLookAtPlayer(sbdata.playerDirection, bullet);
                 bullet.transform.Rotate(new Vector3(0f, 0f, angle));
 
-                bullet.setVelocity(Vector3.Normalize(bullet.transform.up), sbdata.speed, sbdata.minVelocity, sbdata.bulletVelocityDamp);
+                bullet.setVelocity(Vector3.Normalize(bullet.transform.up), sbdata.bulletSpeed, sbdata.bulletVelocityDamp);
             }
 
-            for (int j = 0; j < sbdata.framesBetweenBullets && i != sbdata.arcQt - 1; j++)
+            for (int j = 0; j < sbdata.bulletInterval && i != sbdata.arcQuantity - 1; j++)
                 yield return new WaitForEndOfFrame();
         }
     }
 
-    IEnumerator radiusShot(ShootingBehaviourData sbdata) {
-        for (int i = 0; i < sbdata.bulletQt; i++) {
-            float angle = (180 * i * sbdata.radiusArc / (sbdata.bulletQt)) + bulletSpawn.rotation.z * 180 - (180 * sbdata.radiusArc / 2);
-
-            Bullet bullet = createBullet(bulletSpawn.position);
-            bulletLookAtPlayer(sbdata.playerDirection, bullet);
-            bullet.transform.Rotate(new Vector3(0f, 0f, angle));
-            bullet.setVelocity(Vector3.Normalize(bullet.transform.up), sbdata.speed, sbdata.minVelocity, sbdata.bulletVelocityDamp);
-        }
-
-        yield return new WaitForEndOfFrame();
-    }
-
     IEnumerator arcShot(ShootingBehaviourData sbdata) {
         int wrap = 1;
-        for (int i = 0; i < sbdata.arcQt; i++) {
-            if (sbdata.arcWrap) wrap *= -1;
-            for (int j = 0; j < sbdata.bulletQt; j++) {
-                for (int h = 0; h < sbdata.multiShotQt; h++) {
-                    float angle = (180 * j * sbdata.radiusArc / (sbdata.bulletQt)); //angle of bullet based on its order of release
-                    angle += bulletSpawn.rotation.z * 180; //angle of bullet based on the way the enemy is facing
-                    angle -= (180 * sbdata.radiusArc / 2); //angle of bullet divided between the two hemispheres 
-                    angle += ((360 / sbdata.multiShotQt) * h); //angle of bullet based on which arc it is of the multiple arcs
-                    angle *= wrap; //angle of bullet if it s going to wrap around and become spiral
+        bool alt = false;
+        float alternatingAngle = 360 / (sbdata.copiesQuantity * 2);
 
-                    Bullet bullet = createBullet(bulletSpawn.position);
+        for (int i = 0; i < sbdata.arcQuantity; i++) {
+            if (sbdata.arcWrap) wrap *= -1;
+            for (int j = 0; j < sbdata.bulletQuantity; j++) {
+                for (int h = 0; h < sbdata.copiesQuantity; h++) {
+                    float angle = (j * sbdata.radiusArc / (sbdata.bulletQuantity)); //angle of bullet based on its order of release
+                    angle += bulletSpawn.rotation.z * 180; //angle of bullet based on the way the enemy is facing
+                    angle -= (sbdata.radiusArc / 2); //angle of bullet divided between the two hemispheres 
+                    angle += ((sbdata.copiesAngle / sbdata.copiesQuantity) * h); //angle of bullet based on which arc it is of the multiple arcs
+                    angle *= wrap; //angle of bullet if it s going to wrap around and become spiral
+                    if (alt) angle += alternatingAngle; //angle of bullet based on if it is alternating
+
+                    Bullet bullet = createBullet(sbdata.bulletBehaviour, bulletSpawn.position);
                     bulletLookAtPlayer(sbdata.playerDirection, bullet);
                     bullet.transform.Rotate(new Vector3(0f, 0f, angle));
-                    bullet.setVelocity(Vector3.Normalize(bullet.transform.up), sbdata.speed, sbdata.minVelocity, sbdata.bulletVelocityDamp);
+                    bullet.setVelocity(Vector3.Normalize(bullet.transform.up), sbdata.bulletSpeed, sbdata.bulletVelocityDamp);
                 }
 
-                for (int k = 0; k < sbdata.framesBetweenBullets; k++)
+                for (int k = 0; k < sbdata.bulletInterval; k++)
                     yield return new WaitForFixedUpdate();
             }
+
+            for (int k = 0; k < sbdata.arcInterval; k++)
+                yield return new WaitForFixedUpdate();
         }
     }
 
     IEnumerator shotgunShot(ShootingBehaviourData sbdata) {
         bool alt = false;
-        float alternatingAngle = 360 / (sbdata.multiShotQt * 2);
+        float alternatingAngle = 360 / (sbdata.copiesQuantity * 2);
 
-        for (int i = 0; i < sbdata.arcQt; i++) {
+        for (int i = 0; i < sbdata.arcQuantity; i++) {
             if (sbdata.alternating) alt = !alt;
 
-            for (int j = 0; j < sbdata.bulletQt; j++) {
-                for (int h = 0; h < sbdata.multiShotQt; h++) {
-                    float angle = (180 * j * sbdata.radiusArc / (sbdata.bulletQt)); //angle of bullet based on its order of release
+            for (int j = 0; j < sbdata.bulletQuantity; j++) {
+                for (int h = 0; h < sbdata.copiesQuantity; h++) {
+                    float angle = (j * sbdata.radiusArc / (sbdata.bulletQuantity)); //angle of bullet based on its order of release
                     angle += bulletSpawn.rotation.z * 180; //angle of bullet based on the way the enemy is facing
-                    angle -= (180 * sbdata.radiusArc / 2); //angle of bullet divided between the two hemispheres 
-                    angle += ((360 / sbdata.multiShotQt) * h); //angle of bullet based on which arc it is of the multiple arcs
+                    angle -= (sbdata.radiusArc / 2); //angle of bullet divided between the two hemispheres 
+                    angle += ((360 / sbdata.copiesQuantity) * h); //angle of bullet based on which arc it is of the multiple arcs
                     if (alt) angle += alternatingAngle; //angle of bullet based on if it is alternating
 
-                    Bullet bullet = createBullet(bulletSpawn.position);
+                    Bullet bullet = createBullet(sbdata.bulletBehaviour, bulletSpawn.position);
                     bulletLookAtPlayer(sbdata.playerDirection, bullet);
                     bullet.transform.Rotate(new Vector3(0f, 0f, angle));
-                    bullet.setVelocity(Vector3.Normalize(bullet.transform.up), sbdata.speed, sbdata.minVelocity, sbdata.bulletVelocityDamp);
+                    bullet.setVelocity(Vector3.Normalize(bullet.transform.up), sbdata.bulletSpeed, sbdata.bulletVelocityDamp);
                 }
             }
 
-            for (int k = 0; k < sbdata.framesBetweenBullets && i != sbdata.arcQt - 1; k++)
+            for (int k = 0; k < sbdata.bulletInterval && i != sbdata.arcQuantity - 1; k++)
                 yield return new WaitForFixedUpdate();
         }
     }
