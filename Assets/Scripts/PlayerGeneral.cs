@@ -21,6 +21,7 @@ public class PlayerGeneral : MonoBehaviour {
 
     void Start() {
         rb = GetComponent<Rigidbody2D>();
+        
     }
 
     public void move(Vector2 translation) {

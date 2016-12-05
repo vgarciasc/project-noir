@@ -50,6 +50,11 @@ static class HushPuppy {
         return c;
     }
 
+    public static IEnumerator WaitUntilNFrames(int n) {
+        for (int i = 0; i < n; i++)
+            yield return new WaitForEndOfFrame();
+    }
+
     //Static methods that should exist in unity
     #region Unity Methods
 
