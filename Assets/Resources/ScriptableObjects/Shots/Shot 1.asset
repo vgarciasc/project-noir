@@ -13,17 +13,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviour: 1
   bulletInterval: 0
-  arcInterval: 0
+  arcInterval: 20
   initialTimeOffset: 0
   finalTimeOffset: 0
   bulletBehaviour: {fileID: 11400000, guid: a8e90d595f09df648be8405d0c908118, type: 2}
-  bulletQuantity: 1
-  bulletSpeed: 1
+  bulletQuantity: 29
+  bulletSpeed: 2.8
   bulletVelocityDamp: 0
-  arcQuantity: 3
+  arcQuantity: 4
   copiesQuantity: 1
-  copiesAngle: 360
-  radiusArc: 51
+  copiesAngle: 203
+  radiusArc: 360
   alternating: 0
   arcWrap: 1
   playerDirection: 0

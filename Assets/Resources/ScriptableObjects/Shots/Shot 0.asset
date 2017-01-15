@@ -21,7 +21,7 @@ MonoBehaviour:
   bulletSpeed: 2.8
   bulletVelocityDamp: 0
   arcQuantity: 3
-  copiesQuantity: 5
+  copiesQuantity: 10
   copiesAngle: 360
   radiusArc: 275
   alternating: 1
