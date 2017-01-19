@@ -11,32 +11,45 @@ public class Form {
 
 public class FormsManager : MonoBehaviour {
 	[SerializeField]
+	bool isDebugging;
+	[SerializeField]
+	Form debugInitialForm; 
+	[SerializeField]
 	List<Form> forms = new List<Form>();
 	[SerializeField]
 	GameObject boss;
 	[SerializeField]
 	float initialDelayInSeconds;
-
-	Enemy enemy;
+	[SerializeField]
+	bool skipIntro;
 
 	public int nextFormIndex;
+
+	Enemy enemy;
 
 	void Start () {
 		enemy = this.GetComponent<Enemy>();
 		enemy.no_health_event += changeForm;
 
 		nextFormIndex = 0;
+
+		if (skipIntro) {
+			boss.GetComponent<Animator>().SetTrigger("skip_intro");
+		}
 	}
 	
 	void firstForm() {
 		Form frm = forms[nextFormIndex];
+		if (isDebugging) {
+			frm = debugInitialForm;
+		}
+
 		boss.GetComponent<Enemy>().set_health(frm.HP);
 		boss.GetComponent<Enemy>().reset_health();
-		StartCoroutine(start_form_delay());
+		StartCoroutine(start_form_delay(frm));
 	}
 
-	IEnumerator start_form_delay() {
-		Form frm = forms[nextFormIndex];
+	IEnumerator start_form_delay(Form frm) {
 		yield return new WaitForSeconds(initialDelayInSeconds);
 		boss.GetComponent<EnemyUIManager>().newForm(frm.formFlavor);
 		yield return new WaitForSeconds(1.0f);
@@ -48,7 +61,7 @@ public class FormsManager : MonoBehaviour {
 
 	void changeForm() {
 		if (nextFormIndex == 0) {
-			Debug.Log("end battle");
+			end_battle();
 		}
 
 		Form frm = forms[nextFormIndex];
@@ -60,5 +73,10 @@ public class FormsManager : MonoBehaviour {
 		boss.GetComponent<EnemyUIManager>().newForm(frm.formFlavor);
 		
 		nextFormIndex = (nextFormIndex + 1) % forms.Count;
+	}
+
+	void end_battle() {
+		boss.GetComponent<EnemyUIManager>().end_battle();
+		boss.GetComponent<Enemy>().destroy();
 	}
 }

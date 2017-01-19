@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d635c27124c36f4dad1c5489aea34da, type: 3}
+  m_Name: shot1
+  m_EditorClassIdentifier: 
+  delayBetweenBullets: 4
+  delayAppliedEachNBullets: 1
+  delayBetweenWaves: 0
+  loopQuantity: 1
+  delayBetweenLoops: 6
+  bulletQuantity: 10
+  bulletSpeed: 2.5
+  bulletInitialPositionOffset: 0.68
+  waveQuantity: 10
+  angleOffset: 0
+  threadQuantity: 1
+  angleBetweenThreads: 360
+  threadArc: 82
+  threadArcAngleIncrementBetweenWaves: 0
+  waveWrap: 1
+  clockwise: 0
+  playerDirection: 0
+  sineMovement: 0

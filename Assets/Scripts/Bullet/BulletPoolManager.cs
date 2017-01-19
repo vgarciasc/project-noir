@@ -6,7 +6,8 @@ public class BulletPoolManager : MonoBehaviour {
 	[SerializeField]
 	GameObject bulletPrefab;
 	
-	public int pooledAmount = 200;
+	public int pooledAmount;
+	
 	List<GameObject> bullets;
 
 	public static BulletPoolManager getBulletPoolManager() {

@@ -32,22 +32,23 @@ public class PlayerHealthManager : MonoBehaviour {
 	}
 
 	void take_hit() {
+		currentHealth--;
 		if (currentHealth == 0) {
 			SpecialCamera.getSpecialCamera().screenShake_(0.25f);
 			SpecialCamera.getSpecialCamera().screenShake_(0.25f);
 			SpecialCamera.getSpecialCamera().screenShake_(0.25f);
 			restartButton.gameObject.SetActive(true);
+			this.gameObject.SetActive(false);
 			return;
 		}
 
 		SpecialCamera.getSpecialCamera().screenShake_(0.25f);
-		currentHealth--;
 		Transform trf = healthIconContainer.GetChild(currentHealth);
 		trf.GetComponent<Image>().color = HushPuppy.getColorWithOpacity(trf.GetComponent<Image>().color, 0.3f);
 	}
 
 	void instakill() {
-		currentHealth = 0;
+		currentHealth = 1;
 		take_hit();
 	}
 

@@ -777,7 +777,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 8.2, y: 10.01}
+  m_Size: {x: 8.63, y: 10.01}
 --- !u!81 &81928417724836324
 AudioListener:
   m_ObjectHideFlags: 1
@@ -1343,9 +1343,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bd658b41dfe0c749afa34ddde05609d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1000013137630170, guid: c6d9a29e69331c6418649f80db363dea,
+  bulletPrefab: {fileID: 1000013137630170, guid: fef7d0fb0a434274cb860dfc87f5265c,
     type: 2}
-  pooledAmount: 500
+  pooledAmount: 1000
 --- !u!114 &114416192376395372
 MonoBehaviour:
   m_ObjectHideFlags: 1

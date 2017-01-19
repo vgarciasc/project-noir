@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour, Triggerable {
     Animator animator;
     Coroutine currentShootingCoroutine;
     bool invincible;
+    List<Bullet> currentSpawnedBullets;
 
     public int current_health;
     public int max_health;
@@ -38,6 +39,7 @@ public class Enemy : MonoBehaviour, Triggerable {
         player = HushPuppy.safeFind("Player");
 
         invincible = true;
+        currentSpawnedBullets = new List<Bullet>();
 
         if (startShooting) {
             StartCoroutine(shootRoutine());
@@ -81,20 +83,38 @@ public class Enemy : MonoBehaviour, Triggerable {
         if (sender.name == "Sprite") {
             if (target.tag == "Bullet") {
                 take_hit();
-                target.GetComponent<Bullet>().destroy();
             }
         }
     }
     #endregion
 
-    Bullet createBullet(BulletBehaviourData data, Vector3 position) {
-        GameObject obj = bp_manager.getNewBullet();
-        Bullet b = obj.GetComponent<Bullet>();
+    #region Bullet Management
+    Bullet createBullet(BulletBehaviourData data, Vector3 position, int ID) {
+        GameObject obj;
+        Bullet b;
+
+        if (data.fromBulletPool) {
+            obj = bp_manager.getNewBullet();
+            b = obj.GetComponent<Bullet>();
+        }
+        else {
+            obj = Instantiate(data.bulletPrefab, position, Quaternion.identity);
+            b = obj.GetComponent<Bullet>();
+            currentSpawnedBullets.Add(b);
+        }
+
         obj.SetActive(true);
         obj.transform.position = position;
         obj.transform.rotation = Quaternion.identity;
-        b.setData(data);
+        b.setData(data, ID);
         return b;
+    }
+
+    public void deleteAllCreatedBullets() {
+        while (currentSpawnedBullets.Count > 0) {
+            currentSpawnedBullets[0].GetComponent<SpecialBullet>().destroy();
+            currentSpawnedBullets.RemoveAt(0);
+        }
     }
 
     void bulletLookAtPlayer(bool value, Bullet bullet) {
@@ -103,6 +123,7 @@ public class Enemy : MonoBehaviour, Triggerable {
         if (player != null)
             bullet.transform.up = bullet.transform.position - player.transform.position;
     }
+    #endregion
 
     IEnumerator shootRoutine() {
         int i = 0;
@@ -133,9 +154,12 @@ public class Enemy : MonoBehaviour, Triggerable {
             spawn = bulletSpawn;
         }
 
+        int current_bullet_ID = 0;
+
         for (int i = 0; i < atdata.behaviour.bulletQuantity; i++) {
             for (int h = 0; h < atdata.behaviour.copiesQuantity; h++) {
-                Bullet bullet = createBullet(atdata.behaviour.bulletBehaviour, spawn.position);
+                current_bullet_ID++;
+                Bullet bullet = createBullet(atdata.behaviour.bulletBehaviour, spawn.position, current_bullet_ID);
 
                 float angle = spawn.rotation.z * 180; //angle of bullet based on the way the enemy is facing
                 angle += (360 / atdata.behaviour.copiesQuantity) * h; //angle of bullet based on its arc_number of the multiple arcs
@@ -164,10 +188,14 @@ public class Enemy : MonoBehaviour, Triggerable {
         bool alt = false;
         float alternatingAngle = 360 / (atdata.behaviour.copiesQuantity * 2);
 
+        int current_bullet_ID = 0;
+
         for (int i = 0; i < atdata.behaviour.arcQuantity; i++) {
             if (atdata.behaviour.arcWrap) wrap *= -1;
             for (int j = 0; j < atdata.behaviour.bulletQuantity; j++) {
                 for (int h = 0; h < atdata.behaviour.copiesQuantity; h++) {
+                    current_bullet_ID++;
+                    
                     float angle = atdata.behaviour.angleOffset + (j * atdata.behaviour.radiusArc / (atdata.behaviour.bulletQuantity)); //angle of bullet based on its order of release
                     angle += spawn.rotation.z * 180; //angle of bullet based on the way the enemy is facing
                     angle -= (atdata.behaviour.radiusArc / 2); //angle of bullet divided between the two hemispheres 
@@ -175,7 +203,7 @@ public class Enemy : MonoBehaviour, Triggerable {
                     angle *= wrap; //angle of bullet if it s going to wrap around and become spiral
                     if (alt) angle += alternatingAngle; //angle of bullet based on if it is alternating
 
-                    Bullet bullet = createBullet(atdata.behaviour.bulletBehaviour, spawn.position);
+                    Bullet bullet = createBullet(atdata.behaviour.bulletBehaviour, spawn.position, current_bullet_ID);
                     bulletLookAtPlayer(atdata.behaviour.playerDirection, bullet);
                     bullet.transform.Rotate(new Vector3(0f, 0f, angle));
                     bullet.setVelocity(Vector3.Normalize(bullet.transform.up), atdata.behaviour.bulletSpeed, atdata.behaviour.bulletVelocityDamp);
@@ -200,6 +228,7 @@ public class Enemy : MonoBehaviour, Triggerable {
         }
         
         bool alt = false;
+        int current_bullet_ID = 0;
         float alternatingAngle = 360 / (atdata.behaviour.copiesQuantity * 2);
 
         for (int i = 0; i < atdata.behaviour.arcQuantity; i++) {
@@ -207,13 +236,15 @@ public class Enemy : MonoBehaviour, Triggerable {
 
             for (int j = 0; j < atdata.behaviour.bulletQuantity; j++) {
                 for (int h = 0; h < atdata.behaviour.copiesQuantity; h++) {
+                    current_bullet_ID++;
+                    
                     float angle = (j * atdata.behaviour.radiusArc / (atdata.behaviour.bulletQuantity)); //angle of bullet based on its order of release
                     angle += spawn.rotation.z * 180; //angle of bullet based on the way the enemy is facing
                     angle -= (atdata.behaviour.radiusArc / 2); //angle of bullet divided between the two hemispheres 
                     angle += ((360 / atdata.behaviour.copiesQuantity) * h); //angle of bullet based on which arc it is of the multiple arcs
                     if (alt) angle += alternatingAngle; //angle of bullet based on if it is alternating
 
-                    Bullet bullet = createBullet(atdata.behaviour.bulletBehaviour, spawn.position);
+                    Bullet bullet = createBullet(atdata.behaviour.bulletBehaviour, spawn.position, current_bullet_ID);
                     bulletLookAtPlayer(atdata.behaviour.playerDirection, bullet);
                     bullet.transform.Rotate(new Vector3(0f, 0f, angle));
                     bullet.setVelocity(Vector3.Normalize(bullet.transform.up), atdata.behaviour.bulletSpeed, atdata.behaviour.bulletVelocityDamp);
@@ -225,6 +256,14 @@ public class Enemy : MonoBehaviour, Triggerable {
         }
 
         currentShootingCoroutine = null;
+    }
+
+    public void destroy() {
+        animator.SetTrigger("destroy");
+    }
+
+    public void AnimDestroy() {
+        Destroy(this.gameObject);
     }
 
     #region Animation
@@ -263,4 +302,8 @@ public class Enemy : MonoBehaviour, Triggerable {
         }
     }
     #endregion
+
+    public void TriggerExit(GameObject target, GameObject sender) {
+		//
+	}
 }

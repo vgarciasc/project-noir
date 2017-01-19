@@ -10,6 +10,8 @@ public class EnemyUIManager : MonoBehaviour {
 	BossTitleCardManager btcmanager;
 	[SerializeField]
 	BossSpecialCardManager bscmanager;
+	[SerializeField]
+	GameObject gameOver;
 
 	Enemy enemy;
 
@@ -42,6 +44,10 @@ public class EnemyUIManager : MonoBehaviour {
 	public void newForm(string form_text) {
 		bscmanager.setText(form_text);
 		bscmanager.show();
+	}
+
+	public void end_battle() {
+		gameOver.SetActive(true);
 	}
 	#endregion
 }

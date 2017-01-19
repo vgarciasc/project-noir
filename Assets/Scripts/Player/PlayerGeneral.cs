@@ -10,7 +10,7 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
 
     [Header("References")]
     [SerializeField]
-    GameObject bulletPrefab;
+    BulletBehaviourData bulletData;
     [SerializeField]
     Transform bulletSpawn;
 
@@ -18,13 +18,20 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
     public event VoidVoidDelegate take_hit_event;
     public event VoidVoidDelegate instakill_event;
 
+    int current_bullet_ID;
     Rigidbody2D rb;
     ArenaManager ar_manager;
     CharacterController controller;
+    float shooting_cooldown_time;
+    bool is_shooting_on_cooldown;
 
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         ar_manager = ArenaManager.getArenaManager();
+
+        current_bullet_ID = 0;
+        is_shooting_on_cooldown = false;
+        shooting_cooldown_time = 5;
     }
 
     public void move(Vector2 translation) {
@@ -55,15 +62,42 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
                                     0));
     }
 
-    public Bullet shoot() {
-        GameObject aux = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity) as GameObject;
-        Bullet bullet = aux.GetComponent<Bullet>();
+    float timestamp = 0f;
+    float cooldown_seconds = 0.05f; 
+    public void shoot() {
+        if (timestamp > Time.time) {
+            return;
+        }
+        timestamp = Time.time + cooldown_seconds;
+
         Vector2 vel = Camera.main.ScreenToWorldPoint(Input.mousePosition) - this.transform.position;
+        if (vel.magnitude < 0.05) {
+            return;
+        }
+
         vel = vel.normalized;
 
+        GameObject obj = BulletPoolManager.getBulletPoolManager().getNewBullet();
+        obj.transform.position = bulletSpawn.position;
+        obj.transform.rotation = bulletSpawn.rotation;
+        obj.SetActive(true);
+
+        Bullet bullet = obj.GetComponent<Bullet>();
+        bullet.setData(bulletData, current_bullet_ID);
         bullet.setVelocity(vel, 20, 0);
-        
-        return bullet;
+
+        current_bullet_ID++;
+        // StartCoroutine(end_cooldown());
+    }
+
+    IEnumerator end_cooldown() {
+        is_shooting_on_cooldown = true;
+
+        for (int i = 0; i < shooting_cooldown_time; i++) {
+            yield return new WaitForEndOfFrame();
+        }
+
+        is_shooting_on_cooldown = false;
     }
 
     public void teleport() {
@@ -80,7 +114,6 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
             if (target.tag == "Enemy Bullet") {
                 if (take_hit_event != null) {
                     take_hit_event();
-                    target.GetComponent<Bullet>().destroy();
                 }
             }
             if (target.tag == "Enemy") {
@@ -90,4 +123,8 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
             }
         }
     }
+
+    public void TriggerExit(GameObject target, GameObject sender) {
+		//
+	}
 }

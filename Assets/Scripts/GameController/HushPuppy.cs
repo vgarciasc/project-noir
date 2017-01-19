@@ -148,4 +148,11 @@ public static class HushPuppy {
         return (new Color(1 - color.r, 1 - color.g, 1 - color.b, color.a));
     }
     #endregion
+
+    public static Vector2 rotateVector(Vector2 original, float angle_rad) {
+        float angle = angle_rad * Mathf.PI / 180f;
+        Vector2 aux = new Vector2(original.x * Mathf.Cos(angle) - original.y * Mathf.Sin(angle),
+                                original.x * Mathf.Sin(angle) + original.y * Mathf.Cos(angle));
+        return aux;
+    }
 }
