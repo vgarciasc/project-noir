@@ -11,21 +11,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d635c27124c36f4dad1c5489aea34da, type: 3}
   m_Name: shot1
   m_EditorClassIdentifier: 
-  delayBetweenBullets: 4
+  sprites:
+  - {fileID: 21300000, guid: a0fa8e45188f8e14bb3e20a45bb741c8, type: 3}
+  colors:
+  - {r: 0.375, g: 0.35569853, b: 0.35569853, a: 1}
+  - {r: 0.2650303, g: 0.9485294, b: 0.29802686, a: 1}
+  spritingStyle: 2
+  coloringStyle: 2
+  delayBetweenBullets: 5
   delayAppliedEachNBullets: 1
   delayBetweenWaves: 0
   loopQuantity: 1
-  delayBetweenLoops: 6
+  delayBetweenLoops: 0
   bulletQuantity: 10
-  bulletSpeed: 2.5
-  bulletInitialPositionOffset: 0.68
-  waveQuantity: 10
+  bulletSpeed: 3
+  bulletInitialPositionOffset: 0
+  waveQuantity: 6
   angleOffset: 0
-  threadQuantity: 1
+  threadQuantity: 6
   angleBetweenThreads: 360
-  threadArc: 82
+  threadArc: 0
   threadArcAngleIncrementBetweenWaves: 0
-  waveWrap: 1
+  waveWrap: 0
   clockwise: 0
   playerDirection: 0
-  sineMovement: 0
+  sinusoidalMotion: 0

@@ -2,8 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ShotPatternVisualStyle { RANDOM, BULLET_INTERLACED, THREAD_INTERLACED, WAVE_INTERLACED }
+public enum ShotPatternSinusoidalStyle { NONE, ALL_SINE, ALL_COSINE, THREAD_INTERLACED, WAVE_INTERLACED }
+
 [CreateAssetMenu(fileName = "Data", menuName = "Shot Pattern", order = 1)]
 public class ShotPatternData : ScriptableObject {
+    [HeaderAttribute("Visual Attributes")]
+
+    public Sprite[] sprites;
+
+    public Color[] colors;
+
+	public ShotPatternVisualStyle spritingStyle;
+
+	public ShotPatternVisualStyle coloringStyle;
+
 	[Header("Time Attributes")]
 
     [Tooltip("Interval between bullets measured in frames.")]
@@ -74,6 +87,6 @@ public class ShotPatternData : ScriptableObject {
     [Tooltip("Makes the shot be aimed at the player's general direction.")]
 	public bool playerDirection = false; //NOT WORKING NOT WORKING
 
-    [TooltipAttribute("Makes the bullet in a sine movement.")]
-    public bool sineMovement = false;
+    [TooltipAttribute("Makes the bullet in a sine motion.")]
+    public ShotPatternSinusoidalStyle sinusoidalMotion;
 }

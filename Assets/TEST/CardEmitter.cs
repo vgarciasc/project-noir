@@ -25,6 +25,7 @@ public class CardEmitter : MonoBehaviour {
 
 			for (int j = 0; j < card.array[i].shot.loopQuantity; j++) {
 				StartCoroutine(shoot(shot_data, card.array[i].bullet, emitter));
+				checkShotPatternData(shot_data);
 
 				for (int k = 0; k < card.array[i].shot.delayBetweenLoops; k++)
                 	yield return new WaitForFixedUpdate();
@@ -92,10 +93,12 @@ public class CardEmitter : MonoBehaviour {
                     current_bullet_ID++;
 
 					float angle = bullet_angle + ((shot_data.angleBetweenThreads / shot_data.threadQuantity) * h);
-					create_bullet(shot_data,
-								bullet_data,
-								emitter.position,
-								angle);
+					BulletDeluxe bullet = create_bullet(shot_data,
+														bullet_data,
+														emitter.position,
+														angle);
+					set_bullet_visuals(shot_data, bullet, i, h, j);
+					set_bullet_sinusoidal(shot_data, bullet, i, h, j);
                 }
 
                 for (int k = 0; j % shot_data.delayAppliedEachNBullets == 0 &&
@@ -108,7 +111,7 @@ public class CardEmitter : MonoBehaviour {
         }
     }
 
-	void create_bullet(ShotPatternData shot_data, BulletData bullet_data, Vector3 position, float angle_grad) {
+	BulletDeluxe create_bullet(ShotPatternData shot_data, BulletData bullet_data, Vector3 position, float angle_grad) {
 		BulletDeluxe bullet = pool.getNewBullet().GetComponent<BulletDeluxe>();
 		bullet.activate();
 
@@ -121,11 +124,87 @@ public class CardEmitter : MonoBehaviour {
 		bullet.setRotation(angle_grad);
 		bullet.setPosition(position + bullet.transform.up * shot_data.bulletInitialPositionOffset);
 		bullet.setSpeed(shot_data.bulletSpeed);
-		
-		if (shot_data.sineMovement) bullet.toggleSineMovement(true);
-		// if (shot_data.playerDirection) bullet.transform.up = bullet.transform.position - player.position;
 
-		// bullet.addAccelerationEmitterDirection(5f);
-		// bullet.addAcceleration(bullet.transform.up * -1, data.initialSpeed);
+		return bullet;
+	}
+
+	void set_bullet_visuals(ShotPatternData shot_data, BulletDeluxe bullet, int wave_ID, int thread_ID, int bullet_ID) {
+		Color color;
+		Sprite sprite;
+
+		switch (shot_data.coloringStyle) {
+			default:
+			case ShotPatternVisualStyle.BULLET_INTERLACED:
+				color = shot_data.colors[bullet_ID % shot_data.colors.Length];
+				break;
+			case ShotPatternVisualStyle.THREAD_INTERLACED:
+				color = shot_data.colors[thread_ID % shot_data.colors.Length];
+				break;
+			case ShotPatternVisualStyle.WAVE_INTERLACED:
+				color = shot_data.colors[wave_ID % shot_data.colors.Length];
+				break;
+			case ShotPatternVisualStyle.RANDOM:
+				color = shot_data.colors[(int) (Time.time) % shot_data.colors.Length];
+				break;
+		}
+
+		switch (shot_data.spritingStyle) {	
+			default:
+			case ShotPatternVisualStyle.BULLET_INTERLACED:
+				sprite = shot_data.sprites[bullet_ID % shot_data.sprites.Length];
+				break;
+			case ShotPatternVisualStyle.THREAD_INTERLACED:
+				sprite = shot_data.sprites[thread_ID % shot_data.sprites.Length];
+				break;
+			case ShotPatternVisualStyle.WAVE_INTERLACED:
+				sprite = shot_data.sprites[wave_ID % shot_data.sprites.Length];
+				break;
+			case ShotPatternVisualStyle.RANDOM:
+				sprite = shot_data.sprites[(int) (Time.time) % shot_data.sprites.Length];
+				break;
+		}
+
+		bullet.setColor(color);
+		bullet.setSprite(sprite);
+	}
+
+	void set_bullet_sinusoidal(ShotPatternData shot_data, BulletDeluxe bullet, int wave_ID, int thread_ID, int bullet_ID) {
+		switch (shot_data.sinusoidalMotion) {
+			case ShotPatternSinusoidalStyle.ALL_COSINE:
+				bullet.startCosineMovement();
+				break;
+			case ShotPatternSinusoidalStyle.ALL_SINE:
+				bullet.startSineMovement();
+				break;
+			case ShotPatternSinusoidalStyle.THREAD_INTERLACED:
+				if (thread_ID % 2 == 0) {
+					bullet.startCosineMovement();
+				}
+				else {
+					bullet.startSineMovement();
+				}
+				break;
+			case ShotPatternSinusoidalStyle.WAVE_INTERLACED:
+				if (wave_ID % 2 == 0) {
+					bullet.startCosineMovement();
+				}
+				else {
+					bullet.startSineMovement();
+				}
+				break;
+			default: case ShotPatternSinusoidalStyle.NONE:
+				break;
+		}
+	}
+
+	void checkShotPatternData(ShotPatternData data) {
+		if (data.colors.Length == 0) {
+			Debug.Log("No bullet color chosen. ");
+			Debug.Break();
+		}
+		if (data.colors.Length == 0) {
+			Debug.Log("No bullet sprite chosen. ");
+			Debug.Break();
+		}
 	}
 }
