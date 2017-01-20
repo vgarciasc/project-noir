@@ -6,6 +6,7 @@ using UnityEngine;
 public class cardInfo {
 	public ShotPatternData shot;
 	public BulletData bullet;
+	public BulletEventData[] events;
 }
 
 [CreateAssetMenu(fileName = "Data", menuName = "Card Pattern", order = 1)]

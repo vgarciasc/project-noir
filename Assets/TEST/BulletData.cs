@@ -4,10 +4,14 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "Bullet Data", order = 1)]
 public class BulletData : ScriptableObject {
-	[Tooltip("Will the sprite rotate in the direction of the bullet?")]
-	public bool rotateDirectionShot = true;
+	[HeaderAttribute("General Behaviour")]
+	public AnimationClip animation;
 
-	[HeaderAttribute("Sinusoidal Motion")]
+	[HeaderAttribute("Visual Attributes")]
+	[Tooltip("Will the sprite rotate in the direction of the bullet?")]
+	public bool faceVelocity = true;
+
+	[HeaderAttribute("Sinusoidal Motion Attributes")]
 	[RangeAttribute(0f, 10f)]
 	[Tooltip("The amplitude of the sine movement of the bullet.")]
 	public float amplitude = 5;
@@ -22,5 +26,8 @@ public class BulletData : ScriptableObject {
 	[RangeAttribute(-5f, 5f)]
 	public float periodAcceleration = 0;
 
+	[HeaderAttribute("Velocity Attributes")]
+	[RangeAttribute(0f, 20f)]
+	public float maxVelocity = 20f;
 	//stop when reach position
 }

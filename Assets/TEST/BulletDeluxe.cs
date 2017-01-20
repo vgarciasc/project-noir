@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletDeluxe : MonoBehaviour {
+	public int bullet_ID, thread_ID, wave_ID, loop_ID, shot_ID;
+	
 	BulletData data;
 	Rigidbody2D rb;
 	Transform player;
@@ -39,6 +41,7 @@ public class BulletDeluxe : MonoBehaviour {
 		framecount = 0;
 		rb.velocity = Vector2.zero;
 		acceleration = acceleration_senoid_y = Vector2.zero;
+		rb.angularVelocity = 20;
 	}
 
 	void FixedUpdate() {
@@ -49,7 +52,7 @@ public class BulletDeluxe : MonoBehaviour {
 			sinusoidalPeriod += data.periodAcceleration * Time.deltaTime;
 
 			acceleration_senoid_y = new Vector2(0, sinusoidalAmplitude * Mathf.Cos(framecount / (sinusoidalPeriod * 2)));
-			acceleration_senoid_y = HushPuppy.rotateVector(acceleration_senoid_y, angle_grad);
+			acceleration_senoid_y = HushPuppy.rotateVector(acceleration_senoid_y, angle_grad + 90);
 
 			if (sineMovement) acceleration_senoid_y *= -1;
 		}
@@ -68,9 +71,18 @@ public class BulletDeluxe : MonoBehaviour {
 						acceleration_emitter_direction)
 						* Time.deltaTime;
 
-		// if (rb.velocity.magnitude < 0.5 && shouldStopWhenVelocityZero) {
-		// 	rb.velocity = acceleration = Vector2.zero;
-		// }
+		if (rb.velocity.sqrMagnitude > data.maxVelocity) {
+			rb.velocity = rb.velocity.normalized * data.maxVelocity;
+		}
+
+		if (rb.velocity.magnitude < 0.5 && shouldStopWhenVelocityZero) {
+			rb.velocity = acceleration = Vector2.zero;
+		}
+
+		if (data.faceVelocity) {
+			float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
+			this.transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+		}
 	}
 
 	#region setters
@@ -79,6 +91,8 @@ public class BulletDeluxe : MonoBehaviour {
 		this.sinusoidalAmplitude = data.amplitude;
 		this.sinusoidalPeriod = data.period;
 		this.player = player;
+
+		this.GetComponent<BulletDeluxeAnimation>().start(bullet_data);
 	}
 
 	public void setSprite(Sprite sprite) {
@@ -136,12 +150,12 @@ public class BulletDeluxe : MonoBehaviour {
 
 	public void startCosineMovement() {
 		cosineMovement = true;
-		rb.velocity = new Vector2(this.transform.right.x, this.transform.right.y);
+		rb.velocity = new Vector2(this.transform.up.x, this.transform.up.y);
 	}
 
 	public void startSineMovement() {
 		sineMovement = true;
-		rb.velocity = new Vector2(this.transform.right.x, this.transform.right.y);
+		rb.velocity = new Vector2(this.transform.up.x, this.transform.up.y);
 	}
 
 	public void endSinusoidalMovement() {
@@ -151,14 +165,22 @@ public class BulletDeluxe : MonoBehaviour {
 
 	#endregion
 
-	public void addAccelerationEmitterDirection(float magnitude) {
+	public void addConstantAccelerationEmitterDirection(float magnitude) {
 		emitter_direction = true;
 		emitter_direction_magnitude = magnitude;
 	}
 
-	public void addAccelerationPlayerDirection(float magnitude) {
+	public void addConstantAccelerationPlayerDirection(float magnitude) {
 		player_direction = true;
 		player_direction_magnitude = magnitude;
+	}
+
+	public void addAccelerationEmitterDirection(float magnitude) {
+		rb.velocity = (start_position - this.transform.position).normalized * magnitude;
+	}
+
+	public void addAccelerationPlayerDirection(float magnitude) {
+		rb.velocity = (player.position - this.transform.position).normalized * magnitude;
 	}
 
 	public void toggleStopWhenVelocityZero(bool value) {

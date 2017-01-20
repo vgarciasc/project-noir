@@ -4,63 +4,40 @@ using UnityEngine;
 
 public class CardEmitter : MonoBehaviour {
 	public CardPatternData card;
-	public bool startShooting = true;
 	public Transform emitter;
 
-	BulletPoolManager pool;
+	protected BulletPoolManager pool;
 	Transform player;
+
+	[SerializeField]
+	bool startShooting = true;
 
 	void Start () {
 		pool = BulletPoolManager.getBulletPoolManager();
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 
 		if (startShooting) {
-			StartCoroutine(playCard(card));
+			StartCoroutine(playCard(card, emitter));
 		}
 	}
 
-	IEnumerator playCard(CardPatternData card) {
+	protected IEnumerator playCard(CardPatternData card, Transform emitter) {
 		for (int i = 0; i < card.array.Length; i++) {
 			ShotPatternData shot_data = Instantiate(card.array[i].shot);
-
+			
 			for (int j = 0; j < card.array[i].shot.loopQuantity; j++) {
-				StartCoroutine(shoot(shot_data, card.array[i].bullet, emitter));
+				StartCoroutine(shoot(shot_data, card.array[i].bullet, emitter, j, i));
 				checkShotPatternData(shot_data);
 
-				for (int k = 0; k < card.array[i].shot.delayBetweenLoops; k++)
+				for (int k = 0; k < card.array[i].shot.delayBetweenLoops &&
+								j % card.array[i].shot.delayAppliedEachNLoops == card.array[i].shot.delayAppliedEachNLoops - 1; k++)
                 	yield return new WaitForFixedUpdate();
 			}
 		}
 	}
-	
-	// IEnumerator shoot(ShotPatternData shot_data, BulletData bullet_data) {
-	// 	float angle_increment = (shot_data.angleOffset + shot_data.threadArcAngle * Mathf.PI) / (shot_data.bulletNumber * 180f);
 
-	// 	for (int i = 0; i < shot_data.loopTimes; i++) {
-	// 		for (int j = 0; j < shot_data.bulletNumber; j++) {
-	// 			for (int l = 0; l < shot_data.threadQuantity; l++) {
-	// 				float bullet_angle = j * angle_increment;
-	// 				bullet_angle += (shot_data.threadsTotalArcAngle / shot_data.threadQuantity) * l;
-
-	// 				Vector2 direction = new Vector2(Mathf.Cos(bullet_angle), Mathf.Sin(bullet_angle));
-
-	// 				create_bullet(bullet_data,
-	// 							emitter.position,
-	// 							bullet_angle,
-	// 							direction);
-
-	// 				for (int k = 0; j % shot_data.applyDelayEachNBullets == 0 && 
-	// 								k < shot_data.delayBetweenBullets; k++)
-	// 					yield return new WaitForFixedUpdate();
-	// 			}
-	// 		}
-
-	// 		for (int k = 0; k < shot_data.delayBetweenLoops; k++)
-	// 			yield return new WaitForFixedUpdate();
-	// 	}
-	// }
-
-	 IEnumerator shoot(ShotPatternData shot_data, BulletData bullet_data, Transform emitter) {
+	 IEnumerator shoot(ShotPatternData shot_data, BulletData bullet_data,
+	 					Transform emitter, int loop_number, int shot_number) {
         // float alternatingAngle = 360 / (shot_data.threadQuantity * 2);
 		float bullet_angle = shot_data.angleOffset;
 		bullet_angle += emitter.rotation.z * 180;
@@ -86,6 +63,9 @@ public class CardEmitter : MonoBehaviour {
 				if (shot_data.clockwise) {
 					bullet_angle_increment *= -1;
 				}
+				if (shot_data.reverseAlternatedLoops && loop_number % 2 == 0) {
+					bullet_angle_increment *= -1;
+				}
 
 				bullet_angle += bullet_angle_increment;
 
@@ -97,8 +77,9 @@ public class CardEmitter : MonoBehaviour {
 														bullet_data,
 														emitter.position,
 														angle);
-					set_bullet_visuals(shot_data, bullet, i, h, j);
-					set_bullet_sinusoidal(shot_data, bullet, i, h, j);
+					set_bullet_id(bullet, i, h, j, loop_number, shot_number);
+					set_bullet_visuals(shot_data, bullet, i, h, j, loop_number);
+					set_bullet_sinusoidal(shot_data, bullet, i, h, j, loop_number);
                 }
 
                 for (int k = 0; j % shot_data.delayAppliedEachNBullets == 0 &&
@@ -117,18 +98,28 @@ public class CardEmitter : MonoBehaviour {
 
 		bullet.setData(bullet_data, player);
 
-		if (!bullet_data.rotateDirectionShot) {
+		if (!bullet_data.faceVelocity) {
 			bullet.GetComponentInChildren<ComponentFixRotation>().enabled = true;
 		}
 
 		bullet.setRotation(angle_grad);
-		bullet.setPosition(position + bullet.transform.up * shot_data.bulletInitialPositionOffset);
+		bullet.setPosition(position + bullet.transform.up * shot_data.radialOffset);
 		bullet.setSpeed(shot_data.bulletSpeed);
+		bullet.setAngularVelocity(shot_data.bulletAngularVelocity);
 
 		return bullet;
 	}
 
-	void set_bullet_visuals(ShotPatternData shot_data, BulletDeluxe bullet, int wave_ID, int thread_ID, int bullet_ID) {
+	void set_bullet_id(BulletDeluxe bullet, int wave_ID, int thread_ID, int bullet_ID, int loop_ID, int shot_ID) {
+		bullet.wave_ID = wave_ID;
+		bullet.loop_ID = loop_ID;
+		bullet.bullet_ID = bullet_ID;
+		bullet.thread_ID = thread_ID;
+		bullet.shot_ID = shot_ID;
+	}
+
+	void set_bullet_visuals(ShotPatternData shot_data, BulletDeluxe bullet,
+							int wave_ID, int thread_ID, int bullet_ID, int loop_ID) {
 		Color color;
 		Sprite sprite;
 
@@ -142,6 +133,9 @@ public class CardEmitter : MonoBehaviour {
 				break;
 			case ShotPatternVisualStyle.WAVE_INTERLACED:
 				color = shot_data.colors[wave_ID % shot_data.colors.Length];
+				break;
+			case ShotPatternVisualStyle.LOOP_INTERLACED:
+				color = shot_data.colors[loop_ID % shot_data.colors.Length];
 				break;
 			case ShotPatternVisualStyle.RANDOM:
 				color = shot_data.colors[(int) (Time.time) % shot_data.colors.Length];
@@ -159,6 +153,9 @@ public class CardEmitter : MonoBehaviour {
 			case ShotPatternVisualStyle.WAVE_INTERLACED:
 				sprite = shot_data.sprites[wave_ID % shot_data.sprites.Length];
 				break;
+			case ShotPatternVisualStyle.LOOP_INTERLACED:
+				sprite = shot_data.sprites[loop_ID % shot_data.sprites.Length];
+				break;
 			case ShotPatternVisualStyle.RANDOM:
 				sprite = shot_data.sprites[(int) (Time.time) % shot_data.sprites.Length];
 				break;
@@ -168,7 +165,8 @@ public class CardEmitter : MonoBehaviour {
 		bullet.setSprite(sprite);
 	}
 
-	void set_bullet_sinusoidal(ShotPatternData shot_data, BulletDeluxe bullet, int wave_ID, int thread_ID, int bullet_ID) {
+	void set_bullet_sinusoidal(ShotPatternData shot_data, BulletDeluxe bullet,
+								int wave_ID, int thread_ID, int bullet_ID, int loop_ID) {
 		switch (shot_data.sinusoidalMotion) {
 			case ShotPatternSinusoidalStyle.ALL_COSINE:
 				bullet.startCosineMovement();
@@ -186,6 +184,14 @@ public class CardEmitter : MonoBehaviour {
 				break;
 			case ShotPatternSinusoidalStyle.WAVE_INTERLACED:
 				if (wave_ID % 2 == 0) {
+					bullet.startCosineMovement();
+				}
+				else {
+					bullet.startSineMovement();
+				}
+				break;
+			case ShotPatternSinusoidalStyle.LOOP_INTERLACED:
+				if (loop_ID % 2 == 0) {
 					bullet.startCosineMovement();
 				}
 				else {
