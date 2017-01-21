@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletDeluxe : MonoBehaviour {
-	public int bullet_ID, thread_ID, wave_ID, loop_ID, shot_ID;
+	public int bullet_ID = -1,
+			thread_ID = -1,
+			wave_ID = -1,
+			loop_ID = -1,
+			shot_ID = -1;
 	
 	BulletData data;
 	Rigidbody2D rb;
@@ -11,6 +15,7 @@ public class BulletDeluxe : MonoBehaviour {
 
 	float speed;
 	float angle_grad;
+	float deacceleration;
 
 	bool sineMovement;
 	bool cosineMovement;
@@ -35,13 +40,18 @@ public class BulletDeluxe : MonoBehaviour {
 
 	float framecount;
 
+	public delegate void BulletDeath(BulletDeluxe bullet);
+	public event BulletDeath destroy_event;
+
 	void start() {
 		rb = this.GetComponentInChildren<Rigidbody2D>();
 
 		framecount = 0;
-		rb.velocity = Vector2.zero;
+		deacceleration = 1;
 		acceleration = acceleration_senoid_y = Vector2.zero;
-		rb.angularVelocity = 20;
+
+		rb.velocity = Vector2.zero;
+		rb.drag = 0;
 	}
 
 	void FixedUpdate() {
@@ -103,6 +113,10 @@ public class BulletDeluxe : MonoBehaviour {
 		this.GetComponentInChildren<SpriteRenderer>().color = color;
 	}
 
+	public void setSize(float size) {
+		this.transform.localScale = new Vector3(size, size, size);
+	}
+
 	public void setPosition(Vector3 position) {
 		this.transform.position = start_position = position;
 	}
@@ -134,6 +148,10 @@ public class BulletDeluxe : MonoBehaviour {
 	}
 
     public void destroy() {
+		if (destroy_event != null) {
+			destroy_event(this);
+		}
+
         this.gameObject.SetActive(false);
     }
 	#endregion
@@ -166,25 +184,47 @@ public class BulletDeluxe : MonoBehaviour {
 	#endregion
 
 	public void addConstantAccelerationEmitterDirection(float magnitude) {
+		stopDeacceleration();
 		emitter_direction = true;
 		emitter_direction_magnitude = magnitude;
 	}
 
 	public void addConstantAccelerationPlayerDirection(float magnitude) {
+		stopDeacceleration();
 		player_direction = true;
 		player_direction_magnitude = magnitude;
 	}
 
 	public void addAccelerationEmitterDirection(float magnitude) {
+		stopDeacceleration();
+		acceleration_emitter_direction = (start_position - this.transform.position).normalized * magnitude;
+	}
+
+	public void setAccelerationEmitterDirection(float magnitude) {
+		stopDeacceleration();
 		rb.velocity = (start_position - this.transform.position).normalized * magnitude;
 	}
 
 	public void addAccelerationPlayerDirection(float magnitude) {
+		stopDeacceleration();
+		acceleration_player_direction = (player.position - this.transform.position).normalized * magnitude;
+	}
+
+	public void setAccelerationPlayerDirection(float magnitude) {
+		stopDeacceleration();
 		rb.velocity = (player.position - this.transform.position).normalized * magnitude;
 	}
 
 	public void toggleStopWhenVelocityZero(bool value) {
 		shouldStopWhenVelocityZero = value;
+	}
+
+	public void deaccelerate(float magnitude) {
+		rb.drag = magnitude;
+	}
+
+	public void stopDeacceleration() {
+		rb.drag = 0;
 	}
 	#endregion
 }

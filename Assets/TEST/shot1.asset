@@ -12,29 +12,33 @@ MonoBehaviour:
   m_Name: shot1
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: e7cf6f6f5c73f7748b9d8325ba808e47, type: 3}
+  - {fileID: 21300000, guid: a0fa8e45188f8e14bb3e20a45bb741c8, type: 3}
   colors:
-  - {r: 0.9044118, g: 0.9044118, b: 0.9044118, a: 1}
+  - {r: 0.8088235, g: 0.35088667, b: 0.35088667, a: 1}
+  - {r: 0.1712803, g: 0.38121945, b: 0.5294118, a: 1}
+  sizes:
+  - 1.5
   spritingStyle: 2
-  coloringStyle: 2
-  loopQuantity: 1
+  coloringStyle: 4
+  sizingStyle: 1
+  loopQuantity: 2
   delayBetweenLoops: 0
   delayAppliedEachNLoops: 1
-  reverseAlternatedLoops: 0
+  reverseAlternatedLoops: 1
   bulletQuantity: 25
-  bulletSpeed: 1.3
-  bulletAngularVelocity: 360
-  delayBetweenBullets: 9
+  bulletSpeed: 2.3
+  bulletAngularVelocity: 0
+  delayBetweenBullets: 3
   delayAppliedEachNBullets: 1
-  threadQuantity: 1
+  threadQuantity: 4
   angleBetweenThreads: 360
-  threadArc: 0
+  threadArc: 180
   threadArcAngleIncrementBetweenWaves: 0
   waveQuantity: 1
-  delayBetweenWaves: 0
-  angleOffset: 180
+  delayBetweenWaves: 3
+  angleOffset: 0
   radialOffset: 0
   waveWrap: 1
   clockwise: 1
   playerDirection: 0
-  sinusoidalMotion: 1
+  sinusoidalMotion: 0

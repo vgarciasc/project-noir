@@ -13,9 +13,14 @@ public class ShotPatternData : ScriptableObject {
 
     public Color[] colors;
 
+    [RangeAttribute(0f, 5f)]
+    public float[] sizes;    
+
 	public ShotPatternVisualStyle spritingStyle;
 
 	public ShotPatternVisualStyle coloringStyle;
+
+	public ShotPatternVisualStyle sizingStyle;
 
 	[HeaderAttribute("Loop Attributes")]
     [Range(1, 10)]

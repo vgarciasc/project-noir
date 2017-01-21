@@ -190,6 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4837212940548510}
   - component: {fileID: 114392904836175030}
+  - component: {fileID: 114881100580279122}
   - component: {fileID: 114187257572257144}
   - component: {fileID: 114941361695279082}
   m_Layer: 0
@@ -1343,7 +1344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bd658b41dfe0c749afa34ddde05609d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1000013137630170, guid: fef7d0fb0a434274cb860dfc87f5265c,
+  bulletPrefab: {fileID: 1595323805690660, guid: 0e0e7ae2920dc554b85b06ad46506462,
     type: 2}
   pooledAmount: 1000
 --- !u!114 &114416192376395372
@@ -1744,6 +1745,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleText: {fileID: 0}
   subtitleText: {fileID: 0}
+--- !u!114 &114881100580279122
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1265885635255064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e6426bbb98881245b5e135464146a62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114916902059788170
 MonoBehaviour:
   m_ObjectHideFlags: 1

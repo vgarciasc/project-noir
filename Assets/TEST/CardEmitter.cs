@@ -7,6 +7,7 @@ public class CardEmitter : MonoBehaviour {
 	public Transform emitter;
 
 	protected BulletPoolManager pool;
+	protected BulletEventManager event_manager;
 	Transform player;
 
 	[SerializeField]
@@ -14,6 +15,7 @@ public class CardEmitter : MonoBehaviour {
 
 	void Start () {
 		pool = BulletPoolManager.getBulletPoolManager();
+		event_manager = BulletEventManager.getBulletEventManager();
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 
 		if (startShooting) {
@@ -32,6 +34,12 @@ public class CardEmitter : MonoBehaviour {
 				for (int k = 0; k < card.array[i].shot.delayBetweenLoops &&
 								j % card.array[i].shot.delayAppliedEachNLoops == card.array[i].shot.delayAppliedEachNLoops - 1; k++)
                 	yield return new WaitForFixedUpdate();
+			}
+
+			for (int h = 0; h < card.array[i].events.Length; h++) {
+				event_manager.fileEvent(card.array[i].events[h].shotEvent,
+										card.array[i].events[h].delayBeforeEvent,
+										i);
 			}
 		}
 	}
@@ -107,6 +115,8 @@ public class CardEmitter : MonoBehaviour {
 		bullet.setSpeed(shot_data.bulletSpeed);
 		bullet.setAngularVelocity(shot_data.bulletAngularVelocity);
 
+		event_manager.addBullet(bullet);
+
 		return bullet;
 	}
 
@@ -122,6 +132,7 @@ public class CardEmitter : MonoBehaviour {
 							int wave_ID, int thread_ID, int bullet_ID, int loop_ID) {
 		Color color;
 		Sprite sprite;
+		float size;
 
 		switch (shot_data.coloringStyle) {
 			default:
@@ -161,8 +172,28 @@ public class CardEmitter : MonoBehaviour {
 				break;
 		}
 
+		switch (shot_data.sizingStyle) {	
+			default:
+			case ShotPatternVisualStyle.BULLET_INTERLACED:
+				size = shot_data.sizes[bullet_ID % shot_data.sizes.Length];
+				break;
+			case ShotPatternVisualStyle.THREAD_INTERLACED:
+				size = shot_data.sizes[thread_ID % shot_data.sizes.Length];
+				break;
+			case ShotPatternVisualStyle.WAVE_INTERLACED:
+				size = shot_data.sizes[wave_ID % shot_data.sizes.Length];
+				break;
+			case ShotPatternVisualStyle.LOOP_INTERLACED:
+				size = shot_data.sizes[loop_ID % shot_data.sizes.Length];
+				break;
+			case ShotPatternVisualStyle.RANDOM:
+				size = shot_data.sizes[(int) (Time.time) % shot_data.sizes.Length];
+				break;
+		}
+
 		bullet.setColor(color);
 		bullet.setSprite(sprite);
+		bullet.setSize(size);
 	}
 
 	void set_bullet_sinusoidal(ShotPatternData shot_data, BulletDeluxe bullet,
