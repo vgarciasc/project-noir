@@ -32,4 +32,13 @@ public class BulletPoolManager : MonoBehaviour {
 		
 		return null;
 	}
+
+	public List<BulletDeluxe> getAllBullets() {
+		List<BulletDeluxe> bulletScripts = new List<BulletDeluxe>();
+		for (int i = 0; i < bullets.Count; i++) {
+			bulletScripts.Add(bullets[i].GetComponent<BulletDeluxe>());
+		}
+
+		return bulletScripts;
+	}
 }

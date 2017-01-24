@@ -38,6 +38,8 @@ public class BulletDeluxe : MonoBehaviour {
 	bool emitter_direction;
 	float emitter_direction_magnitude;
 
+	float timeSlowModifier = 1f;
+
 	float framecount;
 
 	public delegate void BulletDeath(BulletDeluxe bullet);
@@ -79,7 +81,8 @@ public class BulletDeluxe : MonoBehaviour {
 						acceleration_senoid_y + 
 						acceleration_player_direction + 
 						acceleration_emitter_direction)
-						* Time.deltaTime;
+						* Time.deltaTime
+						* timeSlowModifier;
 
 		if (rb.velocity.sqrMagnitude > data.maxVelocity) {
 			rb.velocity = rb.velocity.normalized * data.maxVelocity;
@@ -133,7 +136,7 @@ public class BulletDeluxe : MonoBehaviour {
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
-		rb.velocity = this.transform.up * speed;
+		rb.velocity = this.transform.up * speed * timeSlowModifier;
 	}
 
 	public void setAngularVelocity(float angle) {
@@ -226,5 +229,34 @@ public class BulletDeluxe : MonoBehaviour {
 	public void stopDeacceleration() {
 		rb.drag = 0;
 	}
+	#endregion
+
+	#region time shenanigans
+
+	bool firstTimeSlow = true;
+	public void TimeSlow(float modifier) {
+		if (firstTimeSlow) {
+			if (rb != null) {
+				rb.velocity *= modifier;
+			}
+			else {
+				GetComponentInChildren<Rigidbody2D>().velocity *= modifier;
+			}
+			timeSlowModifier = modifier;
+			firstTimeSlow = false;
+		}
+	}
+
+	public void ResetTimeSlow() {
+		if (rb != null) {
+			rb.velocity /= timeSlowModifier;
+		}
+		else {
+			GetComponentInChildren<Rigidbody2D>().velocity /= timeSlowModifier;
+		}
+		firstTimeSlow = true;
+		timeSlowModifier = 1f;
+	}
+
 	#endregion
 }

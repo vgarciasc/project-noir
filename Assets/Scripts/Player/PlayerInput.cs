@@ -21,7 +21,7 @@ public class PlayerInput : MonoBehaviour {
             player.shoot();
         }
         
-        if (Input.GetButton("Fire2")) {
+        if (Input.GetButtonDown("Fire2")) {
             player.teleport();
         }
     }
