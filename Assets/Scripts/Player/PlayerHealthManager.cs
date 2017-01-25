@@ -10,6 +10,8 @@ public class PlayerHealthManager : MonoBehaviour {
 	Transform healthIconContainer;
 	[SerializeField]
 	Transform restartButton;
+	[SerializeField]
+	GameObject mainCollider;
 	
 	public int currentHealth;
 	public int maxHealth;
@@ -32,6 +34,7 @@ public class PlayerHealthManager : MonoBehaviour {
 	}
 
 	void take_hit() {
+		Transform trf;
 		currentHealth--;
 		if (currentHealth == 0) {
 			SpecialCamera.getSpecialCamera().screenShake_(0.25f);
@@ -39,11 +42,15 @@ public class PlayerHealthManager : MonoBehaviour {
 			SpecialCamera.getSpecialCamera().screenShake_(0.25f);
 			restartButton.gameObject.SetActive(true);
 			this.gameObject.SetActive(false);
+			trf = healthIconContainer.GetChild(currentHealth);
+			trf.GetComponent<Image>().color = HushPuppy.getColorWithOpacity(trf.GetComponent<Image>().color, 0.3f);
 			return;
 		}
 
+		mainCollider.SetActive(false);
+		this.GetComponent<Animator>().SetTrigger("take_hit");
 		SpecialCamera.getSpecialCamera().screenShake_(0.25f);
-		Transform trf = healthIconContainer.GetChild(currentHealth);
+		trf = healthIconContainer.GetChild(currentHealth);
 		trf.GetComponent<Image>().color = HushPuppy.getColorWithOpacity(trf.GetComponent<Image>().color, 0.3f);
 	}
 
@@ -52,4 +59,7 @@ public class PlayerHealthManager : MonoBehaviour {
 		take_hit();
 	}
 
+	void AnimActivateCollider() {
+		mainCollider.SetActive(true);
+	}
 }

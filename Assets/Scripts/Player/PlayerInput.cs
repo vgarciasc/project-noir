@@ -17,12 +17,8 @@ public class PlayerInput : MonoBehaviour {
                                         Input.GetAxis("Vertical") * Time.deltaTime);
         player.move(movement);
 
-        if (Input.GetButton("Fire1")) {
-            player.shoot();
-        }
-        
-        if (Input.GetButtonDown("Fire2")) {
-            player.teleport();
-        }
+        // if (Input.GetButton("Fire1")) {
+        //     player.shoot();
+        // }
     }
 }

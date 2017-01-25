@@ -10,17 +10,14 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
 
     [Header("References")]
     [SerializeField]
-    BulletBehaviourData bulletData;
+    BulletData bulletData;
     [SerializeField]
     Transform bulletSpawn;
-    [SerializeField]
-    GameObject teleportLinePrefab;
-    [SerializeField]
-    GameObject teleportPlayerSurrogatePrefab;
 
     public delegate void VoidVoidDelegate();
     public event VoidVoidDelegate take_hit_event;
     public event VoidVoidDelegate instakill_event;
+    public event VoidVoidDelegate teleport_event;
 
     int current_bullet_ID;
     Rigidbody2D rb;
@@ -86,9 +83,9 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
         obj.transform.rotation = bulletSpawn.rotation;
         obj.SetActive(true);
 
-        Bullet bullet = obj.GetComponent<Bullet>();
-        bullet.setData(bulletData, current_bullet_ID);
-        bullet.setVelocity(vel, 20, 0);
+        BulletDeluxe bullet = obj.GetComponent<BulletDeluxe>();
+        bullet.setData(bulletData, this.transform);
+        bullet.setVelocity(this.transform.up);
 
         current_bullet_ID++;
         // StartCoroutine(end_cooldown());
@@ -104,32 +101,13 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
         is_shooting_on_cooldown = false;
     }
 
-    public void teleport() {
-        Vector2 originalPos = this.transform.position;
-        Vector2 newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (newPos.x > ar_manager.x_max || newPos.x < ar_manager.x_min ||
-            newPos.y > ar_manager.y_max || newPos.y < ar_manager.y_min) {
-                return;
-        }
-
-        this.transform.position = newPos;
-        GameObject player_surrogate = Instantiate(teleportPlayerSurrogatePrefab,
-                                                originalPos,
-                                                Quaternion.identity);
-        player_surrogate.GetComponent<SpriteRenderer>().sprite = this.GetComponent<SpriteRenderer>().sprite;
-        player_surrogate.transform.localScale = this.transform.localScale;
-        player_surrogate.GetComponent<Animator>().SetTrigger("despawn");
-        this.GetComponent<Animator>().SetTrigger("spawn");
-        // TeleportLine line = Instantiate(teleportLinePrefab).GetComponent<TeleportLine>();
-        // line.setPoints(originalPos, newPos);
-    }
-
     public void TriggerEnter(GameObject target, GameObject sender) {
         if (sender.name == "MainCollider") {
-            if (target.tag == "Enemy Bullet") {
+            if (target.tag == "Bullet") {
                 if (take_hit_event != null) {
                     take_hit_event();
                 }
+                target.GetComponentInChildren<BulletDeluxe>().destroy();
             }
             if (target.tag == "Enemy") {
                 if (instakill_event != null) {

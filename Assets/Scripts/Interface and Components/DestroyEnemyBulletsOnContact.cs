@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyPlayerBulletsOnContact : MonoBehaviour {
+public class DestroyEnemyBulletsOnContact : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D target) {
 		if (target.tag == "Bullet") {
 			target.GetComponent<BulletDeluxe>().destroy();
