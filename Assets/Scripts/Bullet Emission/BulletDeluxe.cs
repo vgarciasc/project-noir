@@ -159,8 +159,11 @@ public class BulletDeluxe : MonoBehaviour {
 		}
 
 		this.GetComponent<Animator>().SetTrigger("destroy");
-        this.gameObject.SetActive(false);
     }
+
+	void AnimDestroy() {
+        this.gameObject.SetActive(false);
+	}
 	#endregion
 
 	#region colliders
