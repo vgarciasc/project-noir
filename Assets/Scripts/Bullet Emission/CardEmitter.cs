@@ -3,32 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CardEmitter : MonoBehaviour {
-	public CardPatternData card;
+	[HeaderAttribute("Testing Cards")]
+	public CardPatternData testCard;
 	public Transform emitter;
+	[SerializeField]
+	bool startTestingCard = true;
 
 	protected BulletPoolManager pool;
 	protected BulletEventManager event_manager;
 	Transform player;
 
-	[SerializeField]
-	bool startShooting = true;
+	Coroutine nowShooting, nowPlayingCard;
 
 	void Start () {
 		pool = BulletPoolManager.getBulletPoolManager();
 		event_manager = BulletEventManager.getBulletEventManager();
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 
-		if (startShooting) {
-			StartCoroutine(playCard(card, emitter));
+		if (startTestingCard) {
+			PlayCard(testCard, emitter);
 		}
 	}
 
-	protected IEnumerator playCard(CardPatternData card, Transform emitter) {
+	public void PlayCard(CardPatternData card, Transform emitter) {
+		if (nowPlayingCard != null) {
+			Debug.Log("WARNING: enemy is playing a card when there is already a card being played.");
+		}
+
+		nowPlayingCard = StartCoroutine(playCard(card, emitter));
+	}
+
+	IEnumerator playCard(CardPatternData card, Transform emitter) {
 		for (int i = 0; i < card.array.Length; i++) {
 			ShotPatternData shot_data = Instantiate(card.array[i].shot);
 			
 			for (int j = 0; j < card.array[i].shot.loopQuantity; j++) {
-				StartCoroutine(shoot(shot_data, card.array[i].bullet, emitter, j, i));
+				nowShooting = StartCoroutine(shoot(shot_data, card.array[i].bullet, emitter, j, i));
 				checkShotPatternData(shot_data);
 
 				for (int k = 0; k < card.array[i].shot.delayBetweenLoops &&
@@ -44,9 +54,25 @@ public class CardEmitter : MonoBehaviour {
 
 			yield return new WaitForSeconds(card.array[i].delayAfter);
 		}
+
+		nowPlayingCard = null;
 	}
 
-	 IEnumerator shoot(ShotPatternData shot_data, BulletData bullet_data,
+	public void stopCurrentCard() {
+		if (nowShooting != null) {
+			StopCoroutine(nowShooting);
+		}
+		
+		if (nowPlayingCard != null) {
+			StopCoroutine(nowPlayingCard);
+		}
+		
+		nowPlayingCard = null;
+		nowShooting = null;
+		pool.destroyAllBullets();
+	}
+
+	IEnumerator shoot(ShotPatternData shot_data, BulletData bullet_data,
 	 					Transform emitter, int loop_number, int shot_number) {
         // float alternatingAngle = 360 / (shot_data.threadQuantity * 2);
 		float bullet_angle = shot_data.angleOffset;
@@ -100,6 +126,8 @@ public class CardEmitter : MonoBehaviour {
             for (int k = 0; k < shot_data.delayBetweenWaves; k++)
                 yield return new WaitForFixedUpdate();
         }
+
+		nowShooting = null;
     }
 
 	BulletDeluxe create_bullet(ShotPatternData shot_data, BulletData bullet_data, Vector3 position, float angle_grad) {

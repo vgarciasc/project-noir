@@ -41,4 +41,11 @@ public class BulletPoolManager : MonoBehaviour {
 
 		return bulletScripts;
 	}
+
+	public void destroyAllBullets() {
+		GameObject[] aux = GameObject.FindGameObjectsWithTag("Bullet");
+		for (int i = 0; i < aux.Length; i++) {
+			aux[i].GetComponent<BulletDeluxe>().destroy();
+		}
+	}
 }

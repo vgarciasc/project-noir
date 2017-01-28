@@ -9,33 +9,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d635c27124c36f4dad1c5489aea34da, type: 3}
-  m_Name: shot1
+  m_Name: test_shot3
   m_EditorClassIdentifier: 
   sprites:
   - {fileID: 21300000, guid: a0fa8e45188f8e14bb3e20a45bb741c8, type: 3}
   colors:
-  - {r: 0.6691177, g: 0.6691177, b: 0.6691177, a: 1}
-  - {r: 0.4056553, g: 0.43078837, b: 0.44852942, a: 1}
+  - {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+  - {r: 0.33386543, g: 0.8897059, b: 0.15700692, a: 1}
   sizes:
-  - 1.5
-  spritingStyle: 2
+  - 1
+  spritingStyle: 1
   coloringStyle: 1
   sizingStyle: 1
   loopQuantity: 1
   delayBetweenLoops: 0
   delayAppliedEachNLoops: 1
-  reverseAlternatedLoops: 1
-  bulletQuantity: 25
-  bulletSpeed: 2.3
+  reverseAlternatedLoops: 0
+  bulletQuantity: 10
+  bulletSpeed: 2
   bulletAngularVelocity: 0
-  delayBetweenBullets: 3
+  delayBetweenBullets: 5
   delayAppliedEachNBullets: 1
-  threadQuantity: 4
+  threadQuantity: 10
   angleBetweenThreads: 360
-  threadArc: 180
+  threadArc: 0
   threadArcAngleIncrementBetweenWaves: 0
-  waveQuantity: 10
-  delayBetweenWaves: 27
+  waveQuantity: 1
+  delayBetweenWaves: 20
   angleOffset: 0
   radialOffset: 0
   waveWrap: 1

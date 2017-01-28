@@ -4,6 +4,9 @@ using System.Collections;
 public class PlayerInput : MonoBehaviour {
     PlayerGeneral player;
 
+    public delegate void VoidDelegate(); 
+    public event VoidDelegate press_event;
+
     void Start() {
         player = GetComponent<PlayerGeneral>();
     }
@@ -20,5 +23,11 @@ public class PlayerInput : MonoBehaviour {
         // if (Input.GetButton("Fire1")) {
         //     player.shoot();
         // }
+
+        if (Input.GetKeyDown(KeyCode.P)) {
+            if (press_event != null) {
+                press_event();
+            }
+        }
     }
 }

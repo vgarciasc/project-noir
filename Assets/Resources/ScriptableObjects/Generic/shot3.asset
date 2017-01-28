@@ -19,7 +19,7 @@ MonoBehaviour:
   sizes:
   - 1.5
   spritingStyle: 2
-  coloringStyle: 4
+  coloringStyle: 1
   sizingStyle: 1
   loopQuantity: 1
   delayBetweenLoops: 0

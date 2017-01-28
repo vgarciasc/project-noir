@@ -36,7 +36,7 @@ public class LineCardEmitter : CardEmitter {
 			aux.transform.SetParent(this.transform);
 			emitterSurrogates.Add(aux);
 
-			StartCoroutine(playCard(card, aux.transform));
+			PlayCard(testCard, aux.transform);
 
 			if (emitted_shot != null) {
 				emitted_shot();

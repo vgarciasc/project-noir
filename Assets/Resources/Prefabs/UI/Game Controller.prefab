@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 114392904836175030}
   - component: {fileID: 114881100580279122}
   - component: {fileID: 114187257572257144}
+  - component: {fileID: 114024219112501856}
   - component: {fileID: 114941361695279082}
   m_Layer: 0
   m_Name: Game Controller
@@ -776,9 +777,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.24637794, y: 0.9557581}
   serializedVersion: 2
-  m_Size: {x: 8.63, y: 10.01}
+  m_Size: {x: 8.439131, y: 8.098482}
 --- !u!81 &81928417724836324
 AudioListener:
   m_ObjectHideFlags: 1
@@ -827,6 +828,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114024219112501856
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1265885635255064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b80c502a82e7b3e49a9602cecbfa1a8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114061503328524322
 MonoBehaviour:
   m_ObjectHideFlags: 1
