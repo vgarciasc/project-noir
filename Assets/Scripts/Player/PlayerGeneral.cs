@@ -107,7 +107,10 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
                 if (take_hit_event != null) {
                     take_hit_event();
                 }
-                target.GetComponentInChildren<BulletDeluxe>().destroy();
+                BulletDeluxe bullet = target.GetComponentInChildren<BulletDeluxe>();
+                if (bullet != null) {
+                    bullet.destroy();
+                }
             }
             if (target.tag == "Enemy") {
                 if (instakill_event != null) {
@@ -120,4 +123,8 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
     public void TriggerExit(GameObject target, GameObject sender) {
 		//
 	}
+
+    void OnParticleTrigger() {
+        Debug.Log("ops");
+    }
 }

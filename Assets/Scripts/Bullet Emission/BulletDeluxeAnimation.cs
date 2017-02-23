@@ -9,6 +9,7 @@ public class BulletDeluxeAnimation : MonoBehaviour {
 	public void start (BulletData data) {
 		this.data = data;	
 		animator = this.GetComponent<Animator>();
+		// animator.SetTrigger(data.animation.name);
 		OverrideAnimationClip("OVERRIDABLE", data.animation);
 	}
 

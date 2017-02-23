@@ -9,10 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 180ba0066d4c98546ac408f7aeb8ad2f, type: 3}
-  m_Name: test_cardA2
+  m_Name: test_cardA3_1
   m_EditorClassIdentifier: 
   array:
-  - shot: {fileID: 11400000, guid: f967cfc5567c75b4c9276c651f1185a1, type: 2}
-    bullet: {fileID: 11400000, guid: 688fbfb120874ab4aa0a5b0319a8bfba, type: 2}
+  - shot: {fileID: 11400000, guid: dfe44d66ce8d75a418f8e69efbf9aaa1, type: 2}
+    bullet: {fileID: 11400000, guid: 81bb92adb66dda145956c2ad7eae7173, type: 2}
     delayAfter: 0
     events: []

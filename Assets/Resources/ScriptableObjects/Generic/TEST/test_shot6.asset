@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d635c27124c36f4dad1c5489aea34da, type: 3}
+  m_Name: test_shot6
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: a0fa8e45188f8e14bb3e20a45bb741c8, type: 3}
+  colors:
+  - {r: 0.875, g: 0.35386032, b: 0.35386032, a: 1}
+  sizes:
+  - 1.14
+  spritingStyle: 1
+  coloringStyle: 1
+  sizingStyle: 1
+  loopQuantity: 1
+  delayBetweenLoops: 0
+  delayAppliedEachNLoops: 1
+  reverseAlternatedLoops: 0
+  bulletQuantity: 37
+  bulletSpeed: 0
+  bulletAngularVelocity: 0
+  delayBetweenBullets: 1
+  delayAppliedEachNBullets: 1
+  threadQuantity: 1
+  angleBetweenThreads: 0
+  threadArc: 0
+  threadArcAngleIncrementBetweenWaves: 0
+  waveQuantity: 4
+  delayBetweenWaves: 0
+  angleOffset: 0
+  radialOffset: 0
+  waveWrap: 0
+  clockwise: 0
+  playerDirection: 0
+  sinusoidalMotion: 0

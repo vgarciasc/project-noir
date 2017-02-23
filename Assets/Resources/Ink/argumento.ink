@@ -1,7 +1,7 @@
 -> linha_argumentativa_A
 
 === linha_argumentativa_A ===
-- Este é o <color=green>argumento</color> A1;
+- Este é o <color=cyan>argumento</color> A1;
     +   [press]
         Este é A1.1
         e este é A1.2

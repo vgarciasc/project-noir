@@ -29,5 +29,13 @@ public class PlayerInput : MonoBehaviour {
                 press_event();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Z)) {
+            ClueManager.getClueManager().previousClue();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C)) {
+            ClueManager.getClueManager().nextClue();
+        }
     }
 }

@@ -4,18 +4,23 @@ using UnityEngine;
 
 [System.Serializable]
 public class CardEmissionData {
+	public string id;
 	public CardPatternData card;
-	public Transform emitter;
+	public List<Transform> emitter;
+}
+
+[System.Serializable]
+public class AnimationEventData {
+	public string id;
+	public List<GameObject> activateThese;
+	public string triggerToSet;
 }
 
 public class EnemyAnimatorManager : MonoBehaviour {
 	[SerializeField]
-	GameObject pressSign;
-	[SerializeField]
-	GameObject weakPointSign;
-
-	[SerializeField]
 	List<CardEmissionData> cards;
+	[SerializeField]
+	List<AnimationEventData> events;
 
 	CardEmitter card_emitter;
 	InterrogationManager interrogation;
@@ -27,16 +32,29 @@ public class EnemyAnimatorManager : MonoBehaviour {
 		card_emitter = this.GetComponent<CardEmitter>();
 		interrogation = InterrogationManager.getInterrogationManager();
 
-		GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().press_event += PressNow;
-	}
-
-	void Update() {
-		pressSign.SetActive(!inPress);
-		weakPointSign.SetActive(inWeakPoint);
+		// GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().press_event += PressNow;
 	}
 	
 	void AnimPlayCard(int index) {
-		card_emitter.PlayCard(cards[index].card, cards[index].emitter);
+		if (cards.Count <= index) {
+			return;
+		}
+		
+		for (int i = 0; i < cards[index].emitter.Count; i++) {
+			card_emitter.PlayCard(cards[index].card, cards[index].emitter[i]);
+		}
+	}
+
+	void AnimPlayEvent(int index) {
+		for (int i = 0; i < events[index].activateThese.Count; i++) {
+			events[index].activateThese[i].SetActive(true);
+			if (events[index].activateThese[i].GetComponentInChildren<Animator>() != null &&
+				events[index].triggerToSet.Length != 0) {
+				events[index].activateThese[i].GetComponentInChildren<Animator>().SetTrigger(
+					events[index].triggerToSet
+				);
+			}
+		}
 	}
 
 	void CallNextLine() {

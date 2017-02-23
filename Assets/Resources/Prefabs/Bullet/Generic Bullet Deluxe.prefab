@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 95528587150643534}
   - component: {fileID: 50570528143288402}
   - component: {fileID: 61710406511956374}
+  - component: {fileID: 122804024446742584}
   m_Layer: 9
   m_Name: Generic Bullet Deluxe
   m_TagString: Bullet
@@ -164,6 +165,17 @@ MonoBehaviour:
   wave_ID: -1
   loop_ID: -1
   shot_ID: -1
+--- !u!122 &122804024446742584
+Halo:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1595323805690660}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4286611584
+  m_Size: 0.38
 --- !u!212 &212334984861239590
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -29,8 +29,14 @@ public class BulletEventManager : MonoBehaviour {
 	IEnumerator start_event(ShotEventData data, float delay, int shot_ID) {
 		List<BulletDeluxe> bullets;
 		
-		yield return new WaitForSeconds(delay);
+		if (data == null) {
+			Debug.Log("Event not set. Check scriptable object for event.");
+			Debug.Break();
+			yield return null;
+		}
 
+		yield return new WaitForSeconds(delay);
+		
 		switch (data.affectsWhichBullets) {
 			default:
 			case BulletSelection.ALL_BULLETS:

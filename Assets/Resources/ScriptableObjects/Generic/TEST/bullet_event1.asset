@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b562e9d1077e99e4db1a885020313bbf, type: 3}
+  m_Name: bullet_event1
+  m_EditorClassIdentifier: 
+  affectsWhichBullets: 1
+  action: 0
+  startCountingOn: 0
+  countEachNElements: 1
+  acceleration: 2.54
+  deacceleration: 0

@@ -39,7 +39,6 @@ public class TextBox : MonoBehaviour {
 		while (currentCharacter	< totalCharacters) {
             currentText = target.Substring(0, currentCharacter);
 			mainText.text = currentText + end_tags;
-			Debug.Log(mainText.text + "___= " + currentCharacter);
 
 			yield return HushPuppy.WaitUntilNFrames(getTypingSpeed());
 			currentCharacter++;

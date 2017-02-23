@@ -6,4 +6,8 @@ public class GenericAnimationScript : MonoBehaviour {
     public void AnimDestroy() {
         Destroy(this.gameObject);
     }
+
+    public void AnimDeactivate() {
+        this.gameObject.SetActive(false);
+    }
 }

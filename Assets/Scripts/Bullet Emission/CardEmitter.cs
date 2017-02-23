@@ -43,7 +43,7 @@ public class CardEmitter : MonoBehaviour {
 
 				for (int k = 0; k < card.array[i].shot.delayBetweenLoops &&
 								j % card.array[i].shot.delayAppliedEachNLoops == card.array[i].shot.delayAppliedEachNLoops - 1; k++)
-                	yield return new WaitForFixedUpdate();
+                	yield return new WaitForEndOfFrame();
 			}
 
 			for (int h = 0; h < card.array[i].events.Length; h++) {
@@ -120,11 +120,11 @@ public class CardEmitter : MonoBehaviour {
 
                 for (int k = 0; j % shot_data.delayAppliedEachNBullets == 0 &&
 								k < shot_data.delayBetweenBullets; k++)
-                    yield return new WaitForFixedUpdate();
+                    yield return new WaitForEndOfFrame();
             }
 
             for (int k = 0; k < shot_data.delayBetweenWaves; k++)
-                yield return new WaitForFixedUpdate();
+                yield return new WaitForEndOfFrame();
         }
 
 		nowShooting = null;

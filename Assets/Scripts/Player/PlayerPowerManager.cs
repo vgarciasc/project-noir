@@ -83,15 +83,17 @@ public class PlayerPowerManager : MonoBehaviour {
 	void handleInput() {
 		if (Input.GetKeyDown(KeyCode.R)) {
 			timeSlowed = true;
-			for (int i = 0; i < bullets.Count; i++) {
-				bullets[i].TimeSlow(0.5f);
-			}
+			Time.timeScale = 0.5f;
+			// for (int i = 0; i < bullets.Count; i++) {
+			// 	bullets[i].TimeSlow(0.5f);
+			// }
 		}
 		if (Input.GetKeyUp(KeyCode.R)) {
 			timeSlowed = false;
-			for (int i = 0; i < bullets.Count; i++) {
-				bullets[i].ResetTimeSlow();
-			}
+			Time.timeScale = 1f;
+			// for (int i = 0; i < bullets.Count; i++) {
+			// 	bullets[i].ResetTimeSlow();
+			// }
 		}
         if (Input.GetButtonDown("Fire2")) {
 			if (costTeleport()) {
@@ -111,9 +113,10 @@ public class PlayerPowerManager : MonoBehaviour {
 	#region general powers
 	void cancelAllPowers() {
 		timeSlowed = false;
-		for (int i = 0; i < bullets.Count; i++) {
-			bullets[i].ResetTimeSlow();
-		}
+		Time.timeScale = 1f;
+		// for (int i = 0; i < bullets.Count; i++) {
+		// 	bullets[i].ResetTimeSlow();
+		// }
 	}
 
 	IEnumerator delayRecovery() {

@@ -6,8 +6,8 @@ TagManager:
   tags:
   - Bullet
   - Arena
-  - Enemy Bullet
   - Enemy
+  - PlayerCollider
   layers:
   - Default
   - TransparentFX

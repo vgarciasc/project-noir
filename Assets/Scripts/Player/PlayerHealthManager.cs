@@ -36,6 +36,10 @@ public class PlayerHealthManager : MonoBehaviour {
 	void take_hit() {
 		Transform trf;
 		currentHealth--;
+		if (currentHealth < 0) {
+			return;
+		}
+
 		if (currentHealth == 0) {
 			SpecialCamera.getSpecialCamera().screenShake_(0.25f);
 			SpecialCamera.getSpecialCamera().screenShake_(0.25f);
@@ -61,5 +65,11 @@ public class PlayerHealthManager : MonoBehaviour {
 
 	void AnimActivateCollider() {
 		mainCollider.SetActive(true);
+	}
+
+	public void BulletHit(int damage) {
+		for (int i = 0; i < damage; i++) {
+			take_hit();
+		}
 	}
 }

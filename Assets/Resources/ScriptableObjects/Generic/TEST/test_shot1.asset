@@ -12,29 +12,29 @@ MonoBehaviour:
   m_Name: test_shot1
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: a0fa8e45188f8e14bb3e20a45bb741c8, type: 3}
+  - {fileID: 21300000, guid: e395872d3e8a5f44aa469d029d8c4568, type: 3}
   colors:
-  - {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
-  - {r: 0.7647059, g: 0.23608159, b: 0.2249135, a: 1}
+  - {r: 0.47058827, g: 0.96470594, b: 0.8862746, a: 1}
+  - {r: 0.06666667, g: 0.46274513, b: 0.8117648, a: 1}
   sizes:
-  - 1
-  spritingStyle: 1
+  - 2.03
+  spritingStyle: 2
   coloringStyle: 1
   sizingStyle: 1
   loopQuantity: 1
   delayBetweenLoops: 0
   delayAppliedEachNLoops: 1
   reverseAlternatedLoops: 0
-  bulletQuantity: 10
-  bulletSpeed: 2
+  bulletQuantity: 20
+  bulletSpeed: 4.1
   bulletAngularVelocity: 0
-  delayBetweenBullets: 5
+  delayBetweenBullets: 0
   delayAppliedEachNBullets: 1
-  threadQuantity: 4
-  angleBetweenThreads: 360
-  threadArc: 0
+  threadQuantity: 1
+  angleBetweenThreads: 0
+  threadArc: 360
   threadArcAngleIncrementBetweenWaves: 0
-  waveQuantity: 3
+  waveQuantity: 1
   delayBetweenWaves: 20
   angleOffset: 0
   radialOffset: 0

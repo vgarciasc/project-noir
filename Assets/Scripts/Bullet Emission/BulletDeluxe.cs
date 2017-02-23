@@ -51,6 +51,7 @@ public class BulletDeluxe : MonoBehaviour {
 		framecount = 0;
 		deacceleration = 1;
 		acceleration = acceleration_senoid_y = Vector2.zero;
+		acceleration_player_direction = acceleration_emitter_direction = Vector2.zero;
 
 		rb.velocity = Vector2.zero;
 		rb.drag = 0;
