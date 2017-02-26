@@ -7,16 +7,23 @@ public class TextBox : MonoBehaviour {
 	Coroutine typeText;
 	bool shouldEndLine = false,
 		textRunning = false;
+	int currentCharacter;
 
-	[SerializeField]
 	[Range(0, 6)]
-	int speed = 1;
-	[SerializeField]
-	Animator idleArrow;
+	public int speed = 1;
+
+	//DELEGATES
+	public delegate void PortraitChangeDelegate(string command);
+	public event PortraitChangeDelegate portraitChangeEvent;
+
+	public delegate void VoidDelegate();
+	public event VoidDelegate endTalkingEvent;
+
+	public delegate void DialogueChangeSpeedDelegate(int newSpeed);
+	public event DialogueChangeSpeedDelegate dialogueChangeSpeedEvent;
 
 	void init() {
 		mainText = this.GetComponentInChildren<Text>();
-		toggleIdle(false);
 	}
 
 	public void displayText(string target) {
@@ -26,7 +33,7 @@ public class TextBox : MonoBehaviour {
 	IEnumerator show(string target) {
 		init();
 
-		int currentCharacter = 0;
+		currentCharacter = 0;
 		string currentText = "";
 		int totalCharacters = target.Length;
 
@@ -49,14 +56,14 @@ public class TextBox : MonoBehaviour {
 			}
 
 			if (currentCharacter < totalCharacters &&
-				target_array[currentCharacter] == '<') {
+				target_array[currentCharacter - 1] == '<') {
 				if (openingBrackets) {
-					while (target_array[currentCharacter] != '>') {
+					while (target_array[currentCharacter - 1] != '>') {
 						currentCharacter++;
 					}
 
 					currentCharacter++;
-					int auxIndex = currentCharacter;
+					int auxIndex = currentCharacter - 1;
 					while (target_array[auxIndex] != '<') {
 						auxIndex++;
 					}
@@ -79,13 +86,24 @@ public class TextBox : MonoBehaviour {
 					openingBrackets = true;
 				}
 			}
+
+			target = parse(target);
+			totalCharacters = target.Length;
+			target_array = target.ToCharArray();
 		}
 
-		textRunning = false;
-		shouldEndLine = false; //already ended
-		toggleIdle(true);
+		finishLine();
 	}
 
+	public void finishLine() {
+		textRunning = false;
+		shouldEndLine = false; //already ended
+		if (endTalkingEvent != null) {
+			endTalkingEvent();
+		}
+	}
+
+	//to be used on input, its an 'order' to end the line
 	public void endLine() {
 		shouldEndLine = true;
 	}
@@ -98,9 +116,32 @@ public class TextBox : MonoBehaviour {
 		return -speed + 6;
 	}
 
-	void toggleIdle(bool value) {
-		if (idleArrow != null) {
-			idleArrow.SetBool("idle", value);
+	string parse(string target) {
+		char[] array = target.ToCharArray();
+		int aux_index = currentCharacter;
+
+		if (array[currentCharacter - 1] != '/') {
+			//not a command
+			return target;
 		}
+
+		for (; aux_index < target.Length && array[aux_index] != '/'; aux_index++);
+
+		string command = target.Substring(currentCharacter, aux_index - currentCharacter);
+		//example command: "#arjuna_normal"
+
+		switch(command.ToCharArray()[0]) {
+			//portrait change
+			case '%':
+				if (portraitChangeEvent != null) {
+					portraitChangeEvent(command.Substring(1, command.Length - 1));
+				}
+				break;
+		}
+
+		string aux = target.Remove(currentCharacter - 1, command.Length + 3);
+		//+1: '[', +1: ']', +1: ' '
+
+		return aux;
 	}
 }

@@ -8,6 +8,8 @@ TagManager:
   - Arena
   - Enemy
   - PlayerCollider
+  - Databases
+  - Enemy Telegraph
   layers:
   - Default
   - TransparentFX

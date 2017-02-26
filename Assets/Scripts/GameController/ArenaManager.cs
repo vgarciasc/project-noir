@@ -6,6 +6,7 @@ public class ArenaManager : MonoBehaviour {
 	[SerializeField]
 	GameObject[] borders;
 
+	[HideInInspector]
 	public float x_min, x_max, y_min, y_max;
 
 	public static ArenaManager getArenaManager() {

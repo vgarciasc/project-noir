@@ -11,6 +11,10 @@ public class InterrogationManager : MonoBehaviour {
 
     Story inkStory;
 
+    public delegate void PressDelegate();
+    public event PressDelegate startPressEvent;
+    public event PressDelegate endPressEvent;
+
     public static InterrogationManager getInterrogationManager() {
         return (InterrogationManager) HushPuppy.safeFindComponent("GameController", "InterrogationManager");
     }
@@ -38,11 +42,20 @@ public class InterrogationManager : MonoBehaviour {
 
     public void Press() {
         inkStory.ChooseChoiceIndex(0);
+        if (startPressEvent != null) {
+            startPressEvent();
+        }
     }
 
     void nextText() {
         string txt = inkStory.Continue();
         textBox.displayText(txt);
+
+        if (inkStory.currentTags.Contains("endpress")) {
+            if (endPressEvent != null) {
+                endPressEvent();
+            }
+        }
     }
 
     void closeText() {

@@ -45,7 +45,9 @@ public class BulletPoolManager : MonoBehaviour {
 	public void destroyAllBullets() {
 		GameObject[] aux = GameObject.FindGameObjectsWithTag("Bullet");
 		for (int i = 0; i < aux.Length; i++) {
-			aux[i].GetComponent<BulletDeluxe>().destroy();
+			if (aux[i].GetComponent<BulletDeluxe>() != null) {
+				aux[i].GetComponent<BulletDeluxe>().destroy();
+			}
 		}
 	}
 }

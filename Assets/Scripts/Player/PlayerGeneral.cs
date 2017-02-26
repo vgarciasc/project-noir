@@ -103,7 +103,7 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
 
     public void TriggerEnter(GameObject target, GameObject sender) {
         if (sender.name == "MainCollider") {
-            if (target.tag == "Bullet") {
+            if (target.tag == "Bullet" || target.tag == "Enemy Telegraph") {
                 if (take_hit_event != null) {
                     take_hit_event();
                 }

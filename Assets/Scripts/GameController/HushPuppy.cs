@@ -50,6 +50,11 @@ public static class HushPuppy {
         return c;
     }
 
+    public static Object safeFindManager(string gameObjectName, string managerName) {
+        //todo
+        return null;
+    }
+
     public static IEnumerator WaitUntilNFrames(int n) {
         for (int i = 0; i < n; i++)
             yield return new WaitForEndOfFrame();

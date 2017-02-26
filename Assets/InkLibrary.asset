@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb0d2db055db745819018cfdb3d82ea8, type: 3}
   m_Name: InkLibrary
   m_EditorClassIdentifier: 
+  templateFile: {fileID: 0}
   compileAutomatically: 1
   handleJSONFilesAutomatically: 1
   inkLibrary:
@@ -21,6 +22,17 @@ MonoBehaviour:
     includePaths: []
     includes: []
     jsonAsset: {fileID: 4900000, guid: 6cf48bb6d89824cc69e35b43f9a1aca6, type: 3}
+    compileErrors: []
+    errors: []
+    warnings: []
+    todos: []
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 2ab69994fc744684fa7f3171b0796a3c, type: 3}
+    parent: {fileID: 0}
+    master: {fileID: 0}
+    includePaths: []
+    includes: []
+    jsonAsset: {fileID: 4900000, guid: dd5254eb0ac5fd646ac42485644d114a, type: 3}
     compileErrors: []
     errors: []
     warnings: []
@@ -37,3 +49,7 @@ MonoBehaviour:
     warnings: []
     todos: []
   compilationStack: []
+  customInklecateOptions:
+    runInklecateWithMono: 0
+    additionalCompilerOptions: 
+    inklecate: {fileID: 0}
