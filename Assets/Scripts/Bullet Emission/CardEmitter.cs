@@ -21,24 +21,24 @@ public class CardEmitter : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 
 		if (startTestingCard) {
-			PlayCard(testCard, emitter);
+			PlayCard(testCard, emitter, -1);
 		}
 	}
 
-	public void PlayCard(CardPatternData card, Transform emitter) {
+	public void PlayCard(CardPatternData card, Transform emitter, int card_ID) {
 		if (nowPlayingCard != null) {
 			Debug.Log("WARNING: enemy is playing a card when there is already a card being played.");
 		}
 
-		nowPlayingCard = StartCoroutine(playCard(card, emitter));
+		nowPlayingCard = StartCoroutine(playCard(card, emitter, card_ID));
 	}
 
-	IEnumerator playCard(CardPatternData card, Transform emitter) {
+	IEnumerator playCard(CardPatternData card, Transform emitter, int card_ID) {
 		for (int i = 0; i < card.array.Length; i++) {
 			ShotPatternData shot_data = Instantiate(card.array[i].shot);
 			
 			for (int j = 0; j < card.array[i].shot.loopQuantity; j++) {
-				nowShooting = StartCoroutine(shoot(shot_data, card.array[i].bullet, emitter, j, i));
+				nowShooting = StartCoroutine(shoot(shot_data, card.array[i].bullet, emitter, j, i, card_ID));
 				checkShotPatternData(shot_data);
 
 				for (int k = 0; k < card.array[i].shot.delayBetweenLoops &&
@@ -49,7 +49,8 @@ public class CardEmitter : MonoBehaviour {
 			for (int h = 0; h < card.array[i].events.Length; h++) {
 				event_manager.fileEvent(card.array[i].events[h].shotEvent,
 										card.array[i].events[h].delayBeforeEvent,
-										i);
+										i,
+										card_ID);
 			}
 
 			yield return new WaitForSeconds(card.array[i].delayAfter);
@@ -73,7 +74,7 @@ public class CardEmitter : MonoBehaviour {
 	}
 
 	IEnumerator shoot(ShotPatternData shot_data, BulletData bullet_data,
-	 					Transform emitter, int loop_number, int shot_number) {
+	 					Transform emitter, int loop_number, int shot_number, int card_number) {
         // float alternatingAngle = 360 / (shot_data.threadQuantity * 2);
 		float bullet_angle = shot_data.angleOffset;
 		bullet_angle += emitter.rotation.z * 180;
@@ -113,7 +114,7 @@ public class CardEmitter : MonoBehaviour {
 														bullet_data,
 														emitter.position,
 														angle);
-					set_bullet_id(bullet, i, h, j, loop_number, shot_number);
+					set_bullet_id(bullet, i, h, j, loop_number, shot_number, card_number);
 					set_bullet_visuals(shot_data, bullet, i, h, j, loop_number);
 					set_bullet_sinusoidal(shot_data, bullet, i, h, j, loop_number);
                 }
@@ -150,12 +151,13 @@ public class CardEmitter : MonoBehaviour {
 		return bullet;
 	}
 
-	void set_bullet_id(BulletDeluxe bullet, int wave_ID, int thread_ID, int bullet_ID, int loop_ID, int shot_ID) {
+	void set_bullet_id(BulletDeluxe bullet, int wave_ID, int thread_ID, int bullet_ID, int loop_ID, int shot_ID, int card_ID) {
 		bullet.wave_ID = wave_ID;
 		bullet.loop_ID = loop_ID;
 		bullet.bullet_ID = bullet_ID;
 		bullet.thread_ID = thread_ID;
 		bullet.shot_ID = shot_ID;
+		bullet.card_ID = card_ID;
 	}
 
 	void set_bullet_visuals(ShotPatternData shot_data, BulletDeluxe bullet,

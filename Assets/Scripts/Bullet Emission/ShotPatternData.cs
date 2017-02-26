@@ -81,7 +81,7 @@ public class ShotPatternData : ScriptableObject {
     public int waveQuantity = 3;
 
     [Tooltip("Interval between different arcs (waves of bullets) measured in frames.")]
-    [Range(0, 50)]
+    [Range(0, 300)]
     public int delayBetweenWaves = 0;
 
     [Header("Other Attributes")]

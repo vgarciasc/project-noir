@@ -34,7 +34,7 @@ MonoBehaviour:
   angleBetweenThreads: 0
   threadArc: 360
   threadArcAngleIncrementBetweenWaves: 0
-  waveQuantity: 10
+  waveQuantity: 5
   delayBetweenWaves: 50
   angleOffset: 0
   radialOffset: 0

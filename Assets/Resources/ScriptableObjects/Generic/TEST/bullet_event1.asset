@@ -11,9 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b562e9d1077e99e4db1a885020313bbf, type: 3}
   m_Name: bullet_event1
   m_EditorClassIdentifier: 
-  affectsWhichBullets: 1
+  affectsWhichBullets: 6
   action: 0
   startCountingOn: 0
   countEachNElements: 1
-  acceleration: 2.54
+  acceleration: 1.71
   deacceleration: 0

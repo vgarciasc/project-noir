@@ -22,11 +22,11 @@ public class BulletEventManager : MonoBehaviour {
 		bullets.Remove(bullet);
 	}
 
-	public void fileEvent(ShotEventData data, float delay, int shot_ID) {
-		StartCoroutine(start_event(data, delay, shot_ID));
+	public void fileEvent(ShotEventData data, float delay, int shot_ID, int card_ID) {
+		StartCoroutine(start_event(data, delay, shot_ID, card_ID));
 	}
 
-	IEnumerator start_event(ShotEventData data, float delay, int shot_ID) {
+	IEnumerator start_event(ShotEventData data, float delay, int shot_ID, int card_ID) {
 		List<BulletDeluxe> bullets;
 		
 		if (data == null) {
@@ -62,6 +62,9 @@ public class BulletEventManager : MonoBehaviour {
 				break;
 			case BulletSelection.EARLIEST_WAVE_BULLETS:
 				bullets = getEarliestWaveBullets(shot_ID);
+				break;
+			case BulletSelection.CARD_BULLETS:
+				bullets = getCardBullets(card_ID);
 				break;
 		}
 
@@ -126,6 +129,18 @@ public class BulletEventManager : MonoBehaviour {
 		
 		for (int i = 0; i < bullets.Count; i++) {
 			if (bullets[i].shot_ID == shot_ID) {
+				aux.Add(bullets[i]);
+			}
+		}
+
+		return aux;
+	}
+
+	public List<BulletDeluxe> getCardBullets(int card_ID) {
+		List<BulletDeluxe> aux = new List<BulletDeluxe>();
+		
+		for (int i = 0; i < bullets.Count; i++) {
+			if (bullets[i].card_ID == card_ID) {
 				aux.Add(bullets[i]);
 			}
 		}

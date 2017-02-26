@@ -7,7 +7,8 @@ public class BulletDeluxe : MonoBehaviour {
 			thread_ID = -1,
 			wave_ID = -1,
 			loop_ID = -1,
-			shot_ID = -1;
+			shot_ID = -1,
+			card_ID = -1;
 	
 	BulletData data;
 	Rigidbody2D rb;
@@ -52,6 +53,8 @@ public class BulletDeluxe : MonoBehaviour {
 		deacceleration = 1;
 		acceleration = acceleration_senoid_y = Vector2.zero;
 		acceleration_player_direction = acceleration_emitter_direction = Vector2.zero;
+		player_direction = emitter_direction = false;
+		player_direction_magnitude = emitter_direction_magnitude = 0;
 
 		rb.velocity = Vector2.zero;
 		rb.drag = 0;

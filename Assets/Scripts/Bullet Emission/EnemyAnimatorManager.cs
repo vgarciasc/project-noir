@@ -41,7 +41,7 @@ public class EnemyAnimatorManager : MonoBehaviour {
 		}
 		
 		for (int i = 0; i < cards[index].emitter.Count; i++) {
-			card_emitter.PlayCard(cards[index].card, cards[index].emitter[i]);
+			card_emitter.PlayCard(cards[index].card, cards[index].emitter[i], index);
 		}
 	}
 

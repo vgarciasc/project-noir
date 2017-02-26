@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: test_shot3
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: e395872d3e8a5f44aa469d029d8c4568, type: 3}
+  - {fileID: 21300000, guid: a0fa8e45188f8e14bb3e20a45bb741c8, type: 3}
   colors:
   - {r: 0.875, g: 0.35386032, b: 0.35386032, a: 1}
   sizes:
@@ -24,10 +24,10 @@ MonoBehaviour:
   delayBetweenLoops: 0
   delayAppliedEachNLoops: 1
   reverseAlternatedLoops: 0
-  bulletQuantity: 37
+  bulletQuantity: 18
   bulletSpeed: 0
   bulletAngularVelocity: 0
-  delayBetweenBullets: 1
+  delayBetweenBullets: 2
   delayAppliedEachNBullets: 1
   threadQuantity: 1
   angleBetweenThreads: 0
