@@ -15,6 +15,9 @@ public class CardEmitter : MonoBehaviour {
 
 	Coroutine nowShooting, nowPlayingCard;
 
+	[SerializeField]
+	InterrogationManager interrogation;
+
 	void Start () {
 		pool = BulletPoolManager.getBulletPoolManager();
 		event_manager = BulletEventManager.getBulletEventManager();
@@ -23,6 +26,8 @@ public class CardEmitter : MonoBehaviour {
 		if (startTestingCard) {
 			PlayCard(testCard, emitter, -1);
 		}
+
+		interrogation.startPressEvent += stopCurrentCard;
 	}
 
 	public void PlayCard(CardPatternData card, Transform emitter, int card_ID) {
@@ -77,6 +82,9 @@ public class CardEmitter : MonoBehaviour {
 	 					Transform emitter, int loop_number, int shot_number, int card_number) {
         // float alternatingAngle = 360 / (shot_data.threadQuantity * 2);
 		float bullet_angle = shot_data.angleOffset;
+		if (shot_data.randomAngleOffset) {
+			bullet_angle += Random.Range(0, 360f);
+		}
 		bullet_angle += emitter.rotation.z * 180;
 		if (shot_data.playerDirection) {
 			bullet_angle = Vector2.Angle(emitter.position - player.position, this.transform.up) + 220;
@@ -89,6 +97,12 @@ public class CardEmitter : MonoBehaviour {
 			if (!shot_data.waveWrap) {
 				bullet_angle = original_bullet_angle;
 			}
+
+			if (shot_data.randomAnglePerWave) {
+				bullet_angle += Random.Range(0, 360f);
+			}
+
+			bullet_angle += shot_data.angleBetweenWaves;
 
 			bullet_angle += shot_data.threadArcAngleIncrementBetweenWaves;
 
@@ -110,6 +124,7 @@ public class CardEmitter : MonoBehaviour {
                     current_bullet_ID++;
 
 					float angle = bullet_angle + ((shot_data.angleBetweenThreads / shot_data.threadQuantity) * h);
+					
 					BulletDeluxe bullet = create_bullet(shot_data,
 														bullet_data,
 														emitter.position,

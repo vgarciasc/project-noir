@@ -77,12 +77,19 @@ public class ShotPatternData : ScriptableObject {
 
     [Header("Wave Attributes")]
     [Tooltip("Number of times the pattern will repeat itself.")]
-    [Range(1, 10)]
+    [Range(1, 30)]
     public int waveQuantity = 3;
 
     [Tooltip("Interval between different arcs (waves of bullets) measured in frames.")]
     [Range(0, 300)]
     public int delayBetweenWaves = 0;
+
+    [Range(0, 360)]
+    [Tooltip("Include additive angle offset each wave.")]
+    public float angleBetweenWaves = 0;
+
+    [Tooltip("Randomize additive angle offset each wave.")]
+    public bool randomAnglePerWave = false;
 
     [Header("Other Attributes")]
     [Tooltip("Initial angle offset.")]
@@ -92,6 +99,9 @@ public class ShotPatternData : ScriptableObject {
     [Tooltip("Radial distance from emitter.")]
     [Range(0f, 5f)]
     public float radialOffset = 0f;
+
+    [Tooltip("Randomize initial angle offset.")]
+    public bool randomAngleOffset = false;
 
     [Header("Modifiers")]
     [Tooltip("Checking this makes a wave continue where the other one left off.")]

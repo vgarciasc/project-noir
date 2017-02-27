@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a623ff8cfc5cc9f4fa0199ba9e78ad37, type: 3}
   m_Name: bullet1
   m_EditorClassIdentifier: 
-  animation: {fileID: 7400000, guid: 862638bbade7bd64ba0070546fa51bd9, type: 2}
+  animation: {fileID: 7400000, guid: a063d9f850a555443b5196adb4933de1, type: 2}
   faceVelocity: 1
   amplitude: 5.11
   amplitudeAcceleration: 0

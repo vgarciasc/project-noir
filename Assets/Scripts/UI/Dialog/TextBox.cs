@@ -9,7 +9,7 @@ public class TextBox : MonoBehaviour {
 		textRunning = false;
 	int currentCharacter;
 
-	[Range(0, 6)]
+	[Range(1, 10)]
 	public int speed = 1;
 
 	//DELEGATES
@@ -27,6 +27,11 @@ public class TextBox : MonoBehaviour {
 	}
 
 	public void displayText(string target) {
+		if (typeText != null) {
+			StopCoroutine(typeText);
+			typeText = null;
+		}
+
 		typeText = StartCoroutine(show(target));
 	}
 
@@ -47,7 +52,7 @@ public class TextBox : MonoBehaviour {
             currentText = target.Substring(0, currentCharacter);
 			mainText.text = currentText + end_tags;
 
-			yield return HushPuppy.WaitUntilNFrames(getTypingSpeed());
+			yield return new WaitForSeconds(0.1f / speed);
 			currentCharacter++;
 
 			if (shouldEndLine) {
@@ -137,11 +142,22 @@ public class TextBox : MonoBehaviour {
 					portraitChangeEvent(command.Substring(1, command.Length - 1));
 				}
 				break;
+			case '$':
+				parseSpeed(command);
+				break;
 		}
 
 		string aux = target.Remove(currentCharacter - 1, command.Length + 3);
 		//+1: '[', +1: ']', +1: ' '
 
 		return aux;
+	}
+
+	//example: /$speed_7/
+	void parseSpeed(string command) {
+		int index = command.IndexOf('_');
+
+		string aux = command.Substring(index + 1, command.Length - index - 1);
+		speed = System.Int16.Parse(aux);
 	}
 }

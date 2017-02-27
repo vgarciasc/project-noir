@@ -36,8 +36,11 @@ MonoBehaviour:
   threadArcAngleIncrementBetweenWaves: 0
   waveQuantity: 5
   delayBetweenWaves: 35
+  angleBetweenWaves: 0
+  randomAnglePerWave: 0
   angleOffset: 0
-  radialOffset: 2.2
+  radialOffset: 0
+  randomAngleOffset: 0
   waveWrap: 1
   clockwise: 1
   playerDirection: 0
