@@ -30,6 +30,10 @@ public class EnemyAnimatorManager : MonoBehaviour {
 	bool inPress = false;
 	bool inWeakPoint = false;
 
+    public delegate void ObjectionDelegate();
+    public event ObjectionDelegate startWrongObjection;
+    public event ObjectionDelegate endWrongObjection;
+
 	void Start () {
 		interrogation = InterrogationManager.getInterrogationManager();
 		mem_manager = MemoryFragmentManager.getMemoryFragmentManager();
@@ -39,6 +43,8 @@ public class EnemyAnimatorManager : MonoBehaviour {
 		GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().press_event += PressNow;
 		interrogation.endPressEvent += endPress;
 		interrogation.startPressEvent += startPress;
+		interrogation.wrongObjection += wrongObjection;
+		interrogation.correctObjection += correctObjection;
 		mem_manager.pauseEvent += pauseAnimation;
 		mem_manager.unpauseEvent += unpauseAnimation;
 	}
@@ -101,5 +107,34 @@ public class EnemyAnimatorManager : MonoBehaviour {
 	void unpauseAnimation() {
 		animator.speed = 1;
 		// animator.SetTrigger("restart");
+	}
+
+	AnimatorStateInfo state;
+	void wrongObjection() {
+		// animator.SetLayerWeight(1, 0);
+		// animator.SetLayerWeight(2, 1);
+		
+		animator.SetFloat("speed_arg", 0);
+
+		if (startWrongObjection != null) {
+			startWrongObjection();
+		}
+
+		animator.SetTrigger("wrong_objection");
+	}
+
+	void previousAnimation() {
+		// animator.SetLayerWeight(1, 1);
+		// animator.SetLayerWeight(2, 0);
+
+		if (endWrongObjection != null) {
+			endWrongObjection();
+		}
+
+		animator.SetFloat("speed_arg", 1);
+	}
+
+	void correctObjection() {
+		animator.SetTrigger("correct_objection");
 	}
 }

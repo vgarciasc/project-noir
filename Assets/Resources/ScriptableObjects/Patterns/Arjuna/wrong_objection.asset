@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ba0066d4c98546ac408f7aeb8ad2f, type: 3}
+  m_Name: wrong_objection
+  m_EditorClassIdentifier: 
+  array:
+  - shot: {fileID: 11400000, guid: 2cb3d7a0dfe15924e9fca9c12f0a1320, type: 2}
+    bullet: {fileID: 11400000, guid: 81bb92adb66dda145956c2ad7eae7173, type: 2}
+    delayAfter: 0
+    events: []

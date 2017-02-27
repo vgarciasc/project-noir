@@ -4,6 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class MemoryData {
+	public string ID;
 	public GameObject memory;
 	public AnimationClip memoryCutscene;
 }
@@ -15,7 +16,10 @@ public class MemoryFragmentManager : MonoBehaviour {
 	[SerializeField]
 	List<MemoryData> memories = new List<MemoryData>();
 
-	int currentMemory = 0;
+	int currentMemoryIndex = -1;
+
+	[HideInInspector]
+	public MemoryData currentMemory = null;
 
 	public delegate void PauseDelegate();
 	public event PauseDelegate pauseEvent;
@@ -35,18 +39,19 @@ public class MemoryFragmentManager : MonoBehaviour {
 	}
 
 	void showMemory() {
-		memories[currentMemory].memory.SetActive(true);
+		currentMemoryIndex++;
+		memories[currentMemoryIndex].memory.SetActive(true);
 	}
 
 	void getMemory() {
-		memories[currentMemory].memory.GetComponentInChildren<Animator>().SetTrigger("popup");
+		memories[currentMemoryIndex].memory.GetComponentInChildren<Animator>().SetTrigger("popup");
 		if (pauseEvent != null) {
 			pauseEvent();
 		}
 	}
 
 	public void fullMemory() {
-		memoryNexus.GetComponent<AnimationOverrider>().setAnimation(memories[currentMemory].memoryCutscene);
+		memoryNexus.GetComponent<AnimationOverrider>().setAnimation(memories[currentMemoryIndex].memoryCutscene);
 		
 		//depois de setar a cutscene, precisa resetar o gameobject pra dar play na animação
 		memoryNexus.SetActive(false);
@@ -54,6 +59,8 @@ public class MemoryFragmentManager : MonoBehaviour {
 	}
 
 	public void endFullMemory() {
+		currentMemory = memories[currentMemoryIndex];
+
 		if (unpauseEvent != null) {
 			unpauseEvent();
 		}

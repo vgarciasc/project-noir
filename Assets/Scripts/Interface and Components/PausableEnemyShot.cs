@@ -5,14 +5,21 @@ using UnityEngine;
 public class PausableEnemyShot : MonoBehaviour {
 	
 	MemoryFragmentManager mem_manager;
+	InterrogationManager interrogation_manager;
+	
 	Animator animator;
 
 	void Start () {
 		mem_manager = MemoryFragmentManager.getMemoryFragmentManager();
+		interrogation_manager = InterrogationManager.getInterrogationManager();
 		animator = this.GetComponent<Animator>();
 		
 		mem_manager.pauseEvent += pauseAnimation;
 		mem_manager.unpauseEvent += unpauseAnimation;
+		foreach (EnemyAnimatorManager e in GameObject.FindObjectsOfType<EnemyAnimatorManager>()) {
+			e.startWrongObjection += pauseAnimation;
+			e.endWrongObjection += unpauseAnimation;
+		}
 	}
 	
 	void pauseAnimation() {
@@ -24,5 +31,9 @@ public class PausableEnemyShot : MonoBehaviour {
 	void unpauseAnimation() {
 		animator.speed = 1;
 		// animator.SetTrigger("restart");
+	}
+
+	void stopAnimation() {
+		this.gameObject.SetActive(false);
 	}
 }

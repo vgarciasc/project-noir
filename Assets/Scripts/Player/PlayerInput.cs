@@ -6,7 +6,8 @@ public class PlayerInput : MonoBehaviour {
 
     public delegate void VoidDelegate(); 
     public event VoidDelegate press_event;
-    public event VoidDelegate next_cutscene_line_event;
+    // public event VoidDelegate next_cutscene_line_event;
+    public event VoidDelegate objection_event;
 
     void Start() {
         player = GetComponent<PlayerGeneral>();
@@ -32,9 +33,9 @@ public class PlayerInput : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Space)) {
-            if (next_cutscene_line_event != null) {
-                next_cutscene_line_event();
-            }
+            // if (next_cutscene_line_event != null) {
+            //     next_cutscene_line_event();
+            // }
         }
 
         if (Input.GetKeyDown(KeyCode.Z)) {
@@ -43,6 +44,13 @@ public class PlayerInput : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.C)) {
             ClueManager.getClueManager().nextClue();
+        }
+
+        //objection
+        if (Input.GetKeyDown(KeyCode.O)) {
+            if (objection_event != null) {
+                objection_event();
+            }
         }
     }
 }

@@ -19,12 +19,17 @@ public class InterrogationManager : MonoBehaviour {
     public delegate void MemoryDelegate();
     public event MemoryDelegate showMemoryEvent;
     public event MemoryDelegate getMemoryEvent;
+    public delegate void ObjectionDelegate();
+    public event ObjectionDelegate wrongObjection;
+    public event ObjectionDelegate correctObjection;
 
     bool inMemory = false;
     bool canStartMemory = false;
     bool canPress = false;
+    bool currentLineContainsContradiction = false;
 
     MemoryFragmentManager mem_manager;
+    ClueManager clue_manager;
 
     public static InterrogationManager getInterrogationManager() {
         return (InterrogationManager) HushPuppy.safeFindComponent("GameController", "InterrogationManager");
@@ -34,9 +39,10 @@ public class InterrogationManager : MonoBehaviour {
         inkStory = new Story(inkAsset.text);
         
         mem_manager = MemoryFragmentManager.getMemoryFragmentManager();
+        clue_manager = ClueManager.getClueManager();
 
-        mem_manager.pauseEvent += enterMemoryCutscene;
         mem_manager.unpauseEvent += exitMemoryCutscene;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().objection_event += runObjection;
     }
 
     public void Next() {
@@ -49,6 +55,9 @@ public class InterrogationManager : MonoBehaviour {
                 inkStory.ChooseChoiceIndex(1);
                 inkStory.Continue();
                 inkStory.ChooseChoiceIndex(0);
+            }
+            else if (currentLineContainsContradiction) {
+                inkStory.ChooseChoiceIndex(1);
             }
             else if (canPress) {
                 //default pra argumento de linha argumentativa é não dar press
@@ -78,6 +87,7 @@ public class InterrogationManager : MonoBehaviour {
     void nextText() {
         string txt = inkStory.Continue();
         canPress = inkStory.currentTags.Contains("pressoption");
+        currentLineContainsContradiction = inkStory.currentTags.Contains("cont");
 
         if (inMemory) {
             memoryTextBox.displayText(txt);
@@ -113,10 +123,11 @@ public class InterrogationManager : MonoBehaviour {
         }
     }
 
+    #region Memory
     public void captureMemoryFragment() {
         if (inkStory.currentChoices.Count > 1) {
+            enterMemoryCutscene();
             inkStory.ChooseChoiceIndex(1);
-            inkStory.Continue();
 
             if (getMemoryEvent != null) {
                 getMemoryEvent();
@@ -131,4 +142,38 @@ public class InterrogationManager : MonoBehaviour {
     void exitMemoryCutscene() {
         inMemory = false;
     }
+    #endregion
+
+    #region objection
+    void runObjection() {
+        if (inkStory.currentTags.Contains("clue_" + clue_manager.currentClue.ID)) {
+            //contradiction is there, and you got it right
+            Debug.Log("Correct Contradiction");
+            inkStory.ChooseChoiceIndex(0);
+            inkStory.Continue();
+            inkStory.ChooseChoiceIndex(0);
+            if (correctObjection != null) {
+                correctObjection();
+            }
+        }
+        else if (inkStory.currentTags.Contains("cont")) {
+            //contradiction is there, but you're wrong
+            Debug.Log("Wrong Contradiction, Right Objection");
+            inkStory.ChooseChoiceIndex(0);
+            inkStory.Continue();
+            inkStory.ChooseChoiceIndex(1);
+            if (wrongObjection != null) {
+                wrongObjection();
+            }
+        } 
+        else if (inkStory.currentTags.Contains("obj")) {
+            //line is objectionable, but contradiction is not there
+            Debug.Log("Wrong Contradiction, Wrong Objection");
+            selectChoice(0); //wrong cont
+            if (wrongObjection != null) {
+                wrongObjection();
+            }
+        }
+    }
+    #endregion
 }

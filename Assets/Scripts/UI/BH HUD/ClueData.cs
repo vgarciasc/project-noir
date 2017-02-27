@@ -7,4 +7,5 @@ using UnityEngine;
 public class ClueData : ScriptableObject {
 	public string title;
 	public Sprite sprite;
+	public string ID;
 }

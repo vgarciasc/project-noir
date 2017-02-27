@@ -19,21 +19,23 @@ VAR back_line = -> arjuna_cross_exam_1
     +   [dont cont] -> arg1_2
     
 = arg1_2
-    - /%arjuna_normal/ Is there a need to?
+    - /%arjuna_normal/ Is there a need to? #obj #memfrag
     ~ back_line = -> arg1_3
     +   [cont] -> wrong_contrad
-    +   [dont cont] -> arg1_3
-
-= arg1_3
-    - /%arjuna_normal/ Last time I checked, there was no evidence against me, was there? #memfrag
-    ~ back_line = -> arg1_4
-    +   [cont] -> wrong_contrad
     +   [dont cont] 
-        ++ [not] -> arg1_4
+        ++ [not] -> arg1_3
         ** [enter memfrag] -> mem_1
 
+= arg1_3
+    - /%arjuna_normal/ Last time I checked, there was no evidence against me, was there? #obj #cont #clue_MEM_1
+    ~ back_line = -> arg1_4
+    +   [cont]
+        ++ [right] -> right_contrad
+        ++ [wrong] -> wrong_contrad
+    +   [dont cont] -> arg1_4
+
 = arg1_4
-    - /%arjuna_normal/ But rest assured - I’ll soon provide you solid reasoning that will clear up this misunderstanding. #endpress
+    - /%arjuna_normal/ But rest assured - I’ll soon provide you solid reasoning that will clear up this misunderstanding. #endpress #obj
     ~ back_line = -> arg2
     +   [cont] -> wrong_contrad
     +   [dont cont] -> arg2
@@ -88,12 +90,17 @@ VAR back_line = -> arjuna_cross_exam_1
 - Lulu, what are you doing? Leave this man’s presence at once!
 - Woof.
 - It’s fine, noble keeper. May your path be filled with the graces of Buddha.
--> arg1
+-> back_line
 
 = wrong_contrad
 - /%arjuna_smug/ WRONG!
+- /%arjuna_smug/ Shut the fuck up and let me finish.
 -> back_line
 
+= right_contrad
+- fuck yer right
+-> arjuna_cross_exam_3
+
 === arjuna_cross_exam_3 ===
-- DAMN SON, WHERE'D YOU FIND THIS?
+- DAMN SON, WHERE'D YOU FIND THIS? (só tem isso)
 -> arjuna_cross_exam_1
