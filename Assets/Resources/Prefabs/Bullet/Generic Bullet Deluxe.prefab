@@ -20,11 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4203731741151358}
   - component: {fileID: 114531584802006908}
-  - component: {fileID: 114009908802049040}
   - component: {fileID: 95528587150643534}
   - component: {fileID: 50570528143288402}
   - component: {fileID: 61710406511956374}
   - component: {fileID: 122804024446742584}
+  - component: {fileID: 114260368614780226}
   m_Layer: 9
   m_Name: Generic Bullet Deluxe
   m_TagString: Bullet
@@ -127,7 +127,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114009908802049040
+--- !u!114 &114260368614780226
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1595323805690660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 999a16f984829d945aedb17cf0e67422, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a46c2bc31f6b2b44b0cfdd30bfc8ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114501339265849354
@@ -165,6 +165,7 @@ MonoBehaviour:
   wave_ID: -1
   loop_ID: -1
   shot_ID: -1
+  card_ID: -1
 --- !u!122 &122804024446742584
 Halo:
   m_ObjectHideFlags: 1

@@ -24,17 +24,23 @@ public class EnemyAnimatorManager : MonoBehaviour {
 
 	CardEmitter card_emitter;
 	InterrogationManager interrogation;
+	MemoryFragmentManager mem_manager;
+	Animator animator;
 
 	bool inPress = false;
 	bool inWeakPoint = false;
 
 	void Start () {
-		card_emitter = this.GetComponent<CardEmitter>();
 		interrogation = InterrogationManager.getInterrogationManager();
+		mem_manager = MemoryFragmentManager.getMemoryFragmentManager();
+		card_emitter = this.GetComponent<CardEmitter>();
+		animator = this.GetComponent<Animator>();
 
 		GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().press_event += PressNow;
 		interrogation.endPressEvent += endPress;
 		interrogation.startPressEvent += startPress;
+		mem_manager.pauseEvent += pauseAnimation;
+		mem_manager.unpauseEvent += unpauseAnimation;
 	}
 	
 	void AnimPlayCard(int index) {
@@ -65,7 +71,7 @@ public class EnemyAnimatorManager : MonoBehaviour {
 
 	void PressNow() {
 		if (!inPress) {
-			this.GetComponent<Animator>().SetTrigger("press");
+			animator.SetTrigger("press");
 			interrogation.Press();
 		}
 	}
@@ -84,5 +90,16 @@ public class EnemyAnimatorManager : MonoBehaviour {
 
 	void endPress() {
 		inPress = false;
+	}
+
+	void pauseAnimation() {
+		animator.speed = 0;
+		// animator.SetTrigger("pause");
+		// AnimStopCurrentCard();
+	}
+
+	void unpauseAnimation() {
+		animator.speed = 1;
+		// animator.SetTrigger("restart");
 	}
 }

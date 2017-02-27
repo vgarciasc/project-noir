@@ -11,10 +11,15 @@ public class PortraitManager : MonoBehaviour {
 
 	[SerializeField]
 	Image portraitLeft;
+	[SerializeField]
+	Text portraitLeftText;
 	Coroutine portraitLeftTalking = null;
 	PortraitData portraitLeftData;
+
 	[SerializeField]
 	Image portraitRight;
+	[SerializeField]
+	Text portraitRightText;
 	Coroutine portraitRightTalking = null;
 	PortraitData portraitRightData;
 
@@ -46,6 +51,7 @@ public class PortraitManager : MonoBehaviour {
 				portraitRightTalking = null;
 			}			
 			portraitRightData = newPortrait;
+			portraitRightText.text = portraitDatabase.getPortraitTitle(character);
 			portraitRightTalking = StartCoroutine(moveLips(portraitRight, newPortrait));
 		}
 		else {
@@ -54,6 +60,7 @@ public class PortraitManager : MonoBehaviour {
 				portraitLeftTalking = null;
 			}
 			portraitLeftData = newPortrait;
+			portraitLeftText.text = portraitDatabase.getPortraitTitle(character);
 			portraitLeftTalking = StartCoroutine(moveLips(portraitLeft, newPortrait));
 		}
 	}

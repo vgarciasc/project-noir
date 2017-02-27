@@ -7,13 +7,24 @@ public class InterrogationManager : MonoBehaviour {
     [SerializeField]
     TextAsset inkAsset;
     [SerializeField]
-    TextBox textBox;
+    TextBox standardTextBox;
+    [SerializeField]
+    TextBox memoryTextBox;
 
     Story inkStory;
 
     public delegate void PressDelegate();
     public event PressDelegate startPressEvent;
     public event PressDelegate endPressEvent;
+    public delegate void MemoryDelegate();
+    public event MemoryDelegate showMemoryEvent;
+    public event MemoryDelegate getMemoryEvent;
+
+    bool inMemory = false;
+    bool canStartMemory = false;
+    bool canPress = false;
+
+    MemoryFragmentManager mem_manager;
 
     public static InterrogationManager getInterrogationManager() {
         return (InterrogationManager) HushPuppy.safeFindComponent("GameController", "InterrogationManager");
@@ -21,6 +32,11 @@ public class InterrogationManager : MonoBehaviour {
 
     void Start() {
         inkStory = new Story(inkAsset.text);
+        
+        mem_manager = MemoryFragmentManager.getMemoryFragmentManager();
+
+        mem_manager.pauseEvent += enterMemoryCutscene;
+        mem_manager.unpauseEvent += exitMemoryCutscene;
     }
 
     public void Next() {
@@ -28,8 +44,20 @@ public class InterrogationManager : MonoBehaviour {
             nextText();
         }
         else if (inkStory.currentChoices.Count > 0) {
-            //por enquanto nunca da press
-            inkStory.ChooseChoiceIndex(1);
+            if (canStartMemory) {
+                //default pra dentro de memfrag é não entrar na memoria
+                inkStory.ChooseChoiceIndex(1);
+                inkStory.Continue();
+                inkStory.ChooseChoiceIndex(0);
+            }
+            else if (canPress) {
+                //default pra argumento de linha argumentativa é não dar press
+                inkStory.ChooseChoiceIndex(1);
+            }
+            else {
+                //default pra linha elaborativa é não dar objection
+                inkStory.ChooseChoiceIndex(1);
+            }
             Next();
         }
         else {
@@ -49,17 +77,26 @@ public class InterrogationManager : MonoBehaviour {
 
     void nextText() {
         string txt = inkStory.Continue();
-        textBox.displayText(txt);
+        canPress = inkStory.currentTags.Contains("pressoption");
+
+        if (inMemory) {
+            memoryTextBox.displayText(txt);
+        }
+        else {
+            standardTextBox.displayText(txt);
+        }
 
         if (inkStory.currentTags.Contains("endpress")) {
             if (endPressEvent != null) {
                 endPressEvent();
             }
         }
-    }
 
-    void closeText() {
-        textBox.closeText();
+        if (canStartMemory = inkStory.currentTags.Contains("memfrag")) {
+            if (showMemoryEvent != null) {
+                showMemoryEvent();
+            }
+        }
     }
 
     void nextOptions() {
@@ -70,7 +107,28 @@ public class InterrogationManager : MonoBehaviour {
     }
 
     void selectChoice(int index) {
-        inkStory.ChooseChoiceIndex(index);
-        nextText();
+        if (inkStory.currentChoices.Count > 0) {
+            inkStory.ChooseChoiceIndex(index);
+            nextText();
+        }
+    }
+
+    public void captureMemoryFragment() {
+        if (inkStory.currentChoices.Count > 1) {
+            inkStory.ChooseChoiceIndex(1);
+            inkStory.Continue();
+
+            if (getMemoryEvent != null) {
+                getMemoryEvent();
+            }
+        }         
+    }
+
+    void enterMemoryCutscene() {
+        inMemory = true;
+    }
+
+    void exitMemoryCutscene() {
+        inMemory = false;
     }
 }

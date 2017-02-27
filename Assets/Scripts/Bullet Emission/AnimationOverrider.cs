@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletDeluxeAnimation : MonoBehaviour {
-	BulletData data;
+public class AnimationOverrider : MonoBehaviour {
 	Animator animator;
 
-	public void start (BulletData data) {
-		this.data = data;	
+	public void setAnimation (AnimationClip clip) {
 		animator = this.GetComponent<Animator>();
 		// animator.SetTrigger(data.animation.name);
-		OverrideAnimationClip("OVERRIDABLE", data.animation);
+		OverrideAnimationClip("OVERRIDABLE", clip);
 	}
 
-	public RuntimeAnimatorController GetEffectiveController(Animator animator)
+	RuntimeAnimatorController GetEffectiveController(Animator animator)
 	{
 		RuntimeAnimatorController controller = animator.runtimeAnimatorController;
 
@@ -27,7 +25,7 @@ public class BulletDeluxeAnimation : MonoBehaviour {
 		return controller;
 	}
 
-	public void OverrideAnimationClip(string name, AnimationClip clip)
+	void OverrideAnimationClip(string name, AnimationClip clip)
 	{
 		Animator animator = GetComponent<Animator>();
 

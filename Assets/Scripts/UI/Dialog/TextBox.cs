@@ -117,10 +117,6 @@ public class TextBox : MonoBehaviour {
 		this.gameObject.SetActive(false);
 	}
 
-	int getTypingSpeed() {
-		return -speed + 6;
-	}
-
 	string parse(string target) {
 		char[] array = target.ToCharArray();
 		int aux_index = currentCharacter;

@@ -11,7 +11,8 @@ public class PortraitData {
 
 [System.Serializable]
 public class CharacterPortraitData {
-	public string character;
+	public string characterID;
+	public string displayedName;
 	public List<PortraitData> portraits;
 }
 
@@ -24,19 +25,7 @@ public class PortraitDatabase : MonoBehaviour {
 	}	
 	
 	public PortraitData getPortraitSprite(string character, string emote) {
-		CharacterPortraitData charac = null;
-		
-		for (int i = 0; i < characters.Count; i++) {
-			if (characters[i].character == character) {
-				charac = characters[i];
-			}
-		}
-
-		if (charac == null) {
-			Debug.Log("Portrait of character '" + character + "' not found. Character does not exist.");
-			Debug.Break();
-			return null;
-		}
+		CharacterPortraitData charac = getCharacterPortrait(character);
 
 		for (int i = 0; i < charac.portraits.Count; i++) {
 			if (charac.portraits[i].emote == emote) {
@@ -47,5 +36,28 @@ public class PortraitDatabase : MonoBehaviour {
 		Debug.Log("Portrait '" + character + "' not found. Character '" + character  + "' does not have emote '" + emote + "'.");
 		Debug.Break();
 		return null;
+	}
+
+	public string getPortraitTitle(string character) {
+		CharacterPortraitData charac = getCharacterPortrait(character);
+
+		return charac.displayedName;
+	}
+
+	CharacterPortraitData getCharacterPortrait(string character) {
+		CharacterPortraitData charac = null;
+		
+		for (int i = 0; i < characters.Count; i++) {
+			if (characters[i].characterID == character) {
+				charac = characters[i];
+			}
+		}
+
+		if (charac == null) {
+			Debug.Log("Portrait of character '" + character + "' not found. Character does not exist.");
+			Debug.Break();
+		}
+
+		return charac;
 	}
 }

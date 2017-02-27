@@ -109,7 +109,7 @@ public class BulletDeluxe : MonoBehaviour {
 		this.sinusoidalPeriod = data.period;
 		this.player = player;
 
-		this.GetComponent<BulletDeluxeAnimation>().start(bullet_data);
+		this.GetComponent<AnimationOverrider>().setAnimation(bullet_data.animation);
 	}
 
 	public void setSprite(Sprite sprite) {
