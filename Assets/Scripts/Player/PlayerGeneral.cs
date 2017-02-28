@@ -25,6 +25,7 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
     CharacterController controller;
     float shooting_cooldown_time;
     bool is_shooting_on_cooldown;
+    bool playerInvincible;
 
     void Start() {
         rb = GetComponent<Rigidbody2D>();
@@ -36,31 +37,30 @@ public class PlayerGeneral : MonoBehaviour, Triggerable {
     }
 
     public void move(Vector2 translation) {
-        controller = GetComponent<CharacterController>();
+        // controller = GetComponent<CharacterController>();
 
-        // this.transform.Translate(new Vector3(translation.x * speedX,
+        // this.transform.position += (new Vector3(translation.x * speedX,
         //                                     translation.y * speedY,
         //                                     transform.position.z));
 
-        float x = translation.x * speedX;
-        float y = translation.y * speedY;
+        // float x = translation.x * speedX;
+        // float y = translation.y * speedY;
 
-        if (this.transform.position.x < ar_manager.x_min && x < 0) {
-            x = 0;
-        }
-        else if (this.transform.position.x > ar_manager.x_max && x > 0) {
-            x = 0;
-        }
-        if (this.transform.position.y < ar_manager.y_min && y < 0) {
-            y = 0;
-        }
-        else if (this.transform.position.y > ar_manager.y_max && y > 0) {
-            y = 0;
-        }
+        // if (this.transform.position.x < ar_manager.x_min && x < 0) {
+        //     x = 0;
+        // }
+        // else if (this.transform.position.x > ar_manager.x_max && x > 0) {
+        //     x = 0;
+        // }
+        // if (this.transform.position.y < ar_manager.y_min && y < 0) {
+        //     y = 0;
+        // }
+        // else if (this.transform.position.y > ar_manager.y_max && y > 0) {
+        //     y = 0;
+        // }
 
-        controller.Move(new Vector3(x,
-                                    y,
-                                    0));
+        // this.transform.position += new Vector3(x, y, 0);
+        
     }
 
     float timestamp = 0f;

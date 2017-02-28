@@ -63,6 +63,10 @@ public class PlayerHealthManager : MonoBehaviour {
 		take_hit();
 	}
 
+	void AnimDeactivateCollider() {
+		mainCollider.SetActive(false);
+	}
+
 	void AnimActivateCollider() {
 		mainCollider.SetActive(true);
 	}

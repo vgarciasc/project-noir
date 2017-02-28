@@ -11,6 +11,7 @@ TagManager:
   - Databases
   - Enemy Telegraph
   - Film Strip
+  - Walls
   layers:
   - Default
   - TransparentFX
@@ -22,9 +23,9 @@ TagManager:
   - 
   - Player
   - Bullet
-  - 
+  - Walls
   - Arena
-  - 
+  - Side Walls
   - 
   - 
   - 

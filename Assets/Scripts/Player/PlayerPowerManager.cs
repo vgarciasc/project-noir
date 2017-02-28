@@ -19,6 +19,8 @@ public class PlayerPowerManager : MonoBehaviour {
 	Slider power;
 	[SerializeField]
 	GameObject shield;
+	[SerializeField]
+	GameObject shieldExplorer;
     [SerializeField]
     GameObject teleportLinePrefab;
     [SerializeField]
@@ -80,22 +82,34 @@ public class PlayerPowerManager : MonoBehaviour {
 		power.value = currentPower;
 	}
 
+	float timeSpentPressingM2 = 0f;
+
 	void handleInput() {
-		if (Input.GetKeyDown(KeyCode.R)) {
+		if (Input.GetButton("Fire1")) {
 			timeSlowed = true;
 			Time.timeScale = 0.5f;
 			// for (int i = 0; i < bullets.Count; i++) {
 			// 	bullets[i].TimeSlow(0.5f);
 			// }
 		}
-		if (Input.GetKeyUp(KeyCode.R)) {
+		if (Input.GetButtonUp("Fire1")) {
 			timeSlowed = false;
 			Time.timeScale = 1f;
 			// for (int i = 0; i < bullets.Count; i++) {
 			// 	bullets[i].ResetTimeSlow();
 			// }
 		}
-        if (Input.GetButtonDown("Fire2")) {
+        if (Input.GetMouseButtonUp(1)) {
+			if (timeSpentPressingM2 > 3f) {
+				activateShield();
+				canRecover = false;
+				if (delayingRecovery != null) {
+					StopCoroutine(delayingRecovery);
+					delayingRecovery = null;
+				}
+            	teleport();
+			}
+			
 			if (costTeleport()) {
 				canRecover = false;
 				if (delayingRecovery != null) {
@@ -104,10 +118,14 @@ public class PlayerPowerManager : MonoBehaviour {
 				}
             	teleport();
 			}
+
+			timeSpentPressingM2 = 0f;
         }
-		if (Input.GetKeyDown(KeyCode.E)) {
-			activateShield();
+		if (Input.GetMouseButton(1)) {
+			timeSpentPressingM2 += Time.deltaTime;
 		}
+
+		shieldExplorer.SetActive(timeSpentPressingM2 > 3f);
 	}
 
 	#region general powers
@@ -144,6 +162,7 @@ public class PlayerPowerManager : MonoBehaviour {
 
 		TeleportLine line = Instantiate(teleportLinePrefab).GetComponent<TeleportLine>();
 		line.setPoints(originalPos, newPos);
+		this.GetComponent<Rigidbody2D>().velocity = Vector3.zero; //now not falling
 	}
 
 	bool costTeleport() {
@@ -164,7 +183,7 @@ public class PlayerPowerManager : MonoBehaviour {
 		if (costShield()) {
 			GetComponent<Animator>().SetBool("shield_active", true);
 			shield.SetActive(true);
-			Invoke("deactivateShield", 2.0f);
+			Invoke("deactivateShield", 5.0f);
 		}
 	}
 	
