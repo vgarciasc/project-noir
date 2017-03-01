@@ -47,7 +47,7 @@ public class CardEmitter : MonoBehaviour {
 				nowShooting = StartCoroutine(shoot(shot_data, card.array[i].bullet, emitter, j, i, card_ID));
 				checkShotPatternData(shot_data);
 
-				for (int k = 0; k < card.array[i].shot.delayBetweenLoops &&
+				for (int k = 0; k < (card.array[i].shot.delayBetweenLoops / Time.timeScale) &&
 								j % card.array[i].shot.delayAppliedEachNLoops == card.array[i].shot.delayAppliedEachNLoops - 1; k++)
                 	yield return new WaitForEndOfFrame();
 			}
@@ -136,11 +136,11 @@ public class CardEmitter : MonoBehaviour {
                 }
 
                 for (int k = 0; j % shot_data.delayAppliedEachNBullets == 0 &&
-								k < shot_data.delayBetweenBullets; k++)
+								k < (shot_data.delayBetweenBullets / Time.timeScale); k++)
                     yield return new WaitForEndOfFrame();
             }
 
-            for (int k = 0; k < shot_data.delayBetweenWaves; k++)
+            for (int k = 0; k < (shot_data.delayBetweenWaves / Time.timeScale); k++)
                 yield return new WaitForEndOfFrame();
         }
 

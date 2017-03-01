@@ -20,6 +20,9 @@ public class PlayerInput : MonoBehaviour {
 
     float standardGravityScale;
 
+    [SerializeField]
+    GameObject jumpParticleSystemPrefab;
+
     void Start() {
         player = GetComponent<PlayerGeneral>();
 		rb = this.GetComponent<Rigidbody2D>();
@@ -61,6 +64,11 @@ public class PlayerInput : MonoBehaviour {
             }
             else {
             	rb.AddForce(Vector2.up * 250, ForceMode2D.Force);
+                GameObject go = Instantiate(jumpParticleSystemPrefab);
+                go.transform.position = new Vector2(this.transform.position.x, 
+                    this.transform.position.y);
+                go.transform.localScale = this.transform.localScale;
+                go.SetActive(true);
             }
 		}        
     }

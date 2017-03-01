@@ -25,6 +25,8 @@ public class PlayerPowerManager : MonoBehaviour {
     GameObject teleportLinePrefab;
     [SerializeField]
     GameObject teleportPlayerSurrogatePrefab;
+	[SerializeField]
+	Animator slowMoAnimator;
 
 	float currentPower;
 	bool timeSlowed,
@@ -86,18 +88,10 @@ public class PlayerPowerManager : MonoBehaviour {
 
 	void handleInput() {
 		if (Input.GetButton("Fire1")) {
-			timeSlowed = true;
-			Time.timeScale = 0.5f;
-			// for (int i = 0; i < bullets.Count; i++) {
-			// 	bullets[i].TimeSlow(0.5f);
-			// }
+			EnterSlowMo();
 		}
 		if (Input.GetButtonUp("Fire1")) {
-			timeSlowed = false;
-			Time.timeScale = 1f;
-			// for (int i = 0; i < bullets.Count; i++) {
-			// 	bullets[i].ResetTimeSlow();
-			// }
+			ExitSlowMo();
 		}
         if (Input.GetMouseButtonUp(1)) {
 			if (timeSpentPressingM2 > 3f) {
@@ -130,11 +124,7 @@ public class PlayerPowerManager : MonoBehaviour {
 
 	#region general powers
 	void cancelAllPowers() {
-		timeSlowed = false;
-		Time.timeScale = 1f;
-		// for (int i = 0; i < bullets.Count; i++) {
-		// 	bullets[i].ResetTimeSlow();
-		// }
+		ExitSlowMo();
 	}
 
 	IEnumerator delayRecovery() {
@@ -206,4 +196,34 @@ public class PlayerPowerManager : MonoBehaviour {
 	}
 	#endregion
 	#endregion
+
+	void EnterSlowMo() {
+		slowMoAnimator.SetBool("slowmo", true);
+		timeSlowed = true;
+		Time.timeScale = 0.5f;
+      	// Time.fixedDeltaTime = 0.02F * Time.timeScale;
+
+		// foreach (Animator anim in GameObject.FindObjectsOfType(typeof(Animator))) {
+		// 	anim.speed = 0.5f;
+		// }
+
+		// for (int i = 0; i < bullets.Count; i++) {
+		// 	bullets[i].TimeSlow(0.5f);
+		// }
+	}
+
+	void ExitSlowMo() {
+		slowMoAnimator.SetBool("slowmo", false);
+		timeSlowed = false;
+		Time.timeScale = 1f;
+      	// Time.fixedDeltaTime = 0.02F * Time.timeScale;
+
+		// foreach (Animator anim in GameObject.FindObjectsOfType(typeof(Animator))) {
+		// 	anim.speed = 1f;
+		// }
+
+		// for (int i = 0; i < bullets.Count; i++) {
+		// 	bullets[i].ResetTimeSlow();
+		// }
+	}
 }
