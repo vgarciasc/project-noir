@@ -22,6 +22,7 @@ public class CardEmitter : MonoBehaviour {
 		pool = BulletPoolManager.getBulletPoolManager();
 		event_manager = BulletEventManager.getBulletEventManager();
 		player = GameObject.FindGameObjectWithTag("Player").transform;
+		interrogation = InterrogationManager.getInterrogationManager();
 
 		if (startTestingCard) {
 			PlayCard(testCard, emitter, -1);

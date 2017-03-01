@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 public class TextBox : MonoBehaviour {
-	Text mainText;
+	TextMeshProUGUI mainText;
 	Coroutine typeText;
 	bool shouldEndLine = false,
 		textRunning = false;
@@ -23,7 +24,7 @@ public class TextBox : MonoBehaviour {
 	public event DialogueChangeSpeedDelegate dialogueChangeSpeedEvent;
 
 	void init() {
-		mainText = this.GetComponentInChildren<Text>();
+		mainText = this.GetComponentInChildren<TextMeshProUGUI>();
 	}
 
 	public void displayText(string target) {

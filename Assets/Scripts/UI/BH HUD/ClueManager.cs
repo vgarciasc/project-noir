@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ClueManager : MonoBehaviour {
 	[SerializeField]
@@ -41,7 +42,7 @@ public class ClueManager : MonoBehaviour {
 
 	void selectClue(ClueData clue) {
 		clueUI.GetComponentsInChildren<Image>()[1].sprite = clue.sprite;
-		clueUI.GetComponentInChildren<Text>().text = clue.title;
+		clueUI.GetComponentInChildren<TextMeshProUGUI>().text = clue.title;
 
 		currentClue = clue;
 	}

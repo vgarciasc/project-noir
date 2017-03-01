@@ -78,9 +78,11 @@ public class InterrogationManager : MonoBehaviour {
     }
 
     public void Press() {
-        inkStory.ChooseChoiceIndex(0);
-        if (startPressEvent != null) {
-            startPressEvent();
+        if (inkStory.currentChoices.Count > 0) {
+            inkStory.ChooseChoiceIndex(0);
+            if (startPressEvent != null) {
+                startPressEvent();
+            }
         }
     }
 

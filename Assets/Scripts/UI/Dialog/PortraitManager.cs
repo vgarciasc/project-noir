@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PortraitManager : MonoBehaviour {
 
@@ -12,14 +13,14 @@ public class PortraitManager : MonoBehaviour {
 	[SerializeField]
 	Image portraitLeft;
 	[SerializeField]
-	Text portraitLeftText;
+	TextMeshProUGUI portraitLeftText;
 	Coroutine portraitLeftTalking = null;
 	PortraitData portraitLeftData;
 
 	[SerializeField]
 	Image portraitRight;
 	[SerializeField]
-	Text portraitRightText;
+	TextMeshProUGUI portraitRightText;
 	Coroutine portraitRightTalking = null;
 	PortraitData portraitRightData;
 

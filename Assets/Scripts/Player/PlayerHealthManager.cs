@@ -16,6 +16,8 @@ public class PlayerHealthManager : MonoBehaviour {
 	public int currentHealth;
 	public int maxHealth;
 
+	bool invincible = false;
+
 	PlayerGeneral player;
 
 	void Start () {
@@ -34,6 +36,10 @@ public class PlayerHealthManager : MonoBehaviour {
 	}
 
 	void take_hit() {
+		if (invincible) {
+			return;
+		}
+
 		Transform trf;
 		currentHealth--;
 		if (currentHealth < 0) {
@@ -51,7 +57,7 @@ public class PlayerHealthManager : MonoBehaviour {
 			return;
 		}
 
-		mainCollider.SetActive(false);
+		invincible = true;
 		this.GetComponent<Animator>().SetTrigger("take_hit");
 		SpecialCamera.getSpecialCamera().screenShake_(0.25f);
 		trf = healthIconContainer.GetChild(currentHealth);
@@ -64,11 +70,11 @@ public class PlayerHealthManager : MonoBehaviour {
 	}
 
 	void AnimDeactivateCollider() {
-		mainCollider.SetActive(false);
+		invincible = true;
 	}
 
 	void AnimActivateCollider() {
-		mainCollider.SetActive(true);
+		invincible = false;
 	}
 
 	public void BulletHit(int damage) {
