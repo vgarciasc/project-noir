@@ -78,7 +78,6 @@ public class EnemyAnimatorManager : MonoBehaviour {
 	void PressNow() {
 		if (!inPress) {
 			animator.SetTrigger("press");
-			interrogation.Press();
 		}
 	}
 

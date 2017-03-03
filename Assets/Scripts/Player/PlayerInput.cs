@@ -23,6 +23,8 @@ public class PlayerInput : MonoBehaviour {
     [SerializeField]
     GameObject jumpParticleSystemPrefab;
 
+    float jumpsLeft = 2;
+
     void Start() {
         player = GetComponent<PlayerGeneral>();
 		rb = this.GetComponent<Rigidbody2D>();
@@ -39,6 +41,10 @@ public class PlayerInput : MonoBehaviour {
         }
         handleSideGrab();
         handleInput();
+
+        if (isGrounded() || holdingWall) {
+            jumpsLeft = 1;
+        }
 	}
 
     IEnumerator moveCooldown(int frames) {
@@ -51,6 +57,10 @@ public class PlayerInput : MonoBehaviour {
     }
 
     void jump() {
+        if (jumpsLeft <= 0) {
+            return;
+        }
+
         //cant jump if crouching. adding force so changing things at rigidbody inspector
         if (Input.GetKeyDown(KeyCode.Space) && !crouch) {
             if (holdingWall) {
@@ -60,6 +70,7 @@ public class PlayerInput : MonoBehaviour {
                 else if (Input.GetAxisRaw("Horizontal") == 1f) {
             	    rb.AddForce(new Vector2(-1, 1) * 250, ForceMode2D.Force);
                 }
+                minusJump();
                 StartCoroutine(moveCooldown(20));
             }
             else {
@@ -69,8 +80,15 @@ public class PlayerInput : MonoBehaviour {
                     this.transform.position.y);
                 go.transform.localScale = this.transform.localScale;
                 go.SetActive(true);
+                minusJump();
             }
 		}        
+    }
+
+    void minusJump() {
+        if (jumpsLeft > 0) {
+            jumpsLeft--;
+        }
     }
 
     void move() {

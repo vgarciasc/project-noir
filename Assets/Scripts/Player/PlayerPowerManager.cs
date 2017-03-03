@@ -33,7 +33,7 @@ public class PlayerPowerManager : MonoBehaviour {
 		canRecover;
 	Coroutine delayingRecovery;
 
-	List<BulletDeluxe> bullets;
+	// List<BulletDeluxe> bullets;
 
     ArenaManager ar_manager;
 
@@ -43,7 +43,7 @@ public class PlayerPowerManager : MonoBehaviour {
 		power.minValue = 0;
 		power.maxValue = 1;
 		currentPower = 1f;
-		bullets = BulletPoolManager.getBulletPoolManager().getAllBullets();
+		// bullets = BulletPoolManager.getBulletPoolManager().getAllBullets();
 	}
 	
 	void Update () {

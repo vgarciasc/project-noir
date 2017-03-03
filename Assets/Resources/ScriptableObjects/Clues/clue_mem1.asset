@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e65252ada8e44c40b3c37c504f2b519, type: 3}
   m_Name: clue_mem1
   m_EditorClassIdentifier: 
-  title: pista 2
-  sprite: {fileID: 21300000, guid: 5564983618979a04ebef53e9f24353e5, type: 3}
-  ID: MEM_1
+  title: MEMORIA
+  sprite: {fileID: 21300000, guid: 3a7705648925995468438a5b1daa199c, type: 3}
+  ID: MF_Talking_to_Dog

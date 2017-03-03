@@ -25,11 +25,11 @@ public class InterrogationManager : MonoBehaviour {
 
     bool inMemory = false;
     bool canStartMemory = false;
-    bool canPress = false;
     bool currentLineContainsContradiction = false;
 
     MemoryFragmentManager mem_manager;
     ClueManager clue_manager;
+    PlayerInput playerInput;
 
     public static InterrogationManager getInterrogationManager() {
         return (InterrogationManager) HushPuppy.safeFindComponent("GameController", "InterrogationManager");
@@ -42,7 +42,9 @@ public class InterrogationManager : MonoBehaviour {
         clue_manager = ClueManager.getClueManager();
 
         mem_manager.unpauseEvent += exitMemoryCutscene;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().objection_event += runObjection;
+        playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
+        playerInput.objection_event += objection;
+        playerInput.press_event += press;
     }
 
     public void Next() {
@@ -50,46 +52,17 @@ public class InterrogationManager : MonoBehaviour {
             nextText();
         }
         else if (inkStory.currentChoices.Count > 0) {
-            if (canStartMemory) {
-                //default pra dentro de memfrag é não entrar na memoria
-                inkStory.ChooseChoiceIndex(1);
-                inkStory.Continue();
-                inkStory.ChooseChoiceIndex(0);
-            }
-            else if (currentLineContainsContradiction) {
-                inkStory.ChooseChoiceIndex(1);
-            }
-            else if (canPress) {
-                //default pra argumento de linha argumentativa é não dar press
-                inkStory.ChooseChoiceIndex(1);
-            }
-            else {
-                //default pra linha elaborativa é não dar objection
-                inkStory.ChooseChoiceIndex(1);
-            }
+            inkStory.ChooseChoiceIndex(1);
             Next();
         }
         else {
-            //closeText();
-            //LOOPA
             inkStory = new Story(inkAsset.text);
             Next();
         }
     }
 
-    public void Press() {
-        if (inkStory.currentChoices.Count > 0) {
-            inkStory.ChooseChoiceIndex(0);
-            if (startPressEvent != null) {
-                startPressEvent();
-            }
-        }
-    }
-
     void nextText() {
         string txt = inkStory.Continue();
-        canPress = inkStory.currentTags.Contains("pressoption");
-        currentLineContainsContradiction = inkStory.currentTags.Contains("cont");
 
         if (inMemory) {
             memoryTextBox.displayText(txt);
@@ -104,32 +77,62 @@ public class InterrogationManager : MonoBehaviour {
             }
         }
 
-        if (canStartMemory = inkStory.currentTags.Contains("memfrag")) {
+        if (canStartMemory = inkStory.currentTags.Contains("memfrag") &&
+            inkStory.currentChoices.Count > 2) {
             if (showMemoryEvent != null) {
                 showMemoryEvent();
             }
         }
     }
 
-    void nextOptions() {
-        List<string> aux = new List<string>();
-        for (int i = 0; i < inkStory.currentChoices.Count; i++) {
-            aux.Add(inkStory.currentChoices[i].text);
-        }
-    }
+    #region press
+    //function is called when the Press Button is pressed.
+    //it is responsible for warning everyone that it is pressed,
+    //as well as checking if it can be pressed right now.
+    public void press() {
+        if (inkStory.currentChoices.Count > 0 &&
+            inkStory.currentTags.Contains("pressoption")) {
 
-    void selectChoice(int index) {
-        if (inkStory.currentChoices.Count > 0) {
-            inkStory.ChooseChoiceIndex(index);
-            nextText();
+            inkStory.ChooseChoiceIndex(0); //by default, press is choice 0
+            if (startPressEvent != null) {
+                startPressEvent(); //warns all observers that a press is ocurring
+            }
         }
     }
+    #endregion
+
+    #region objection
+    //function is called when the Objection Button is pressed.
+    //it is responsible for checking if there can be an objection
+    //as well as checking if the objection is correct or wrong
+    //and warning every observer that is related.
+    void objection() {
+        if (inkStory.currentTags.Contains("clue_" + clue_manager.currentClue.ID)) {
+            //contradiction is there, and you got it right
+            Debug.Log("Correct Contradiction");
+            inkStory.ChooseChoiceIndex(2);
+            
+            if (correctObjection != null) {
+                correctObjection();
+            }
+        }
+        else if (inkStory.currentTags.Contains("obj")) {
+            //line is objectionable, but either it's not the right clue, or the contradiction isn't even there.
+            Debug.Log("Wrong Contradiction, Wrong Objection");
+            inkStory.ChooseChoiceIndex(0);
+            
+            if (wrongObjection != null) {
+                wrongObjection();
+            }
+        }
+    }
+    #endregion
 
     #region Memory
     public void captureMemoryFragment() {
         if (inkStory.currentChoices.Count > 1) {
             enterMemoryCutscene();
-            inkStory.ChooseChoiceIndex(1);
+            inkStory.ChooseChoiceIndex(2);
 
             if (getMemoryEvent != null) {
                 getMemoryEvent();
@@ -143,39 +146,7 @@ public class InterrogationManager : MonoBehaviour {
 
     void exitMemoryCutscene() {
         inMemory = false;
-    }
-    #endregion
-
-    #region objection
-    void runObjection() {
-        if (inkStory.currentTags.Contains("clue_" + clue_manager.currentClue.ID)) {
-            //contradiction is there, and you got it right
-            Debug.Log("Correct Contradiction");
-            inkStory.ChooseChoiceIndex(0);
-            inkStory.Continue();
-            inkStory.ChooseChoiceIndex(0);
-            if (correctObjection != null) {
-                correctObjection();
-            }
-        }
-        else if (inkStory.currentTags.Contains("cont")) {
-            //contradiction is there, but you're wrong
-            Debug.Log("Wrong Contradiction, Right Objection");
-            inkStory.ChooseChoiceIndex(0);
-            inkStory.Continue();
-            inkStory.ChooseChoiceIndex(1);
-            if (wrongObjection != null) {
-                wrongObjection();
-            }
-        } 
-        else if (inkStory.currentTags.Contains("obj")) {
-            //line is objectionable, but contradiction is not there
-            Debug.Log("Wrong Contradiction, Wrong Objection");
-            selectChoice(0); //wrong cont
-            if (wrongObjection != null) {
-                wrongObjection();
-            }
-        }
+        inkStory.Continue();
     }
     #endregion
 }

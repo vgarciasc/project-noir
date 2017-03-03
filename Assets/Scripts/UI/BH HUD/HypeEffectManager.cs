@@ -13,6 +13,7 @@ public class HypeEffectManager : MonoBehaviour {
 		interrogation = InterrogationManager.getInterrogationManager();
 		
 		interrogation.startPressEvent += Press;
+		interrogation.correctObjection += Objection;
 		interrogation.wrongObjection += Objection;
 	}
 

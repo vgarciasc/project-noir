@@ -48,6 +48,17 @@ MonoBehaviour:
     errors: []
     warnings: []
     todos: []
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 6c8d4d7b172e8d24187ee9fda6344970, type: 3}
+    parent: {fileID: 0}
+    master: {fileID: 0}
+    includePaths: []
+    includes: []
+    jsonAsset: {fileID: 4900000, guid: a1129ff56d086294c93be74b22f7a368, type: 3}
+    compileErrors: []
+    errors: []
+    warnings: []
+    todos: []
   compilationStack: []
   customInklecateOptions:
     runInklecateWithMono: 0
