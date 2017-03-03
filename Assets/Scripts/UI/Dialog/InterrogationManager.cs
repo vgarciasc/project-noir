@@ -25,7 +25,7 @@ public class InterrogationManager : MonoBehaviour {
 
     bool inMemory = false;
     bool canStartMemory = false;
-    bool currentLineContainsContradiction = false;
+    bool mainStatement = true;    
 
     MemoryFragmentManager mem_manager;
     ClueManager clue_manager;
@@ -63,12 +63,18 @@ public class InterrogationManager : MonoBehaviour {
 
     void nextText() {
         string txt = inkStory.Continue();
+        mainStatement = inkStory.currentTags.Contains("pressoption");
 
         if (inMemory) {
             memoryTextBox.displayText(txt);
         }
         else {
-            standardTextBox.displayText(txt);
+            if (mainStatement) {
+                standardTextBox.displayText("<color=#E5B368FF>" + txt + "</color>");
+            }
+            else {
+                standardTextBox.displayText(txt);
+            }
         }
 
         if (inkStory.currentTags.Contains("endpress")) {
