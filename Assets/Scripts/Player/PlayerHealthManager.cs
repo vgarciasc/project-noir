@@ -20,10 +20,12 @@ public class PlayerHealthManager : MonoBehaviour {
 
 	PlayerGeneral player;
 	MemoryFragmentManager mem_manager;
+	InterrogationManager interrogation;
 
 	void Start () {
 		player = this.GetComponent<PlayerGeneral>();
 		mem_manager = MemoryFragmentManager.getMemoryFragmentManager();
+		interrogation = InterrogationManager.getInterrogationManager();
 
 		player.take_hit_event += take_hit;
 		player.instakill_event += instakill;

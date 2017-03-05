@@ -30,7 +30,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 37.65
+    m_StopTime: 39.416668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -52,61 +52,54 @@ AnimationClip:
   m_GenerateMotionCurves: 0
   m_IsEmpty: 0
   m_Events:
-  - time: 0.71666664
+  - time: 3.1166666
+    functionName: CallNextLine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 6.45
+    functionName: CallNextLine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 12.55
+    functionName: CallNextLine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 14.766666
+    functionName: CallNextLine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 17.733334
+    functionName: CallNextLine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 20.15
+    functionName: CallNextLine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 21.25
     functionName: AnimPlayCard
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 9
-    messageOptions: 0
-  - time: 1.35
-    functionName: CallNextLine
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 4.6833334
-    functionName: CallNextLine
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 10.783334
-    functionName: CallNextLine
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 13
-    functionName: CallNextLine
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 15.966666
-    functionName: CallNextLine
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 18.383333
-    functionName: CallNextLine
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 21.516666
-    functionName: CallNextLine
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
     messageOptions: 0
   - time: 23.283333
     functionName: CallNextLine
@@ -115,28 +108,35 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 27.166666
+  - time: 25.05
     functionName: CallNextLine
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 32.116665
+  - time: 28.933332
     functionName: CallNextLine
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 37.233334
+  - time: 33.883335
+    functionName: CallNextLine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 39
     functionName: previousAnimation
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 37.65
+  - time: 39.416668
     functionName: AnimDoNothing
     data: 
     objectReferenceParameter: {fileID: 0}

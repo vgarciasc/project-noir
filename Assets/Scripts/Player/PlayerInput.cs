@@ -70,7 +70,7 @@ public class PlayerInput : MonoBehaviour {
         }
 
         //cant jump if crouching. adding force so changing things at rigidbody inspector
-        if (Input.GetKeyDown(KeyCode.Space) && !crouch) {
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space)) && !crouch) {
             if (holdingWall) {
                 if (Input.GetAxisRaw("Horizontal") == -1f) {
             	    rb.AddForce(new Vector2(1, 1) * 250, ForceMode2D.Force);
@@ -150,22 +150,22 @@ public class PlayerInput : MonoBehaviour {
 		animator.SetBool("crouching", crouch);
 
         //to navigate clues menu
-        if (Input.GetKeyDown(KeyCode.Z)) {
+        if (Input.GetKeyDown(KeyCode.Q)) {
             ClueManager.getClueManager().previousClue();
         }
-        if (Input.GetKeyDown(KeyCode.C)) {
+        if (Input.GetKeyDown(KeyCode.E)) {
             ClueManager.getClueManager().nextClue();
         }
 
         //TEMP: objection
-        if (Input.GetKeyDown(KeyCode.O)) {
+        if (Input.GetKeyDown(KeyCode.F)) {
             if (objection_event != null) {
                 objection_event();
             }
         }
 
         //TEMP: press
-        if (Input.GetKeyDown(KeyCode.P)) {
+        if (Input.GetKeyDown(KeyCode.F)) {
             if (press_event != null) {
                 press_event();
             }

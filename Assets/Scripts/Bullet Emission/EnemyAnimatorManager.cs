@@ -40,7 +40,7 @@ public class EnemyAnimatorManager : MonoBehaviour {
 		card_emitter = this.GetComponent<CardEmitter>();
 		animator = this.GetComponent<Animator>();
 
-		GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().press_event += PressNow;
+		// GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().press_event += PressNow;
 		interrogation.endPressEvent += endPress;
 		interrogation.startPressEvent += startPress;
 		interrogation.wrongObjection += wrongObjection;
@@ -76,9 +76,7 @@ public class EnemyAnimatorManager : MonoBehaviour {
 	}
 
 	void PressNow() {
-		if (!inPress) {
-			animator.SetTrigger("press");
-		}
+		animator.SetTrigger("press");
 	}
 
 	void AnimStopCurrentCard() {
@@ -91,6 +89,7 @@ public class EnemyAnimatorManager : MonoBehaviour {
 
 	void startPress() {
 		inPress = true;
+		animator.SetTrigger("press");
 	}
 
 	void endPress() {
@@ -112,13 +111,14 @@ public class EnemyAnimatorManager : MonoBehaviour {
 	void wrongObjection() {
 		// animator.SetLayerWeight(1, 0);
 		// animator.SetLayerWeight(2, 1);
-		
-		animator.SetFloat("speed_arg", 0);
+
+		// animator.SetFloat("speed_arg", 0);
 
 		if (startWrongObjection != null) {
 			startWrongObjection();
 		}
 
+		AnimStopCurrentCard();
 		animator.SetTrigger("wrong_objection");
 	}
 
@@ -130,7 +130,10 @@ public class EnemyAnimatorManager : MonoBehaviour {
 			endWrongObjection();
 		}
 
-		animator.SetFloat("speed_arg", 1);
+		// animator.SetFloat("speed_arg", 1);
+		endPress();
+		animator.SetTrigger("back_argument");
+		interrogation.PreviousScene();
 	}
 
 	void correctObjection() {

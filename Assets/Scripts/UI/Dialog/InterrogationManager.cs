@@ -22,10 +22,16 @@ public class InterrogationManager : MonoBehaviour {
     public delegate void ObjectionDelegate();
     public event ObjectionDelegate wrongObjection;
     public event ObjectionDelegate correctObjection;
+    public delegate void StatementDelegate(int currentStatement);
+    public event StatementDelegate nextStatementEvent;
 
     bool inMemory = false;
     bool canStartMemory = false;
     bool mainStatement = true;    
+
+    int currentExamination = 1; //base 1
+    int currentStatementIndex = 1; //base 1
+    int currentStatementsQuantity = 0;
 
     MemoryFragmentManager mem_manager;
     ClueManager clue_manager;
@@ -37,7 +43,7 @@ public class InterrogationManager : MonoBehaviour {
 
     void Start() {
         inkStory = new Story(inkAsset.text);
-        
+
         mem_manager = MemoryFragmentManager.getMemoryFragmentManager();
         clue_manager = ClueManager.getClueManager();
 
@@ -48,7 +54,10 @@ public class InterrogationManager : MonoBehaviour {
     }
 
     public void Next() {
+        currentStatementsQuantity = getNumberOfStatements();
+
         if (inkStory.canContinue) {
+            Debug.Log("Current Cross-Examination: " + currentExamination + ".\nCurrent Statement: " + currentStatementIndex + "/" + currentStatementsQuantity + ".");
             nextText();
         }
         else if (inkStory.currentChoices.Count > 0) {
@@ -71,6 +80,10 @@ public class InterrogationManager : MonoBehaviour {
         else {
             if (mainStatement) {
                 standardTextBox.displayText("<color=#E5B368FF>" + txt + "</color>");
+                if (nextStatementEvent != null) {
+                    currentStatementIndex = getCurrentStatement();
+                    nextStatementEvent(currentStatementIndex);
+                }
             }
             else {
                 standardTextBox.displayText(txt);
@@ -116,7 +129,7 @@ public class InterrogationManager : MonoBehaviour {
         if (inkStory.currentTags.Contains("clue_" + clue_manager.currentClue.ID)) {
             //contradiction is there, and you got it right
             Debug.Log("Correct Contradiction");
-            inkStory.ChooseChoiceIndex(2);
+            // inkStory.ChooseChoiceIndex(2);
             
             if (correctObjection != null) {
                 correctObjection();
@@ -125,12 +138,18 @@ public class InterrogationManager : MonoBehaviour {
         else if (inkStory.currentTags.Contains("obj")) {
             //line is objectionable, but either it's not the right clue, or the contradiction isn't even there.
             Debug.Log("Wrong Contradiction, Wrong Objection");
-            inkStory.ChooseChoiceIndex(0);
-            
+            // inkStory.ChooseChoiceIndex(0);
+            inkStory.ChoosePathString("Wrong_Objection");
+
             if (wrongObjection != null) {
                 wrongObjection();
             }
         }
+    }
+
+    //called by enemy animator manager. it goes to the previous scene
+    public void PreviousScene() {
+        inkStory.ChoosePathString((string) inkStory.variablesState["ReturnTo"]);
     }
     #endregion
 
@@ -155,4 +174,20 @@ public class InterrogationManager : MonoBehaviour {
         inkStory.Continue();
     }
     #endregion
+
+    public int getNumberOfStatements() {
+        if (inkStory == null) {
+            return 1;
+        }
+
+        return (int) inkStory.variablesState["number_statements"];
+    }
+
+    int getCurrentStatement() {
+        if (inkStory == null) {
+            return 1;
+        }
+
+        return (int) inkStory.variablesState["current_statement"];
+    }
 }

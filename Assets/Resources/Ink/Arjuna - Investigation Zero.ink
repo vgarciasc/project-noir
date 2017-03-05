@@ -1,4 +1,8 @@
-->CrossExamination_I
+VAR number_statements = 4
+VAR current_statement = 1
+
+
+->CrossExamination_1
 
 ===Intro===
 
@@ -82,60 +86,59 @@
 
 -...I wasn’t aware we were standing on a courtroom. And since when is he a priest….?
 
-->CrossExamination_I
+->CrossExamination_1
 
-VAR ReturnTo = -> CrossExamination_I
+VAR ReturnTo = -> CrossExamination_1
 
-==CrossExamination_I==
+==CrossExamination_1==
+~number_statements = 4
 
 ->Statement1
 
 =Statement1
     -/%arjuna_normal/ I have not stolen the dog’s necktie. #pressoption #Speaker_Arjuna
+        ~ReturnTo = ->Statement1
+        ~current_statement = 1
         +[Press the Argument] ->Statement1Press1
         +[Leave it be.] ->Statement2
 
 =Statement1Press1
     -/%noir_normal/ Can you prove you didn’t do it? #Speaker_Noir
-    -/%arjuna_normal/ Is there a need to? #Speaker_Arjuna #obj #clue_monster1
-        ~ReturnTo = ->Statement1Press2
+    -/%arjuna_normal/ Is there a need to? #Speaker_Arjuna #obj
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement1Press2
         +[Object with "White Flag"] -> CEI_Objection 
 
 =Statement1Press2
 -/%arjuna_normal/ Last time I checked, there was no evidence against me, was there? #Speaker_Arjuna #obj
-        ~ReturnTo = ->Statement1Press3
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement1Press3
     
 =Statement1Press3
 -/%arjuna_normal/ But rest assured - I’ll soon provide you solid reasoning that will clear up this misunderstanding. #Speaker_Arjuna #obj #endpress
-        ~ReturnTo = -> Statement2
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement2
     
 =Statement2
 -/%arjuna_normal/ The spirits would never forgive me for such an immoral act, and I’d surely be met with karmic punishment were I to do so! #Speaker_Arjuna #pressoption
+        ~ReturnTo = ->Statement2
+        ~current_statement = 2
         +[Press the Argument] ->Statement2Press1
         +[Leave it be.] ->Statement3
 
 =Statement2Press1
     -/%noir_normal/ Would the spirits really be unwilling to forgive you, the Spiritualist Prodigy? I find that unlikely. #Speaker_Noir
     -/%arjuna_normal/ Why, you give me more credit than I’m due, Miss Noir. #Speaker_Arjuna
-        ~ReturnTo = -> Statatement2Press2
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statatement2Press2
 
 =Statatement2Press2
     -/%arjuna_normal/ I merely communicate with the spirits - they’re my friends, to put it simply. #Speaker_Arjuna #obj
-        ~ReturnTo = -> Statement2Press3
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement2Press3
 
 =Statement2Press3
     -/%arjuna_smug/ Wouldn’t you be mad at your friend if he were to do such a thing? #Speaker_Arjuna #obj
-        ~ReturnTo = -> Statement2Ending
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement2Ending
         
@@ -145,31 +148,32 @@ VAR ReturnTo = -> CrossExamination_I
 
 =Statement3
     -/%arjuna_normal/ Not that I’d do it if that wasn’t the case, of course. #Speaker_Arjuna #pressoption
+        ~ReturnTo = ->Statement3
+        ~current_statement = 3
         +[Press the Argument] ->Statement3Press1
         +[Leave it be.] ->Statement4
     
 =Statement3Press1
     -/%noir_normal/ Oh? Are you really that good of a person? #Speaker_Noir
     -/%arjuna_smug/ Of course I am! Do you think the spirits would lend their guidance to a man of evil thoughts? #Speaker_Arjuna #obj
-        ~ReturnTo = ->Statement3Press2
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement3Press2
 
 =Statement3Press2
     -/%arjuna_smug/ Besides, am I not supposed to be innocent until proven otherwise? I’d expect you to give you a little more credit here. #obj
-        ~ReturnTo = ->Statement3Press3
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement3Press3
 
 =Statement3Press3        
     -/%noir_sad/ Uugh…. I guess he’s right. #Speaker_Noir #Thinking 
     -/%arjuna_smug/ But never fear! I will soon guide you to the truth you seek for! #Speaker_Arjuna #obj #endpress
-        ~ReturnTo = ->Statement4
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement4
         
 =Statement4
     -/%arjuna_normal/ After all, I wasn’t even aware that the dog wore a necktie! #Speaker_Arjuna #pressoption #memfrag
+        ~ReturnTo = ->Statement4
+        ~current_statement = 4
         +[Press the Argument] ->Statement4Press1
         +[Leave it be.] ->CEI_NeutralEnd
         *[Dive into his memories.] ->MF_Talking_to_Dog
@@ -188,19 +192,16 @@ VAR ReturnTo = -> CrossExamination_I
 =Statement4Press1
     -/%noir_normal/ You…. weren’t even aware? #Speaker_Noir
     -/%arjuna_normal/ Yes, that would be the case. #Speaker_Arjuna #obj
-        ~ReturnTo = ->Statement4Press2
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement4Press2
 
 =Statement4Press2
     -/%arjuna_normal/ Due to Miss Doggo’s… unique personality, I don’t usually exchange words with her. #Speaker_Arjuna #obj
-        ~ReturnTo = ->Statement4Press3
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement4Press3
         
 =Statement4Press3
     -/%arjuna_normal/ As such, I’m not often in her dog’s presence - I never realized he wore a necktie. #Speaker_Arjuna #obj #clue_MF_Talking_to_Dog 
-         ~ReturnTo = ->Statement4
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement4Ending
         +{MF_Talking_to_Dog} [Object with "White Flag"] -> CEI_Objection 
@@ -224,9 +225,11 @@ VAR ReturnTo = -> CrossExamination_I
     -/%arjuna_shocked/ H-how do you know that?!?! #Speaker_Arjuna
     -/%noir_normal/ How I know it is irrelevant, Mr Kumar. What is relevant here is that your testimony just now was a lie. #Speaker_Noir
     -/%arjuna_shocked/ W-wait a second, Miss Noir! Calling it a lie is exaggerating! /%arjuna_normal/ Please, allow me to make up for my mistake! #Speaker_Arjuna
-->CrossExamination_II
+->CrossExamination_2
 
-==CrossExamination_II==
+==CrossExamination_2==
+~number_statements = 4
+
 ->Statement1
 
 =Statement1
@@ -340,9 +343,9 @@ VAR ReturnTo = -> CrossExamination_I
     -/%noir_normal/ All right, I’m piercing through his lies one by one. The end shouldn’t be too far. #Speaker_Noir #Thinking
     -/%noir_normal/ Mr Kumar, may I please ask you to testify about your actions during the checkup? Also, it would be helpful if you were completely honest in your testimony this time. #Speaker_Noir
     -/%arjuna_normal/ .... #Speaker_Arjuna
-->CrossExamination_III
+->CrossExamination_3
 
-===CrossExamination_III===
+===CrossExamination_3===
 
 ->Statement1
 
@@ -460,9 +463,9 @@ VAR ReturnTo = -> CrossExamination_I
     -/%noir_normal/  Hmm, now this is odd…. Though he contradicts the evidence, his mind isn’t betraying his words…. Is he really saying the truth? #Speaker_Noir #Thinking
     -/%noir_normal/ Mr. Kumar. I’ll have you testimony about your medical checkup in full length. #Speaker_Noir
     -/%arjuna_normal/ Yes, Miss Noir! I’ll have you see it for yourself that I’m not lying about this! #Speaker_Arjuna
-->CrossExamination_IV
+->CrossExamination_4
 
-===CrossExamination_IV===
+===CrossExamination_4===
 ->Statement1
 
 =Statement1

@@ -17,8 +17,9 @@ public class PausableEnemyShot : MonoBehaviour {
 		mem_manager.pauseEvent += pauseAnimation;
 		mem_manager.unpauseEvent += unpauseAnimation;
 		foreach (EnemyAnimatorManager e in GameObject.FindObjectsOfType<EnemyAnimatorManager>()) {
-			e.startWrongObjection += pauseAnimation;
-			e.endWrongObjection += unpauseAnimation;
+			// e.startWrongObjection += pauseAnimation;
+			// e.endWrongObjection += unpauseAnimation;
+			e.startWrongObjection += smoothStopAnimation;
 		}
 	}
 	
@@ -35,5 +36,9 @@ public class PausableEnemyShot : MonoBehaviour {
 
 	void stopAnimation() {
 		this.gameObject.SetActive(false);
+	}
+
+	void smoothStopAnimation() {
+		animator.SetTrigger("destroy");
 	}
 }

@@ -25,13 +25,19 @@ public class MemoryFragmentManager : MonoBehaviour {
 	public event PauseDelegate pauseEvent;
 	public event PauseDelegate unpauseEvent;
 
+	InterrogationManager interrogation;
+
 	public static MemoryFragmentManager getMemoryFragmentManager() {
 		return (MemoryFragmentManager) HushPuppy.safeFindComponent("GameController", "MemoryFragmentManager");
 	}
 
 	void Start() {
-		InterrogationManager.getInterrogationManager().showMemoryEvent += showMemory;
-		InterrogationManager.getInterrogationManager().getMemoryEvent += getMemory;
+		interrogation = InterrogationManager.getInterrogationManager();
+
+		interrogation.showMemoryEvent += showMemory;
+		interrogation.getMemoryEvent += getMemory;
+		interrogation.wrongObjection += disappearMemory;
+		interrogation.startPressEvent += disappearMemory;
 	}
 
 	void showMemory() {
@@ -61,5 +67,9 @@ public class MemoryFragmentManager : MonoBehaviour {
 		if (unpauseEvent != null) {
 			unpauseEvent();
 		}
+	}
+
+	void disappearMemory() {
+		memories[currentMemoryIndex].memory.GetComponentInChildren<Animator>().SetTrigger("disappear");
 	}
 }
