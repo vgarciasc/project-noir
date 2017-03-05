@@ -33,6 +33,9 @@ public class PlayerPowerManager : MonoBehaviour {
 		canRecover;
 	Coroutine delayingRecovery;
 
+	public delegate void CallPowerDelegate();
+	public event CallPowerDelegate teleportEvent;
+
 	// List<BulletDeluxe> bullets;
 
     ArenaManager ar_manager;
@@ -153,6 +156,10 @@ public class PlayerPowerManager : MonoBehaviour {
 		TeleportLine line = Instantiate(teleportLinePrefab).GetComponent<TeleportLine>();
 		line.setPoints(originalPos, newPos);
 		this.GetComponent<Rigidbody2D>().velocity = Vector3.zero; //now not falling
+
+		if (teleportEvent != null) {
+			teleportEvent();
+		}
 	}
 
 	bool costTeleport() {

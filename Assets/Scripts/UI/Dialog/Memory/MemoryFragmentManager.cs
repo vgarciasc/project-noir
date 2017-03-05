@@ -16,7 +16,7 @@ public class MemoryFragmentManager : MonoBehaviour {
 	[SerializeField]
 	List<MemoryData> memories = new List<MemoryData>();
 
-	int currentMemoryIndex = -1;
+	int currentMemoryIndex = 0;
 
 	[HideInInspector]
 	public MemoryData currentMemory = null;
@@ -32,19 +32,15 @@ public class MemoryFragmentManager : MonoBehaviour {
 	void Start() {
 		InterrogationManager.getInterrogationManager().showMemoryEvent += showMemory;
 		InterrogationManager.getInterrogationManager().getMemoryEvent += getMemory;
-
-		for (int i = 0; i < memories.Count; i++) {
-			memories[i].memory.SetActive(false);
-		}
 	}
 
 	void showMemory() {
-		currentMemoryIndex++;
-		memories[currentMemoryIndex].memory.SetActive(true);
+		memories[currentMemoryIndex].memory.GetComponent<Animator>().SetTrigger("start");
 	}
 
 	void getMemory() {
 		memories[currentMemoryIndex].memory.GetComponentInChildren<Animator>().SetTrigger("popup");
+		
 		if (pauseEvent != null) {
 			pauseEvent();
 		}
@@ -60,6 +56,7 @@ public class MemoryFragmentManager : MonoBehaviour {
 
 	public void endFullMemory() {
 		currentMemory = memories[currentMemoryIndex];
+		currentMemoryIndex++;
 
 		if (unpauseEvent != null) {
 			unpauseEvent();

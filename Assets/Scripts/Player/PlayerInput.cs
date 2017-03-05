@@ -3,11 +3,15 @@ using System.Collections;
 
 public class PlayerInput : MonoBehaviour {
     PlayerGeneral player;
+    PlayerPowerManager playerPower;
 
     public delegate void VoidDelegate(); 
     public event VoidDelegate press_event;
     // public event VoidDelegate next_cutscene_line_event;
     public event VoidDelegate objection_event;
+
+    [SerializeField]
+    ParticleSystem flipJumpParticleSystem;
 
 	Rigidbody2D rb;
 	Animator animator;
@@ -15,6 +19,7 @@ public class PlayerInput : MonoBehaviour {
 	float lastX, crtX;
 	bool crouch = false;
     bool holdingWall = false;
+    bool canFlipJump = false;
     bool canMove = true;
     ArenaManager ar_manager;
 
@@ -27,9 +32,12 @@ public class PlayerInput : MonoBehaviour {
 
     void Start() {
         player = GetComponent<PlayerGeneral>();
+        playerPower = GetComponent<PlayerPowerManager>();
 		rb = this.GetComponent<Rigidbody2D>();
 		animator = this.GetComponent<Animator>();
         ar_manager = ArenaManager.getArenaManager();
+
+        playerPower.teleportEvent += seeTeleport;
 
         standardGravityScale = rb.gravityScale;
     }
@@ -74,13 +82,19 @@ public class PlayerInput : MonoBehaviour {
                 StartCoroutine(moveCooldown(20));
             }
             else {
-            	rb.AddForce(Vector2.up * 250, ForceMode2D.Force);
-                GameObject go = Instantiate(jumpParticleSystemPrefab);
-                go.transform.position = new Vector2(this.transform.position.x, 
-                    this.transform.position.y);
-                go.transform.localScale = this.transform.localScale;
-                go.SetActive(true);
-                minusJump();
+                if (canFlipJump) {
+                    rb.AddForce(Vector2.up * 800, ForceMode2D.Force);
+                    flipJumpParticleSystem.Play();
+                }
+                else {
+                    rb.AddForce(Vector2.up * 250, ForceMode2D.Force);
+                    GameObject go = Instantiate(jumpParticleSystemPrefab);
+                    go.transform.position = new Vector2(this.transform.position.x, 
+                        this.transform.position.y);
+                    go.transform.localScale = this.transform.localScale;
+                    go.SetActive(true);
+                    minusJump();
+                }
             }
 		}        
     }
@@ -173,14 +187,14 @@ public class PlayerInput : MonoBehaviour {
 
     bool isTouchingLeftWall() {
         Vector3 raycast = transform.TransformDirection(- Vector2.right);
-        Debug.DrawRay(this.transform.position, raycast * 0.1f, Color.red, 1f);
-        return Physics2D.Raycast(this.transform.position, raycast, 0.1f, 1 << LayerMask.NameToLayer("Side Walls"));
+        Debug.DrawRay(this.transform.position, raycast * 0.2f, Color.red, 1f);
+        return Physics2D.Raycast(this.transform.position, raycast, 0.2f, 1 << LayerMask.NameToLayer("Side Walls"));
     }
 
     bool isTouchingRightWall() {
         Vector3 raycast = transform.TransformDirection(Vector2.right);
-        Debug.DrawRay(this.transform.position, raycast * 0.1f, Color.red, 1f);
-        return Physics2D.Raycast(this.transform.position, raycast, 0.1f, 1 << LayerMask.NameToLayer("Side Walls"));
+        Debug.DrawRay(this.transform.position, raycast * 0.2f, Color.red, 1f);
+        return Physics2D.Raycast(this.transform.position, raycast, 0.2f, 1 << LayerMask.NameToLayer("Side Walls"));
     }
 
     bool lastTouch = false;
@@ -213,5 +227,15 @@ public class PlayerInput : MonoBehaviour {
             animator.SetBool("holding_wall", holdingWall);
         }
 
+    }
+
+    void seeTeleport() {
+        StartCoroutine(enableFlipJump());
+    }
+
+    IEnumerator enableFlipJump() {
+        canFlipJump = true;
+        yield return new WaitForSeconds(0.5f);
+        canFlipJump = false;
     }
 }

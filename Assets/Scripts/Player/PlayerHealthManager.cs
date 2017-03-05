@@ -19,12 +19,17 @@ public class PlayerHealthManager : MonoBehaviour {
 	bool invincible = false;
 
 	PlayerGeneral player;
+	MemoryFragmentManager mem_manager;
 
 	void Start () {
 		player = this.GetComponent<PlayerGeneral>();
+		mem_manager = MemoryFragmentManager.getMemoryFragmentManager();
 
 		player.take_hit_event += take_hit;
 		player.instakill_event += instakill;
+		mem_manager.pauseEvent += AnimDeactivateCollider;
+		mem_manager.unpauseEvent += AnimActivateCollider;
+
 		startHealth();
 	}
 

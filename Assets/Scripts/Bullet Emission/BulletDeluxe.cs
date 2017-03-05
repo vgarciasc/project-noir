@@ -172,8 +172,9 @@ public class BulletDeluxe : MonoBehaviour {
 
 	#region colliders
 	public void OnTriggerExit2D(Collider2D target) {
-		if (target.gameObject.tag == "Arena")
+		if (target.gameObject.tag == "Arena") {
 			destroy();
+		}
     }
 	#endregion
 
