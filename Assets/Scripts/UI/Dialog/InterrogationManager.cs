@@ -109,11 +109,13 @@ public class InterrogationManager : MonoBehaviour {
     //it is responsible for warning everyone that it is pressed,
     //as well as checking if it can be pressed right now.
     public void press() {
+        Debug.Log("Press pressed.");
         if (inkStory.currentChoices.Count > 0 &&
             inkStory.currentTags.Contains("pressoption")) {
-
+                
             inkStory.ChooseChoiceIndex(0); //by default, press is choice 0
             if (startPressEvent != null) {
+                Debug.Log("Delegate called.");
                 startPressEvent(); //warns all observers that a press is ocurring
             }
         }
@@ -130,6 +132,7 @@ public class InterrogationManager : MonoBehaviour {
             //contradiction is there, and you got it right
             Debug.Log("Correct Contradiction");
             // inkStory.ChooseChoiceIndex(2);
+            inkStory.ChoosePathString("CrossExamination_1.CEI_Objection");
             
             if (correctObjection != null) {
                 correctObjection();

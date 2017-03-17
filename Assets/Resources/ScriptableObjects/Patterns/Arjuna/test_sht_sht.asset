@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d635c27124c36f4dad1c5489aea34da, type: 3}
+  m_Name: test_sht_sht
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: a0fa8e45188f8e14bb3e20a45bb741c8, type: 3}
+  colors:
+  - {r: 0.9558824, g: 0.8075558, b: 0.32331318, a: 1}
+  - {r: 1, g: 0.6184584, b: 0.27205884, a: 1}
+  sizes:
+  - 0.03
+  spritingStyle: 1
+  coloringStyle: 1
+  sizingStyle: 1
+  loopQuantity: 1
+  delayBetweenLoops: 0
+  delayAppliedEachNLoops: 1
+  reverseAlternatedLoops: 0
+  bulletQuantity: 1
+  bulletSpeed: 0
+  bulletAngularVelocity: 0
+  delayBetweenBullets: 0
+  delayAppliedEachNBullets: 1
+  threadQuantity: 1
+  angleBetweenThreads: 0
+  threadArc: 360
+  threadArcAngleIncrementBetweenWaves: 0
+  waveQuantity: 1
+  delayBetweenWaves: 85
+  angleBetweenWaves: 0
+  randomAnglePerWave: 1
+  angleOffset: 0
+  radialOffset: 0
+  randomAngleOffset: 0
+  waveWrap: 0
+  clockwise: 0
+  playerDirection: 0
+  sinusoidalMotion: 0

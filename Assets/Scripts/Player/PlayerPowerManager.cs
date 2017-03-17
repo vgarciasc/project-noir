@@ -35,6 +35,10 @@ public class PlayerPowerManager : MonoBehaviour {
 
 	public delegate void CallPowerDelegate();
 	public event CallPowerDelegate teleportEvent;
+	
+	//TODO: REFACTOR
+	public delegate void CallDeathDelegate();
+	public event CallDeathDelegate deathEvent;
 
 	// List<BulletDeluxe> bullets;
 
@@ -232,5 +236,29 @@ public class PlayerPowerManager : MonoBehaviour {
 		// for (int i = 0; i < bullets.Count; i++) {
 		// 	bullets[i].ResetTimeSlow();
 		// }
+	}
+
+	bool detractPower(float amount) {
+		if (currentPower >= amount) {
+			currentPower -= amount;
+			return true;
+		}
+
+		power.transform.GetComponent<Animator>().SetTrigger("fizzle");
+		return false;
+	}
+
+	public void minusHealth(float healthLost) {
+		if (currentPower < healthLost / 10f && deathEvent != null) {
+			deathEvent();
+		}
+
+		detractPower(healthLost / 10f);
+
+		canRecover = false;
+		if (delayingRecovery != null) {
+			StopCoroutine(delayingRecovery);
+			delayingRecovery = null;
+		}
 	}
 }

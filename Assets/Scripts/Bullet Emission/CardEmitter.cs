@@ -17,6 +17,8 @@ public class CardEmitter : MonoBehaviour {
 
 	[SerializeField]
 	InterrogationManager interrogation;
+	[SerializeField]
+	CardNameAnimatorManager card_name;
 
 	void Start () {
 		pool = BulletPoolManager.getBulletPoolManager();
@@ -40,6 +42,11 @@ public class CardEmitter : MonoBehaviour {
 	}
 
 	IEnumerator playCard(CardPatternData card, Transform emitter, int card_ID) {
+		if (card.show_card_text) {
+			card_name.showCard(card.card_text_1, card.card_text_2, card.card_text_3);
+			yield return new WaitForSeconds(1f);
+		}
+
 		for (int i = 0; i < card.array.Length; i++) {
 			ShotPatternData shot_data = Instantiate(card.array[i].shot);
 			

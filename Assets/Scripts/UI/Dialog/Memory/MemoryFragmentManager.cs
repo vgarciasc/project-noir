@@ -70,6 +70,8 @@ public class MemoryFragmentManager : MonoBehaviour {
 	}
 
 	void disappearMemory() {
-		memories[currentMemoryIndex].memory.GetComponentInChildren<Animator>().SetTrigger("disappear");
+		if (currentMemoryIndex < memories.Count) {
+			memories[currentMemoryIndex].memory.GetComponentInChildren<Animator>().SetTrigger("disappear");
+		}
 	}
 }

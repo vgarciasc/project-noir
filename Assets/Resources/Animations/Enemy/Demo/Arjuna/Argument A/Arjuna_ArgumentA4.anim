@@ -18,15 +18,15 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0
+        time: 2.3333333
         value: {x: 0, y: -3.58, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: -9.340274, z: 0}
+        outSlope: {x: 0, y: -9.340273, z: 0}
         tangentMode: 0
       - serializedVersion: 2
-        time: 6.0833335
+        time: 8.416667
         value: {x: 0, y: -60.4, z: 0}
-        inSlope: {x: 0, y: -9.340274, z: 0}
+        inSlope: {x: 0, y: -9.340273, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       m_PreInfinity: 2
@@ -55,7 +55,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 6.9666667
+    m_StopTime: 9.35
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -75,13 +75,13 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0
+        time: 2.3333333
         value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 6.0833335
+        time: 8.416667
         value: 0
         inSlope: 0
         outSlope: 0
@@ -97,15 +97,15 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0
+        time: 2.3333333
         value: -3.58
         inSlope: 0
-        outSlope: -9.340274
+        outSlope: -9.340273
         tangentMode: 65
       - serializedVersion: 2
-        time: 6.0833335
+        time: 8.416667
         value: -60.4
-        inSlope: -9.340274
+        inSlope: -9.340273
         outSlope: 0
         tangentMode: 69
       m_PreInfinity: 2
@@ -119,13 +119,13 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0
+        time: 2.3333333
         value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 6.0833335
+        time: 8.416667
         value: 0
         inSlope: 0
         outSlope: 0
@@ -144,13 +144,20 @@ AnimationClip:
   m_IsEmpty: 0
   m_Events:
   - time: 0
+    functionName: AnimPlayCard
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 13
+    messageOptions: 0
+  - time: 0.13333334
     functionName: CallNextLine
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 6.9666667
+  - time: 9.35
     functionName: AnimDoNothing
     data: 
     objectReferenceParameter: {fileID: 0}

@@ -90,6 +90,7 @@ public class EnemyAnimatorManager : MonoBehaviour {
 	void startPress() {
 		inPress = true;
 		animator.SetTrigger("press");
+		Debug.Log("startPress in enemyanimator");
 	}
 
 	void endPress() {

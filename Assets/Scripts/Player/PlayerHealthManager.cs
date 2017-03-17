@@ -19,11 +19,13 @@ public class PlayerHealthManager : MonoBehaviour {
 	bool invincible = false;
 
 	PlayerGeneral player;
+	PlayerPowerManager playerPower;
 	MemoryFragmentManager mem_manager;
 	InterrogationManager interrogation;
 
 	void Start () {
 		player = this.GetComponent<PlayerGeneral>();
+		playerPower = this.GetComponent<PlayerPowerManager>();
 		mem_manager = MemoryFragmentManager.getMemoryFragmentManager();
 		interrogation = InterrogationManager.getInterrogationManager();
 
@@ -31,15 +33,24 @@ public class PlayerHealthManager : MonoBehaviour {
 		player.instakill_event += instakill;
 		mem_manager.pauseEvent += AnimDeactivateCollider;
 		mem_manager.unpauseEvent += AnimActivateCollider;
+		interrogation.startPressEvent += shockwave;
 
 		startHealth();
+
+		//TODO: TODELETE
+		playerPower.deathEvent += die;
+	}
+
+	//TODELETE
+	void shockwave() {
+		this.GetComponent<Animator>().SetTrigger("shockwave_activate");
 	}
 
 	void startHealth() {
 		currentHealth = maxHealth;
-		for (int i = 0; i < maxHealth; i++) {
-			GameObject obj = Instantiate(healthIconPrefab, healthIconContainer, false);
-		}
+		// for (int i = 0; i < maxHealth; i++) {
+		// 	GameObject obj = Instantiate(healthIconPrefab, healthIconContainer, false);
+		// }
 	}
 
 	void take_hit() {
@@ -48,27 +59,23 @@ public class PlayerHealthManager : MonoBehaviour {
 		}
 
 		Transform trf;
-		currentHealth--;
+		playerPower.minusHealth(1);
+
+		// currentHealth--;
 		if (currentHealth < 0) {
 			return;
 		}
 
 		if (currentHealth == 0) {
-			SpecialCamera.getSpecialCamera().screenShake_(0.25f);
-			SpecialCamera.getSpecialCamera().screenShake_(0.25f);
-			SpecialCamera.getSpecialCamera().screenShake_(0.25f);
-			restartButton.gameObject.SetActive(true);
-			this.gameObject.SetActive(false);
-			trf = healthIconContainer.GetChild(currentHealth);
-			trf.GetComponent<Image>().color = HushPuppy.getColorWithOpacity(trf.GetComponent<Image>().color, 0.3f);
+			die();
 			return;
 		}
 
 		invincible = true;
 		this.GetComponent<Animator>().SetTrigger("take_hit");
 		SpecialCamera.getSpecialCamera().screenShake_(0.25f);
-		trf = healthIconContainer.GetChild(currentHealth);
-		trf.GetComponent<Image>().color = HushPuppy.getColorWithOpacity(trf.GetComponent<Image>().color, 0.3f);
+		// trf = healthIconContainer.GetChild(currentHealth);
+		// trf.GetComponent<Image>().color = HushPuppy.getColorWithOpacity(trf.GetComponent<Image>().color, 0.3f);
 	}
 
 	void instakill() {
@@ -88,5 +95,18 @@ public class PlayerHealthManager : MonoBehaviour {
 		for (int i = 0; i < damage; i++) {
 			take_hit();
 		}
+	}
+
+	void die() {
+		Transform trf;
+
+		SpecialCamera.getSpecialCamera().screenShake_(0.25f);
+		SpecialCamera.getSpecialCamera().screenShake_(0.25f);
+		SpecialCamera.getSpecialCamera().screenShake_(0.25f);
+		
+		restartButton.gameObject.SetActive(true);
+		this.gameObject.SetActive(false);
+		// trf = healthIconContainer.GetChild(currentHealth);
+		// trf.GetComponent<Image>().color = HushPuppy.getColorWithOpacity(trf.GetComponent<Image>().color, 0.3f);
 	}
 }

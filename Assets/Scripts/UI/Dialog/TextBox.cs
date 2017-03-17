@@ -51,7 +51,12 @@ public class TextBox : MonoBehaviour {
 
 		while (currentCharacter	< totalCharacters) {
             currentText = target.Substring(0, currentCharacter);
-			mainText.text = currentText + end_tags;
+			if (currentCharacter != 0) {
+				mainText.text = currentText + end_tags + "</color><color=#0000>" + target.Substring(currentCharacter) + "</color>";
+			}
+			else {
+				mainText.text = currentText + end_tags;
+			}
 
 			yield return new WaitForSeconds(0.1f / speed);
 			currentCharacter++;

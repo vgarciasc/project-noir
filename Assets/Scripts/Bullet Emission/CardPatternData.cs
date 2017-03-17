@@ -21,5 +21,8 @@ public class CardInfo {
 
 [CreateAssetMenu(fileName = "Data", menuName = "Card Pattern", order = 1)]
 public class CardPatternData : ScriptableObject {
+	public string card_text_1, card_text_2, card_text_3;
+	public bool show_card_text = false;
+	
 	public CardInfo[] array;
 }
