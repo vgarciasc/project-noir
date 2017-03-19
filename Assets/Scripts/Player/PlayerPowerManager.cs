@@ -27,9 +27,12 @@ public class PlayerPowerManager : MonoBehaviour {
     GameObject teleportPlayerSurrogatePrefab;
 	[SerializeField]
 	Animator slowMoAnimator;
+	[SerializeField]
+	Animator speedMoAnimator;
 
 	float currentPower;
 	bool timeSlowed,
+		timeSped,
 		canRecover;
 	Coroutine delayingRecovery;
 
@@ -46,6 +49,7 @@ public class PlayerPowerManager : MonoBehaviour {
 
 	void Start () {
 		ar_manager = ArenaManager.getArenaManager();
+		ExitSlowMo();
 
 		power.minValue = 0;
 		power.maxValue = 1;
@@ -64,6 +68,14 @@ public class PlayerPowerManager : MonoBehaviour {
 				delayingRecovery = null;
 			}
 		}
+		else if (timeSped) {
+			canRecover = false;
+			currentPower += slowmoCost * Time.deltaTime * 0.25f;
+			if (delayingRecovery != null) {
+				StopCoroutine(delayingRecovery);
+				delayingRecovery = null;
+			}
+		}
 		else { //not using any powers
 			if (delayingRecovery == null) {
 				delayingRecovery = StartCoroutine(delayRecovery());
@@ -76,7 +88,7 @@ public class PlayerPowerManager : MonoBehaviour {
 
 		currentPower = Mathf.Clamp(currentPower, 0f, 1f);
 
-		if (currentPower == 0f) {
+		if (currentPower <= 0f) {
 			cancelAllPowers();
 		}
 
@@ -88,45 +100,55 @@ public class PlayerPowerManager : MonoBehaviour {
 			}
 		}
 
+		if (currentPower >= 1f) {
+			currentPower = 1f;
+		}
+
 		power.value = currentPower;
 	}
 
 	float timeSpentPressingM2 = 0f;
 
 	void handleInput() {
-		if (Input.GetButton("Fire1")) {
+		if (Input.GetButton("Fire1") && !timeSlowed) {
 			EnterSlowMo();
 		}
 		if (Input.GetButtonUp("Fire1")) {
 			ExitSlowMo();
 		}
-        if (Input.GetMouseButtonUp(1)) {
-			if (timeSpentPressingM2 > 3f) {
-				activateShield();
-				canRecover = false;
-				if (delayingRecovery != null) {
-					StopCoroutine(delayingRecovery);
-					delayingRecovery = null;
-				}
-            	teleport();
-			}
-			
-			if (costTeleport()) {
-				canRecover = false;
-				if (delayingRecovery != null) {
-					StopCoroutine(delayingRecovery);
-					delayingRecovery = null;
-				}
-            	teleport();
-			}
-
-			timeSpentPressingM2 = 0f;
-        }
-		if (Input.GetMouseButton(1)) {
-			timeSpentPressingM2 += Time.deltaTime;
+		if (Input.GetButton("Fire2") && !timeSped) {
+			EnterSpeedMo();
 		}
+		if (Input.GetButtonUp("Fire2")) {
+			ExitSpeedMo();
+		}
+        // if (Input.GetMouseButtonUp(1)) {
+		// 	if (timeSpentPressingM2 > 3f) {
+		// 		activateShield();
+		// 		canRecover = false;
+		// 		if (delayingRecovery != null) {
+		// 			StopCoroutine(delayingRecovery);
+		// 			delayingRecovery = null;
+		// 		}
+        //     	teleport();
+		// 	}
+			
+		// 	if (costTeleport()) {
+		// 		canRecover = false;
+		// 		if (delayingRecovery != null) {
+		// 			StopCoroutine(delayingRecovery);
+		// 			delayingRecovery = null;
+		// 		}
+        //     	teleport();
+		// 	}
 
-		shieldExplorer.SetActive(timeSpentPressingM2 > 3f);
+		// 	timeSpentPressingM2 = 0f;
+        // }
+		// if (Input.GetMouseButton(1)) {
+		// 	timeSpentPressingM2 += Time.deltaTime;
+		// }
+
+		// shieldExplorer.SetActive(timeSpentPressingM2 > 3f);
 	}
 
 	#region general powers
@@ -236,6 +258,18 @@ public class PlayerPowerManager : MonoBehaviour {
 		// for (int i = 0; i < bullets.Count; i++) {
 		// 	bullets[i].ResetTimeSlow();
 		// }
+	}
+
+	void EnterSpeedMo() {
+		speedMoAnimator.SetBool("slowmo", true);
+		timeSped = true;
+		Time.timeScale = 2f;
+	}
+
+	void ExitSpeedMo() {
+		speedMoAnimator.SetBool("slowmo", false);
+		timeSped = false;
+		Time.timeScale = 1f;
 	}
 
 	bool detractPower(float amount) {
