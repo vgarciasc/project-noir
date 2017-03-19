@@ -109,7 +109,6 @@ public class InterrogationManager : MonoBehaviour {
     //it is responsible for warning everyone that it is pressed,
     //as well as checking if it can be pressed right now.
     public void press() {
-        Debug.Log("Press pressed.");
         if (inkStory.currentChoices.Count > 0 &&
             inkStory.currentTags.Contains("pressoption")) {
                 

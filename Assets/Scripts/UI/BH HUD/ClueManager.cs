@@ -17,6 +17,11 @@ public class ClueManager : MonoBehaviour {
 	[HideInInspector]
 	public ClueData currentClue = null;
 
+	[SerializeField]
+	Image clueSprite;
+	[SerializeField]
+	TextMeshProUGUI clueText;
+
 	MemoryFragmentManager mem_manager;
 
 	public static ClueManager getClueManager() {
@@ -41,8 +46,8 @@ public class ClueManager : MonoBehaviour {
 	}
 
 	void selectClue(ClueData clue) {
-		clueUI.GetComponentsInChildren<Image>()[1].sprite = clue.sprite;
-		clueUI.GetComponentInChildren<TextMeshProUGUI>().text = clue.title;
+		clueSprite.sprite = clue.sprite;
+		clueText.text = clue.title;
 
 		currentClue = clue;
 	}
