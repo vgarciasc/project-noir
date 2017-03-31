@@ -49,6 +49,7 @@ public class TextBox : MonoBehaviour {
 		
 		textRunning = true;
 
+		Time.timeScale = 0.4f;
 		while (currentCharacter	< totalCharacters) {
             currentText = target.Substring(0, currentCharacter);
 			if (currentCharacter != 0) {
@@ -58,7 +59,7 @@ public class TextBox : MonoBehaviour {
 				mainText.text = currentText + end_tags;
 			}
 
-			yield return new WaitForSeconds(0.1f / speed);
+			yield return new WaitForSeconds(0.1f / (speed * 2));
 			currentCharacter++;
 
 			if (shouldEndLine) {
@@ -103,6 +104,7 @@ public class TextBox : MonoBehaviour {
 			target_array = target.ToCharArray();
 		}
 
+		Time.timeScale = 1f;
 		finishLine();
 	}
 
