@@ -250,8 +250,10 @@ public class PlayerPowerManager : MonoBehaviour {
 		}
 	}
 	
+	//change to disable chunk regeneration
 	void updateCurrentChunk() {
-		currentChunk = Mathf.FloorToInt(currentPower / chunkSize) + 1;
+		//currentChunk = Mathf.FloorToInt(currentPower / chunkSize) + 1;
+		currentChunk = chunkQuantity;
 	}
 
 	bool detractPower(float amount) {
