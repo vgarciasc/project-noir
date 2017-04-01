@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ink.Runtime;
-using TMPro.Examples;
 
 public class InterrogationManager : MonoBehaviour {
     [SerializeField]
@@ -192,17 +191,5 @@ public class InterrogationManager : MonoBehaviour {
         }
 
         return (int) inkStory.variablesState["current_statement"];
-    }
-
-    public void changeSpeed(float speed) {
-        standardTextBox.changeSpeed(speed);
-    }
-
-    public void startJitter() {
-        standardTextBox.gameObject.GetComponentInChildren<VertexShakeA>().enabled = true;
-    }
-
-    public void endJitter() {
-        standardTextBox.gameObject.GetComponentInChildren<VertexShakeA>().enabled = false;
     }
 }

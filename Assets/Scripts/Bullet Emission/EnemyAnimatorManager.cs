@@ -75,18 +75,6 @@ public class EnemyAnimatorManager : MonoBehaviour {
 		interrogation.Next();
 	}
 
-	void ChangeSpeed(float speed) {
-		interrogation.changeSpeed(speed);
-	}
-
-	void startJitter() {
-		interrogation.startJitter();
-	}
-
-	void endJitter() {
-		interrogation.endJitter();
-	}
-
 	void PressNow() {
 		animator.SetTrigger("press");
 	}

@@ -1457,32 +1457,11 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.083333336
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0.1
-    intParameter: 0
-    messageOptions: 0
   - time: 2.2166667
     functionName: AnimPlayEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.3666666
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 8
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.7
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0.1
     intParameter: 0
     messageOptions: 0
   - time: 3.8333333
@@ -1492,38 +1471,10 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 3.9833333
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 8
-    intParameter: 0
-    messageOptions: 0
-  - time: 4.4333334
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0.1
-    intParameter: 0
-    messageOptions: 0
   - time: 5.3333335
     functionName: AnimPlayEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 5.5833335
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 8
-    intParameter: 0
-    messageOptions: 0
-  - time: 5.95
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0.1
     intParameter: 0
     messageOptions: 0

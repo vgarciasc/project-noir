@@ -630,13 +630,6 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.083333336
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0.1
-    intParameter: 0
-    messageOptions: 0
   - time: 0.51666665
     functionName: AnimPlayCard
     data: 
@@ -644,96 +637,12 @@ AnimationClip:
     floatParameter: 0
     intParameter: 2
     messageOptions: 0
-  - time: 1
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 21
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.15
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.4333333
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 21
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.5666667
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.8833333
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 21
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.05
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.3333333
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 21
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.4833333
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.75
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 21
-    intParameter: 0
-    messageOptions: 0
   - time: 2.7833333
     functionName: AnimPlayCard
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 3
-    messageOptions: 0
-  - time: 3
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
-    intParameter: 0
-    messageOptions: 0
-  - time: 3.1666667
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 21
-    intParameter: 0
-    messageOptions: 0
-  - time: 3.4333334
-    functionName: ChangeSpeed
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 1
-    intParameter: 0
     messageOptions: 0
   - time: 5.633333
     functionName: AnimDoNothing
