@@ -96,82 +96,82 @@ VAR ReturnTo = -> CrossExamination_1
 ->Statement1
 
 =Statement1
-    -/%arjuna_normal/ I have not stolen the dog’s necktie. #pressoption #Speaker_Arjuna
+    -/%arjuna_normal/ Eu não roubei o lenço do cachorro. #pressoption #Speaker_Arjuna
         ~ReturnTo = ->Statement1
         ~current_statement = 1
         +[Press the Argument] ->Statement1Press1
         +[Leave it be.] ->Statement2
 
 =Statement1Press1
-    -/%noir_normal/ Can you prove you didn’t do it? #Speaker_Noir
-    -/%arjuna_normal/ Is there a need to? #Speaker_Arjuna #obj
+    -/%noir_normal/ Você consegue provar que não roubou? #Speaker_Noir
+    -/%arjuna_normal/ E eu preciso? #Speaker_Arjuna #obj
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement1Press2
         +[Object with "White Flag"] -> CEI_Objection 
 
 =Statement1Press2
--/%arjuna_normal/ Last time I checked, there was no evidence against me, was there? #Speaker_Arjuna #obj
+-/%arjuna_normal/ Até onde eu saiba, não existem provas contra mim, existem? #Speaker_Arjuna #obj
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement1Press3
     
 =Statement1Press3
--/%arjuna_normal/ But rest assured - I’ll soon provide you solid reasoning that will clear up this misunderstanding. #Speaker_Arjuna #obj #endpress
+-/%arjuna_normal/ Mas pode ficar tranquila - tudo se esclarecerá em breve. #Speaker_Arjuna #obj #endpress
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement2
     
 =Statement2
--/%arjuna_normal/ The spirits would never forgive me for such an immoral act, and I’d surely be met with karmic punishment were I to do so! #Speaker_Arjuna #pressoption
+-/%arjuna_normal/ Os espíritos nunca me perdoariam por um ato tão imoral, caso contrário eu seria punido pelo karma! #Speaker_Arjuna #pressoption
         ~ReturnTo = ->Statement2
         ~current_statement = 2
         +[Press the Argument] ->Statement2Press1
         +[Leave it be.] ->Statement3
 
 =Statement2Press1
-    -/%noir_normal/ Would the spirits really be unwilling to forgive you, the Spiritualist Prodigy? I find that unlikely. #Speaker_Noir
-    -/%arjuna_normal/ Why, you give me more credit than I’m due, Miss Noir. #Speaker_Arjuna
+    -/%noir_normal/ Será que os espíritos não te perdoariam, o Espiritualista Prodígio? Acho difícil. #Speaker_Noir
+    -/%arjuna_normal/ Uai Srta. Noir, você está me superestimando. #Speaker_Arjuna
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statatement2Press2
 
 =Statatement2Press2
-    -/%arjuna_normal/ I merely communicate with the spirits - they’re my friends, to put it simply. #Speaker_Arjuna #obj
+    -/%arjuna_normal/ Eu meramente me comunico com os espiritos - eles são meus amigos, por assim dizer. #Speaker_Arjuna #obj
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement2Press3
 
 =Statement2Press3
-    -/%arjuna_smug/ Wouldn’t you be mad at your friend if he were to do such a thing? #Speaker_Arjuna #obj
+    -/%arjuna_smug/ Você não ficaria zangada se seu amigo fizesse algo do tipo? #Speaker_Arjuna #obj
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement2Ending
         
 =Statement2Ending
-    -/%noir_sad/ If I had friends, I guess I could answer that… #Speaker_Noir #Thinking #endpress
+    -/%noir_sad/ Eu responderia se tivesse amigos... #Speaker_Noir #Thinking #endpress
 ->Statement3
 
 =Statement3
-    -/%arjuna_normal/ Not that I’d do it if that wasn’t the case, of course. #Speaker_Arjuna #pressoption
+    -/%arjuna_normal/ Mas claro que eu não faria isso, mesmo sem punição alguma. #Speaker_Arjuna #pressoption
         ~ReturnTo = ->Statement3
         ~current_statement = 3
         +[Press the Argument] ->Statement3Press1
         +[Leave it be.] ->Statement4
     
 =Statement3Press1
-    -/%noir_normal/ Oh? Are you really that good of a person? #Speaker_Noir
-    -/%arjuna_smug/ Of course I am! Do you think the spirits would lend their guidance to a man of evil thoughts? #Speaker_Arjuna #obj
+    -/%noir_normal/ Ah, você é bonzinho a esse ponto? #Speaker_Noir
+    -/%arjuna_smug/ É claro que sou! Você acha que os espíritos aprovariam uma pessoa de más intenções? #Speaker_Arjuna #obj
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement3Press2
 
 =Statement3Press2
-    -/%arjuna_smug/ Besides, am I not supposed to be innocent until proven otherwise? I’d expect you to give you a little more credit here. #obj
+    -/%arjuna_smug/ Além do mais, eu não sou inocente até que se prove o contrário? Eu gostaria de um pouco mais de confiança. #obj
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement3Press3
 
 =Statement3Press3        
-    -/%noir_sad/ Uugh…. I guess he’s right. #Speaker_Noir #Thinking 
-    -/%arjuna_smug/ But never fear! I will soon guide you to the truth you seek for! #Speaker_Arjuna #obj #endpress
+    -/%noir_sad/ laklkdasd acho que ele ta certo #Speaker_Noir #Thinking 
+    -/%arjuna_smug/ Mas não se preocupe! Eu irei guiá-la até a verdade que deseja. #Speaker_Arjuna #obj #endpress
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement4
         
 =Statement4
-    -/%arjuna_normal/ After all, I wasn’t even aware that the dog wore a necktie! #Speaker_Arjuna #pressoption #memfrag
+    -/%arjuna_normal/ No fim das contas, eu nem sabia que o cachorro vestia um lenço! #Speaker_Arjuna #pressoption #memfrag
         ~ReturnTo = ->Statement4
         ~current_statement = 4
         +[Press the Argument] ->Statement4Press1
@@ -179,51 +179,51 @@ VAR ReturnTo = -> CrossExamination_1
         *[Dive into his memories.] ->MF_Talking_to_Dog
     
 =MF_Talking_to_Dog
-    -/%arjuna_normal/ Hm, is that Mr Lulu? #Speaker_Arjuna
-    -/%arjuna_normal/ How do you fare today, oh mighty keeper of the afterworldly gates? #Speaker_Arjuna
-    -/%arjuna_normal/ I see that today, as usual, you carry the white flag that guides those who are lost, don’t you? #Speaker_Arjuna
-    -/%lulu_normal/ Woof. Woof Woof. #Speaker_Lulu
-    -/%doggo_angry/ Lulu, what are you doing? Leave this man’s presence at once! #Speaker_Doggo
-    -/%lulu_normal/ Woof. #Speaker_Lulu
-    -/%arjuna_normal/ It’s fine, noble keeper. May your path be filled with the graces of Buddha. #Speaker_Arjuna
-    - Obtained “White Flag”
+    -/%arjuna_normal/ Hm... será o Sr. Lulu? #Speaker_Arjuna
+    -/%arjuna_normal/ Como você está, guardião dos portões celestiais? #Speaker_Arjuna
+    -/%arjuna_normal/ Eu vejo que você carrega hoje, como de costume, a bandeira branca que guia os perdidos! #Speaker_Arjuna
+    -/%lulu_normal/ Au. Au Au. #Speaker_Lulu
+    -/%doggo_angry/ Lulu, o que está fazendo? Saia de perto deste cafajeste agora! #Speaker_Doggo
+    -/%lulu_normal/ Au. #Speaker_Lulu
+    -/%arjuna_normal/ Está tudo bem, nobre guardião. Que seu caminho seja abençoado por Buda. #Speaker_Arjuna
+    - "Bandeira Branca" Obtida.
 ->Statement4
 
 =Statement4Press1
-    -/%noir_normal/ You…. weren’t even aware? #Speaker_Noir
-    -/%arjuna_normal/ Yes, that would be the case. #Speaker_Arjuna #obj
+    -/%noir_normal/ Você... nem ao menos sabia? #Speaker_Noir
+    -/%arjuna_normal/ Sim, é verdade. #Speaker_Arjuna #obj
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement4Press2
 
 =Statement4Press2
-    -/%arjuna_normal/ Due to Miss Doggo’s… unique personality, I don’t usually exchange words with her. #Speaker_Arjuna #obj
+    -/%arjuna_normal/ Devido à personalidade... exótica da Srta. Doggo, eu não falo muito com ela. #Speaker_Arjuna #obj
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement4Press3
         
 =Statement4Press3
-    -/%arjuna_normal/ As such, I’m not often in her dog’s presence - I never realized he wore a necktie. #Speaker_Arjuna #obj #clue_MF_Talking_to_Dog 
+    -/%arjuna_normal/ Então, raramente me encontro com o cachorro - nem sabia que ele tinha um lenço. #Speaker_Arjuna #obj #clue_MF_Talking_to_Dog 
         +[Object with Whatever] ->Wrong_Objection
         +[Leave it be.] ->Statement4Ending
         +{MF_Talking_to_Dog} [Object with "White Flag"] -> CEI_Objection 
         
 =Statement4Ending
-    -/%noir_normal/ Even I had realized he wore a necktie…. Is Kumar really this distracted, or…? #Speaker_Noir #Thinking #endpress
+    -/%noir_normal/ Até eu percebi que ele tinha um lenço. Kumar está realmente distraído, ou...? #Speaker_Noir #Thinking #endpress
 ->CEI_NeutralEnd
 
 
 =CEI_NeutralEnd
--/%noir_normal/ As it stands, I can see no fault in his testimony…. But if he is lying, his memories should betray his testimony at some point… #Speaker_Noir #Thinking
+-/%noir_normal/ Não consigo ver uma falha em seu testemunho... Mas se ele está mentindo, suas memórias devem traí-lo em algum momento. #Speaker_Noir #Thinking
 ->Statement1
 
 =CEI_Objection
     - !!!!!!!!!!!!!!!!!!!!
-    -/%noir_normal/ Mr Kumar, I don’t suppose you intend me to believe that, do you? #Speaker_Noir
+    -/%noir_normal/ OXE SR. KUMAR, TAS DE BRINCANAGEM COM MINHA FACE? #Speaker_Noir
     -/%arjuna_smug/ Excuse me? I spoke nothing but the truth, you see. #Speaker_Arjuna
-    -/%noir_normal/ In that case, I’ll have to object to that. #Speaker_Noir
-    -/%noir_normal/ Mr Kumar, aren’t you familiar enough with the Dog’s Necktie to call it… ahem, a ‘White Flag that guides those who are lost?’ #Speaker_Noir
+    -/%noir_normal/ ENTAO OBJECIONA PRA MINHA PIROCA. #Speaker_Noir
+    -/%noir_normal/ Q PORRA EH ESSA DE BANDEIRA NA MINHA MAO RAPEIZE? #Speaker_Noir
     -/%arjuna_shocked/ !!!!!!!!!!!!!!!!!!! #Speaker_Arjuna
     -/%arjuna_shocked/ H-how do you know that?!?! #Speaker_Arjuna
-    -/%noir_normal/ How I know it is irrelevant, Mr Kumar. What is relevant here is that your testimony just now was a lie. #Speaker_Noir
+    -/%noir_normal/ RAPAZ SO FICA QUIETO. ESCUTA AQUI. VC VAI ME FAZER UMA MASSAGEM #Speaker_Noir
     -/%arjuna_shocked/ W-wait a second, Miss Noir! Calling it a lie is exaggerating! /%arjuna_normal/ Please, allow me to make up for my mistake! #Speaker_Arjuna
 ->CrossExamination_2
 
